@@ -55,7 +55,6 @@ footer {
 }
 
 .hero-bannerSection-Box {
-  padding-top: 4.5rem;
   overflow: hidden;
 }
 .hero-bannerSection-Box .hero-bannerSection {
@@ -291,6 +290,9 @@ footer {
   color: #131313;
   text-transform: uppercase;
 }
+.testimonial-section .testimonial-slider .s-button_box::after {
+  content: none;
+}
 .testimonial-section .testimonial-slider .s-button_box {
   border: 2px solid #000;
   color: #000;
@@ -305,9 +307,6 @@ footer {
   bottom: 6.5rem;
   background-color: #fff;
   transition: 0.3s all;
-}
-.testimonial-section .testimonial-slider .s-button_box::after {
-  content: none;
 }
 .testimonial-section .testimonial-slider .s-button_box:hover {
   color: #c40000;
@@ -1551,7 +1550,6 @@ body.nav-open::before {
 
 .inventory-page {
   padding: 6rem 0;
-  /* --- PAGINATION --- */
 }
 .inventory-page .inventory-search-box {
   background-color: #1a1a1a;

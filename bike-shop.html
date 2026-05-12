@@ -18,9 +18,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/main.css">
+    <style>
+        .skip-to-main{position:absolute;top:-100%;left:0;z-index:10000;padding:.8rem 2rem;background:#e81938;color:#fff;font-size:1.6rem;text-decoration:none;font-family:"Noto Sans",sans-serif}
+        .skip-to-main:focus{top:0;outline:3px solid #fff;outline-offset:2px}
+        .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    </style>
 </head>
 
 <body>
+    <a href="#main-content" class="skip-to-main">Skip to main content</a>
 
     <!-- Header Section -->
     <header class="header">
@@ -34,18 +40,18 @@
                         <a href="mailto:batmobilzrentals@gmail.com">batmobilzrentals@gmail.com</a>
                     </li>
                 </ul>
-                <ul class="content-right">
+                <ul class="content-right" aria-label="Social media links">
                     <li>
-                        <a href="#!"><i class="fa-brands fa-square-facebook"></i></a>
+                        <a href="#!" aria-label="Facebook"><i class="fa-brands fa-square-facebook" aria-hidden="true"></i></a>
                     </li>
                     <li>
-                        <a href="#!"><i class="fa-brands fa-youtube"></i></a>
+                        <a href="#!" aria-label="YouTube"><i class="fa-brands fa-youtube" aria-hidden="true"></i></a>
                     </li>
                     <li>
-                        <a href="#!"><i class="fa-brands fa-square-twitter"></i></a>
+                        <a href="#!" aria-label="Twitter"><i class="fa-brands fa-square-twitter" aria-hidden="true"></i></a>
                     </li>
                     <li>
-                        <a href="#!"><i class="fa-solid fa-square-share-nodes"></i></a>
+                        <a href="#!" aria-label="Share"><i class="fa-solid fa-square-share-nodes" aria-hidden="true"></i></a>
                     </li>
                 </ul>
             </div>
@@ -54,12 +60,12 @@
             <div class="container p-0">
                 <div class="nav-brand">
                     <a href="index.html" class="logo">
-                        <img src="./assets/images/site-logo.svg" alt="site-logo">
+                        <img src="./assets/images/site-logo.svg" alt="Batmobilz Rentals - Home">
                     </a>
                 </div>
 
-                <div class="nav-toggle">
-                    <div class="hamburger">
+                <div class="nav-toggle" role="button" tabindex="0" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-menu">
+                    <div class="hamburger" aria-hidden="true">
                         <span></span>
                         <span></span>
                         <span></span>
@@ -67,7 +73,7 @@
                 </div>
 
 
-                <div class="nav-menu">
+                <div class="nav-menu" id="nav-menu" role="navigation" aria-label="Main navigation">
                     <ul class="nav-list">
                         <li class="nav-item">
                             <a href="index.html" class="nav-link">Home</a>
@@ -88,9 +94,9 @@
                             </ul> -->
                         </li>
                         <li class="nav-item has-dropdown">
-                            <a href="javascript:void(0)" class="nav-link">
+                            <a href="#" class="nav-link" aria-haspopup="true" aria-expanded="false">
                                 Services
-                                <svg class="icon chevron-icon" viewBox="0 0 24 24" width="14" height="14">
+                                <svg class="icon chevron-icon" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" focusable="false">
                                     <path d="M7 10l5 5 5-5z" fill="currentColor"></path>
                                 </svg>
                             </a>
@@ -119,7 +125,7 @@
         </nav>
     </header>
 
-    <main>
+    <main id="main-content">
         <section class="inventory-page">
             <div class="container">
 
@@ -127,14 +133,16 @@
                     <div class="col-lg-12">
                         <div class="inventory-search-box">
                             <h2>SEARCH INVENTORY</h2>
-                            <form id="bikeFilterForm" class="search-form">
-                                <select id="filterAvailability" name="availability">
+                            <form id="bikeFilterForm" class="search-form" role="search" aria-label="Filter bikes by availability, category, and brand">
+                                <label for="filterAvailability" class="sr-only">Availability</label>
+                                <select id="filterAvailability" name="availability" aria-label="Filter by availability">
                                     <option value="all">All</option>
                                     <option value="available">available</option>
                                     <option value="not-available">not available</option>
                                 </select>
 
-                                <select id="filterCategory" name="category">
+                                <label for="filterCategory" class="sr-only">Category</label>
+                                <select id="filterCategory" name="category" aria-label="Filter by category">
                                     <option value="all">All Categories</option>
                                     <option value="sport">Sport</option>
                                     <option value="cruiser">Cruiser</option>
@@ -142,7 +150,8 @@
                                     <option value="retro">Retro</option>
                                 </select>
 
-                                <select id="filterBrand" name="brand">
+                                <label for="filterBrand" class="sr-only">Brand</label>
+                                <select id="filterBrand" name="brand" aria-label="Filter by brand">
                                     <option value="all">All Brands</option>
                                     <option value="royal-enfield">Royal Enfield</option>
                                     <option value="yamaha">Yamaha</option>
@@ -159,8 +168,8 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="listing-toolbar">
-                            <div id="resultsCount" class="results-count">Displaying 1 - 8 of 18</div>
-                            <div id="viewPage" class="view-options">Page 1</div>
+                            <div id="resultsCount" class="results-count" role="status" aria-live="polite" aria-atomic="true">Displaying 1 - 8 of 18</div>
+                            <div id="viewPage" class="view-options" aria-live="polite">Page 1</div>
                         </div>
                     </div>
                     <div class="col-lg-3 col-sm-6 col-md-4">
@@ -369,11 +378,11 @@
                         </h2>
                         <div class="contact-info">
                             <p>
-                                <ion-icon name="call-outline"></ion-icon>
+                                <ion-icon name="call-outline" aria-hidden="true"></ion-icon>
                                 <a href="tel:+919395896213">+91 9395 896213</a>
                             </p>
                             <p>
-                                <ion-icon name="mail-open-outline"></ion-icon>
+                                <ion-icon name="mail-open-outline" aria-hidden="true"></ion-icon>
 
                                 <a href="mailto:batmobilzrentals@gmail.com">batmobilzrentals@gmail.com</a>
                             </p>
@@ -390,7 +399,7 @@
                                     Hatigaon,<br>
                                     781038
                                 </address>
-                                <a href="https://maps.app.goo.gl/z9Ry3mBuGJUNadgU7" target="_blank" class="map-link">VIEW MAP</a>
+                                <a href="https://maps.app.goo.gl/z9Ry3mBuGJUNadgU7" target="_blank" class="map-link" aria-label="View office location on Google Maps, opens in new tab">VIEW MAP</a>
                             </div>
 
                             <div class="footer-widget col-lg-6 col-md-6 col-sm-6">
@@ -427,16 +436,16 @@
 
                     <div class="social-media col-lg-4 col-md-6">
                         <span>SOCIAL MEDIA</span>
-                        <a href="#" aria-label="Facebook"><i class="fa-brands fa-square-facebook"></i></a>
-                        <a href="#" aria-label="Twitter"><i class="fa-brands fa-square-twitter"></i></a>
-                        <a href="#" aria-label="share-site"><i class="fa-solid fa-square-share-nodes"></i></a>
+                        <a href="#" aria-label="Facebook"><i class="fa-brands fa-square-facebook" aria-hidden="true"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fa-brands fa-square-twitter" aria-hidden="true"></i></a>
+                        <a href="#" aria-label="Share"><i class="fa-solid fa-square-share-nodes" aria-hidden="true"></i></a>
                     </div>
                 </div>
             </div>
         </div>
 
-        <a href="#top" class="scroll-to-top-button">
-            <i class="fas fa-chevron-up"></i>
+        <a href="#top" class="scroll-to-top-button" aria-label="Scroll to top">
+            <i class="fas fa-chevron-up" aria-hidden="true"></i>
         </a>
     </footer>
 

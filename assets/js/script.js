@@ -211,13 +211,22 @@ document.addEventListener("DOMContentLoaded", () => {
     loop: true,
     speed: 1000,
     allowTouchMove: false,
-    // freeMode: true,
     autoplay: {
       delay: 2500,
       disableOnInteraction: false,
     },
-    slidesPerView: 5,
-    speed: 1000,
+    slidesPerView: 2,
+    breakpoints: {
+      576: {
+        slidesPerView: 3,
+      },
+      768: {
+        slidesPerView: 4,
+      },
+      992: {
+        slidesPerView: 5,
+      },
+    },
   });
 
 });

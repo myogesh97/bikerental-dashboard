@@ -18,9 +18,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/main.css">
+    <style>
+        .skip-to-main{position:absolute;top:-100%;left:0;z-index:10000;padding:.8rem 2rem;background:#e81938;color:#fff;font-size:1.6rem;text-decoration:none;font-family:"Noto Sans",sans-serif}
+        .skip-to-main:focus{top:0;outline:3px solid #fff;outline-offset:2px}
+    </style>
 </head>
 
 <body>
+    <a href="#main-content" class="skip-to-main">Skip to main content</a>
 
     <!-- Header Section -->
     <header class="header">
@@ -34,18 +39,18 @@
                         <a href="mailto:batmobilzrentals@gmail.com">batmobilzrentals@gmail.com</a>
                     </li>
                 </ul>
-                <ul class="content-right">
+                <ul class="content-right" aria-label="Social media links">
                     <li>
-                        <a href="#!"><i class="fa-brands fa-square-facebook"></i></a>
+                        <a href="#!" aria-label="Facebook"><i class="fa-brands fa-square-facebook" aria-hidden="true"></i></a>
                     </li>
                     <li>
-                        <a href="#!"><i class="fa-brands fa-youtube"></i></a>
+                        <a href="#!" aria-label="YouTube"><i class="fa-brands fa-youtube" aria-hidden="true"></i></a>
                     </li>
                     <li>
-                        <a href="#!"><i class="fa-brands fa-square-twitter"></i></a>
+                        <a href="#!" aria-label="Twitter"><i class="fa-brands fa-square-twitter" aria-hidden="true"></i></a>
                     </li>
                     <li>
-                        <a href="#!"><i class="fa-solid fa-square-share-nodes"></i></a>
+                        <a href="#!" aria-label="Share"><i class="fa-solid fa-square-share-nodes" aria-hidden="true"></i></a>
                     </li>
                 </ul>
             </div>
@@ -54,12 +59,12 @@
             <div class="container p-0">
                 <div class="nav-brand">
                     <a href="index.html" class="logo">
-                        <img src="./assets/images/site-logo.svg" alt="site-logo">
+                        <img src="./assets/images/site-logo.svg" alt="Batmobilz Rentals - Home">
                     </a>
                 </div>
 
-                <div class="nav-toggle">
-                    <div class="hamburger">
+                <div class="nav-toggle" role="button" tabindex="0" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-menu">
+                    <div class="hamburger" aria-hidden="true">
                         <span></span>
                         <span></span>
                         <span></span>
@@ -67,7 +72,7 @@
                 </div>
 
 
-                <div class="nav-menu">
+                <div class="nav-menu" id="nav-menu" role="navigation" aria-label="Main navigation">
                     <ul class="nav-list">
                         <li class="nav-item">
                             <a href="index.html" class="nav-link active">Home</a>
@@ -88,9 +93,9 @@
                             </ul> -->
                         </li>
                         <li class="nav-item has-dropdown">
-                            <a href="javascript:void(0)" class="nav-link">
+                            <a href="#" class="nav-link" aria-haspopup="true" aria-expanded="false">
                                 Services
-                                <svg class="icon chevron-icon" viewBox="0 0 24 24" width="14" height="14">
+                                <svg class="icon chevron-icon" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" focusable="false">
                                     <path d="M7 10l5 5 5-5z" fill="currentColor"></path>
                                 </svg>
                             </a>
@@ -119,8 +124,9 @@
         </nav>
     </header>
 
+    <main id="main-content">
     <!-- Hero Banner -->
-    <section class="hero-bannerSection-Box">
+    <section class="hero-bannerSection-Box" role="region" aria-label="Featured slides">
         <div class="swiper hero-bannerSection hero-parallax-swiper">
             <div class="swiper-wrapper">
                 <div class="swiper-slide">
@@ -163,13 +169,13 @@
                     </div>
                 </div>
             </div>
-            <div class="swiper-button-prev s-button_box"><i class="fa-solid fa-chevron-left"></i></div>
-            <div class="swiper-button-next s-button_box"><i class="fa-solid fa-chevron-right"></i></div>
+            <button type="button" class="swiper-button-prev s-button_box" aria-label="Previous slide"><i class="fa-solid fa-chevron-left" aria-hidden="true"></i></button>
+            <button type="button" class="swiper-button-next s-button_box" aria-label="Next slide"><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></button>
         </div>
     </section>
 
     <!-- Info Banner -->
-    <section class="info-banner-section section-padding">
+    <section class="info-banner-section section-padding" aria-label="About our club">
         <div class="container">
             <div class="section-secondary_title">
                 <h2 data-aos="fade-up">A Legacy in <br> <span>Leather</span> and <span>Steel</span></h2>
@@ -199,13 +205,13 @@
                         <p data-aos="fade-right" data-aos-delay="100">For us, it's more than just renting a motorcycle; it's about providing the key to unlock true adventure. Based in the heart of Guwahati, we are a team of passionate riders dedicated to sharing the raw beauty and thrilling roads of Northeast India with fellow explorers.</p>
                         <ul>
                             <li>
-                                <p data-aos="fade-right" data-aos-delay="300"><i class="fa-regular fa-circle-check"></i> Regularly scheduled club rides and scenic tours</p>
+                                <p data-aos="fade-right" data-aos-delay="300"><i class="fa-regular fa-circle-check" aria-hidden="true"></i> Regularly scheduled club rides and scenic tours</p>
                             </li>
                             <li>
-                                <p data-aos="fade-right" data-aos-delay="500"><i class="fa-regular fa-circle-check"></i> Technical workshops and knowledge-sharing sessions</p>
+                                <p data-aos="fade-right" data-aos-delay="500"><i class="fa-regular fa-circle-check" aria-hidden="true"></i> Technical workshops and knowledge-sharing sessions</p>
                             </li>
                             <li>
-                                <p data-aos="fade-right" data-aos-delay="700"><i class="fa-regular fa-circle-check"></i> Family-friendly social events and annual meets
+                                <p data-aos="fade-right" data-aos-delay="700"><i class="fa-regular fa-circle-check" aria-hidden="true"></i> Family-friendly social events and annual meets
                                 </p>
                             </li>
                         </ul>
@@ -216,13 +222,13 @@
                         <p data-aos="fade-left" data-aos-delay="100">We believe the ultimate way to connect with this land is from the saddle of a motorcycle. We invite you to create your own stories while navigating the breathtaking landscapes of the Northeast—from the lush tea gardens of Assam to the unforgettable mountain passes of Arunachal Pradesh.</p>
                         <ul>
                             <li>
-                                <p data-aos="fade-left" data-aos-delay="300"><i class="fa-regular fa-circle-check"></i> A strong commitment to preserving motorcycle history</p>
+                                <p data-aos="fade-left" data-aos-delay="300"><i class="fa-regular fa-circle-check" aria-hidden="true"></i> A strong commitment to preserving motorcycle history</p>
                             </li>
                             <li>
-                                <p data-aos="fade-left" data-aos-delay="500"><i class="fa-regular fa-circle-check"></i> A welcoming and inclusive community for all enthusiasts</p>
+                                <p data-aos="fade-left" data-aos-delay="500"><i class="fa-regular fa-circle-check" aria-hidden="true"></i> A welcoming and inclusive community for all enthusiasts</p>
                             </li>
                             <li>
-                                <p data-aos="fade-left" data-aos-delay="700"><i class="fa-regular fa-circle-check"></i> Promoting safe and responsible riding practices</p>
+                                <p data-aos="fade-left" data-aos-delay="700"><i class="fa-regular fa-circle-check" aria-hidden="true"></i> Promoting safe and responsible riding practices</p>
                             </li>
                         </ul>
                     </div>
@@ -287,7 +293,7 @@
     </section>
 
     <!-- Testimonial Section -->
-    <section class="testimonial-section section-background parallax section-padding" style="background-image: url('https://demo2.wpopal.com/lexrider/wp-content/uploads/2019/04/lexrider_banner2_3.jpg');overflow: initial;">
+    <section class="testimonial-section section-background parallax section-padding" aria-label="Customer testimonials" style="background-image: url('https://demo2.wpopal.com/lexrider/wp-content/uploads/2019/04/lexrider_banner2_3.jpg');overflow: initial;">
         <div class="container">
             <div class="section-primary_title">
                 <h2 data-aos="fade-up" data-aos-delay="100" data-aos-duration="600">Hear From Our <br> Fellow Adventurers</h2>
@@ -342,8 +348,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="swiper-button-prev s-button_box"><i class="fa-solid fa-chevron-left"></i></div>
-                <div class="swiper-button-next s-button_box"><i class="fa-solid fa-chevron-right"></i></div>
+                <button type="button" class="swiper-button-prev s-button_box" aria-label="Previous testimonial"><i class="fa-solid fa-chevron-left" aria-hidden="true"></i></button>
+                <button type="button" class="swiper-button-next s-button_box" aria-label="Next testimonial"><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></button>
             </div>
         </div>
     </section>
@@ -462,28 +468,28 @@
     <section class="stats-section"
         style="background-image: url(https://demo2.wpopal.com/lexrider/wp-content/uploads/2019/04/lexider_bg2_1.png);" data-aos="zoom-in" data-aos-delay="100" data-aos-duration="600">
         <div class="container">
-            <div class="stats-grid">
-                <div class="stat-item" data-aos="zoom-in-up" data-aos-delay="100" data-aos-duration="600">
-                    <i class="fa-solid fa-helmet-safety"></i>
-                    <div class="stat-number" data-target="80">0</div>
+            <div class="stats-grid" role="list" aria-label="Our achievements">
+                <div class="stat-item" data-aos="zoom-in-up" data-aos-delay="100" data-aos-duration="600" role="listitem">
+                    <i class="fa-solid fa-helmet-safety" aria-hidden="true"></i>
+                    <div class="stat-number" data-target="80" aria-live="polite" aria-label="Happy Riders count">0</div>
                     <div class="stat-label">Happy Riders</div>
                 </div>
 
-                <div class="stat-item" data-aos="zoom-in-up" data-aos-delay="200" data-aos-duration="600">
-                    <i class="fa-solid fa-road"></i>
-                    <div class="stat-number" data-target="18">0</div>
+                <div class="stat-item" data-aos="zoom-in-up" data-aos-delay="200" data-aos-duration="600" role="listitem">
+                    <i class="fa-solid fa-road" aria-hidden="true"></i>
+                    <div class="stat-number" data-target="18" aria-live="polite" aria-label="Bikes in Fleet count">0</div>
                     <div class="stat-label">Bikes in Fleet</div>
                 </div>
 
-                <div class="stat-item" data-aos="zoom-in-up" data-aos-delay="300" data-aos-duration="600">
-                    <i class="fa-solid fa-screwdriver-wrench"></i>
-                    <div class="stat-number" data-target="39">0</div>
+                <div class="stat-item" data-aos="zoom-in-up" data-aos-delay="300" data-aos-duration="600" role="listitem">
+                    <i class="fa-solid fa-screwdriver-wrench" aria-hidden="true"></i>
+                    <div class="stat-number" data-target="39" aria-live="polite" aria-label="Guided Tours Completed count">0</div>
                     <div class="stat-label">Guided Tours Completed</div>
                 </div>
 
-                <div class="stat-item" data-aos="zoom-in-up" data-aos-delay="400" data-aos-duration="600">
-                    <i class="fa-solid fa-gauge-high"></i>
-                    <div class="stat-number" data-target="02">0</div>
+                <div class="stat-item" data-aos="zoom-in-up" data-aos-delay="400" data-aos-duration="600" role="listitem">
+                    <i class="fa-solid fa-gauge-high" aria-hidden="true"></i>
+                    <div class="stat-number" data-target="02" aria-live="polite" aria-label="Years of Experience count">0</div>
                     <div class="stat-label">Years of Experience</div>
                 </div>
             </div>
@@ -549,6 +555,7 @@
                 </div>
             </div>
     </section>
+    </main>
 
     <!-- Footer Section -->
     <footer class="site-footer">
@@ -562,11 +569,11 @@
                         </h2>
                         <div class="contact-info">
                             <p data-aos="fade-up" data-aos-delay="200" data-aos-duration="600">
-                                <ion-icon name="call-outline"></ion-icon>
+                                <ion-icon name="call-outline" aria-hidden="true"></ion-icon>
                                 <a href="tel:+919395896213">+91 9395 896213</a>
                             </p>
                             <p data-aos="fade-up" data-aos-delay="300" data-aos-duration="600">
-                                <ion-icon name="mail-open-outline"></ion-icon>
+                                <ion-icon name="mail-open-outline" aria-hidden="true"></ion-icon>
 
                                 <a href="mailto:batmobilzrentals@gmail.com">batmobilzrentals@gmail.com</a>
                             </p>
@@ -583,7 +590,7 @@
                                     Hatigaon,<br>
                                     781038
                                 </address>
-                                <a target="_blank" href="https://maps.app.goo.gl/z9Ry3mBuGJUNadgU7" class="map-link" data-aos="fade-up" data-aos-delay="300" data-aos-duration="600">VIEW MAP</a>
+                                <a target="_blank" href="https://maps.app.goo.gl/z9Ry3mBuGJUNadgU7" class="map-link" data-aos="fade-up" data-aos-delay="300" data-aos-duration="600" aria-label="View office location on Google Maps, opens in new tab">VIEW MAP</a>
                             </div>
 
                             <div class="footer-widget col-lg-6 col-md-6 col-sm-6">
@@ -628,8 +635,8 @@
             </div>
         </div>
 
-        <a href="#top" class="scroll-to-top-button">
-            <i class="fas fa-chevron-up"></i>
+        <a href="#top" class="scroll-to-top-button" aria-label="Scroll to top">
+            <i class="fas fa-chevron-up" aria-hidden="true"></i>
         </a>
     </footer>
 
