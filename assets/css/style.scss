@@ -354,6 +354,8 @@ footer {
                     font-family: "Teko", sans-serif;
                     line-height: initial;
                     font-size: 3rem;
+                    display: block;
+                    overflow: visible;
                 }
 
                 span {
@@ -1047,6 +1049,19 @@ footer {
         font-size: 0.9em;
         color: #6c757d;
         margin-bottom: 2rem;
+    }
+
+    .table {
+        --bs-table-bg: transparent;
+        --bs-table-color: #c6c6c6;
+        --bs-table-striped-bg: rgba(255, 255, 255, 0.04);
+        --bs-table-striped-color: #c6c6c6;
+        --bs-table-border-color: #333;
+
+        th {
+            color: #fff;
+            border-bottom-color: #e50000;
+        }
     }
 
     a {

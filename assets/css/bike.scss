@@ -79,7 +79,9 @@
         font-family: "Noto Sans", sans-serif;
 
         h1 {
-            font-size: 4rem;
+            font-family: "Teko", sans-serif;
+            font-size: 5rem;
+            line-height: 1.1;
             margin-top: 0;
             margin-bottom: 2rem;
             position: relative;
@@ -225,7 +227,7 @@
         }
 
         .price {
-            font-family: 'Oswald', sans-serif;
+            font-family: "Noto Sans", sans-serif;
             color: #e50000;
             font-size: 1.6rem;
             margin: 0;
@@ -333,7 +335,7 @@
                 right: 1rem;
                 padding: 4px .8rem;
                 font-size: 1.2rem;
-                font-family: 'Oswald', sans-serif;
+                font-family: "Noto Sans", sans-serif;
                 color: #fff;
                 text-transform: capitalize;
 
@@ -372,7 +374,7 @@
             }
 
             .price {
-                font-family: 'Oswald', sans-serif;
+                font-family: "Noto Sans", sans-serif;
                 font-size: 1.5rem;
                 color: #e50000;
                 margin-bottom: 1.5rem;
@@ -429,5 +431,18 @@
                 color: #fff;
             }
         }
+    }
+}
+.price .per-day {
+    font-size: 0.7em;
+    text-transform: none;
+    color: #aaa;
+    margin-left: 0.3rem;
+}
+
+@media all and (max-width: 576px) {
+    .product-detail-section .product-info .bike-specs .spec-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
     }
 }

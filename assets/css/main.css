@@ -284,6 +284,8 @@ footer {
   font-family: "Teko", sans-serif;
   line-height: initial;
   font-size: 3rem;
+  display: block;
+  overflow: visible;
 }
 .testimonial-section .testimonial-slider .text-content-shell .t-user-info span {
   font-size: 1.8rem;
@@ -1422,7 +1424,9 @@ body.nav-open::before {
   font-family: "Noto Sans", sans-serif;
 }
 .product-detail-section .product-info h1 {
-  font-size: 4rem;
+  font-family: "Teko", sans-serif;
+  font-size: 5rem;
+  line-height: 1.1;
   margin-top: 0;
   margin-bottom: 2rem;
   position: relative;
@@ -1542,7 +1546,7 @@ body.nav-open::before {
   text-transform: capitalize;
 }
 .related-products .product-card .price {
-  font-family: "Oswald", sans-serif;
+  font-family: "Noto Sans", sans-serif;
   color: #e50000;
   font-size: 1.6rem;
   margin: 0;
@@ -1636,7 +1640,7 @@ body.nav-open::before {
   right: 1rem;
   padding: 4px 0.8rem;
   font-size: 1.2rem;
-  font-family: "Oswald", sans-serif;
+  font-family: "Noto Sans", sans-serif;
   color: #fff;
   text-transform: capitalize;
 }
@@ -1668,7 +1672,7 @@ body.nav-open::before {
   color: #e50000;
 }
 .inventory-page .motorcycle-card .card-content .price {
-  font-family: "Oswald", sans-serif;
+  font-family: "Noto Sans", sans-serif;
   font-size: 1.5rem;
   color: #e50000;
   margin-bottom: 1.5rem;
@@ -1941,8 +1945,8 @@ body.nav-open::before {
   }
   .testimonial-section .testimonial-slider .text-content-shell p {
     font-size: 1.6rem !important;
-    -webkit-line-clamp: 4;
-    line-clamp: 4;
+    -webkit-line-clamp: 8;
+    line-clamp: 8;
   }
   .testimonial-section .testimonial-slider .s-button_box {
     height: 4rem;
@@ -2228,6 +2232,38 @@ input[type=number] {
 
 .desk-none {
   display: none;
+}
+
+.terms-page .table,
+.privacy-page .table,
+.charges-policy-page .table,
+.delivery-policy-page .table {
+  --bs-table-bg: transparent;
+  --bs-table-color: #c6c6c6;
+  --bs-table-striped-bg: rgba(255, 255, 255, 0.04);
+  --bs-table-striped-color: #c6c6c6;
+  --bs-table-border-color: #333;
+}
+.terms-page .table th,
+.privacy-page .table th,
+.charges-policy-page .table th,
+.delivery-policy-page .table th {
+  color: #fff;
+  border-bottom-color: #e50000;
+}
+
+.price .per-day {
+  font-size: 0.7em;
+  text-transform: none;
+  color: #aaa;
+  margin-left: 0.3rem;
+}
+
+@media all and (max-width: 576px) {
+  .product-detail-section .product-info .bike-specs .spec-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
 }
 
 /*# sourceMappingURL=main.css.map */
