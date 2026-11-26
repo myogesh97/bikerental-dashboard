@@ -2230,7 +2230,7 @@ select:focus {
 
 .form-control {
   height: 4rem;
-  border: 1px solid v #e3e3e3;
+  border: 1px solid #e3e3e3;
   border-radius: 5px;
   padding: 0.5rem 2rem;
   font-size: 1.6rem;
@@ -2262,4 +2262,17 @@ input[type=number] {
 
 .desk-none {
   display: none;
-}/*# sourceMappingURL=main.css.map */
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/*# sourceMappingURL=main.css.map */

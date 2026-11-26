@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Our Fleet - Bike Rental</title>
+    <title>Our Fleet - Batmobilz Rentals</title>
+    <meta name="description" content="Browse and filter Batmobilz Rentals' motorcycle fleet by availability, category and brand, with daily rental pricing.">
     <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -147,8 +148,8 @@
                                     <option value="all">All Categories</option>
                                     <option value="sport">Sport</option>
                                     <option value="cruiser">Cruiser</option>
-                                    <option value="racer">Racer</option>
                                     <option value="retro">Retro</option>
+                                    <option value="adventure">Adventure</option>
                                 </select>
 
                                 <label for="filterBrand" class="sr-only">Brand</label>
@@ -157,6 +158,10 @@
                                     <option value="royal-enfield">Royal Enfield</option>
                                     <option value="yamaha">Yamaha</option>
                                     <option value="ktm">KTM</option>
+                                    <option value="hero">Hero</option>
+                                    <option value="jawa">Jawa</option>
+                                    <option value="tvs">TVS</option>
+                                    <option value="bajaj">Bajaj</option>
                                 </select>
 
                                 <button type="submit" class="btn btn-primary">Search</button>
@@ -169,60 +174,60 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="listing-toolbar">
-                            <div id="resultsCount" class="results-count" role="status" aria-live="polite" aria-atomic="true">Displaying 1 - 8 of 18</div>
+                            <div id="resultsCount" class="results-count" role="status" aria-live="polite" aria-atomic="true">Displaying 10 of 10</div>
                             <div id="viewPage" class="view-options" aria-live="polite">Page 1</div>
                         </div>
                     </div>
                     <div class="col-lg-3 col-sm-6 col-md-4">
-                        <div class="motorcycle-card" data-availability="not-available" data-category="sport"
+                        <div class="motorcycle-card" data-availability="not-available" data-category="adventure"
                             data-brand="hero">
                             <div class="card-image">
                                 <span class="status-tag not-available">not-available</span>
-                                <a href="bike.html">
+                                <a href="bike.html?slug=xpulse-200-2024">
                                     <img src="assets/images/bikes/bike-9.jpg" alt="Xpulse 200 (2024)">
                                 </a>
                             </div>
                             <div class="card-content">
-                                <h3><a href="bike.html">Xpulse 200 (2024)</a></h3>
+                                <h3><a href="bike.html?slug=xpulse-200-2024">Xpulse 200 (2024)</a></h3>
                                 <div class="price">&#8377;1100<span class="per-day">/day</span></div>
                                 <div class="card-actions">
-                                    <a href="bike.html" class="btn btn-primary">Details</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6 col-md-4">
-                        <div class="motorcycle-card" data-availability="available" data-category="sport"
-                            data-brand="jawa">
-                            <div class="card-image">
-                                <span class="status-tag available">available</span>
-                                <a href="bike.html">
-                                    <img src="assets/images/bikes/bike-10.jpg" alt="Perak (2024)">
-                                </a>
-                            </div>
-                            <div class="card-content">
-                                <h3><a href="bike.html">Perak (2024)</a></h3>
-                                <div class="price">&#8377;1300<span class="per-day">/day</span></div>
-                                <div class="card-actions">
-                                    <a href="bike.html" class="btn btn-primary">Details</a>
+                                    <a href="bike.html?slug=xpulse-200-2024" class="btn btn-primary">Details</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-3 col-sm-6 col-md-4">
                         <div class="motorcycle-card" data-availability="available" data-category="cruiser"
+                            data-brand="jawa">
+                            <div class="card-image">
+                                <span class="status-tag available">available</span>
+                                <a href="bike.html?slug=perak-2024">
+                                    <img src="assets/images/bikes/bike-10.jpg" alt="Perak (2024)">
+                                </a>
+                            </div>
+                            <div class="card-content">
+                                <h3><a href="bike.html?slug=perak-2024">Perak (2024)</a></h3>
+                                <div class="price">&#8377;1300<span class="per-day">/day</span></div>
+                                <div class="card-actions">
+                                    <a href="bike.html?slug=perak-2024" class="btn btn-primary">Details</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-sm-6 col-md-4">
+                        <div class="motorcycle-card" data-availability="available" data-category="sport"
                             data-brand="yamaha">
                             <div class="card-image">
                                 <span class="status-tag available">available</span>
-                                <a href="bike.html">
+                                <a href="bike.html?slug=r15-v4-2022">
                                     <img src="assets/images/bikes/bike-11.jpg" alt="R15 V4 (2022)">
                                 </a>
                             </div>
                             <div class="card-content">
-                                <h3><a href="bike.html">R15 V4 (2022)</a></h3>
+                                <h3><a href="bike.html?slug=r15-v4-2022">R15 V4 (2022)</a></h3>
                                 <div class="price">&#8377;1100<span class="per-day">/day</span></div>
                                 <div class="card-actions">
-                                    <a href="bike.html" class="btn btn-primary">Details</a>
+                                    <a href="bike.html?slug=r15-v4-2022" class="btn btn-primary">Details</a>
                                 </div>
                             </div>
                         </div>
@@ -232,33 +237,33 @@
                             data-brand="tvs">
                             <div class="card-image">
                                 <span class="status-tag not-available">not-available</span>
-                                <a href="bike.html">
+                                <a href="bike.html?slug=apache-rr310-2025">
                                     <img src="assets/images/bikes/bike-12.jpg" alt="Apache RR 310 (2025)">
                                 </a>
                             </div>
                             <div class="card-content">
-                                <h3><a href="bike.html">Apache RR 310 (2025)</a></h3>
+                                <h3><a href="bike.html?slug=apache-rr310-2025">Apache RR 310 (2025)</a></h3>
                                 <div class="price">&#8377;1100<span class="per-day">/day</span></div>
                                 <div class="card-actions">
-                                    <a href="bike.html" class="btn btn-primary">Details</a>
+                                    <a href="bike.html?slug=apache-rr310-2025" class="btn btn-primary">Details</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-3 col-sm-6 col-md-4">
-                        <div class="motorcycle-card" data-availability="available" data-category="sport"
+                        <div class="motorcycle-card" data-availability="available" data-category="retro"
                             data-brand="royal-enfield">
                             <div class="card-image">
                                 <span class="status-tag available">available</span>
-                                <a href="bike.html">
+                                <a href="bike.html?slug=classic-350-2023">
                                     <img src="assets/images/bikes/bike-13.jpg" alt="Classic 350 (2023)">
                                 </a>
                             </div>
                             <div class="card-content">
-                                <h3><a href="bike.html">Classic 350 (2023)</a></h3>
+                                <h3><a href="bike.html?slug=classic-350-2023">Classic 350 (2023)</a></h3>
                                 <div class="price">&#8377;1200<span class="per-day">/day</span></div>
                                 <div class="card-actions">
-                                    <a href="bike.html" class="btn btn-primary">Details</a>
+                                    <a href="bike.html?slug=classic-350-2023" class="btn btn-primary">Details</a>
                                 </div>
                             </div>
                         </div>
@@ -268,51 +273,51 @@
                             data-brand="ktm">
                             <div class="card-image">
                                 <span class="status-tag available">available</span>
-                                <a href="bike.html">
+                                <a href="bike.html?slug=duke-390-2024">
                                     <img src="assets/images/bikes/bike-14.jpg" alt="Duke 390 (2024)">
                                 </a>
                             </div>
                             <div class="card-content">
-                                <h3><a href="bike.html">Duke 390 (2024)</a></h3>
+                                <h3><a href="bike.html?slug=duke-390-2024">Duke 390 (2024)</a></h3>
                                 <div class="price">&#8377;1500<span class="per-day">/day</span></div>
                                 <div class="card-actions">
-                                    <a href="bike.html" class="btn btn-primary">Details</a>
+                                    <a href="bike.html?slug=duke-390-2024" class="btn btn-primary">Details</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-3 col-sm-6 col-md-4">
-                        <div class="motorcycle-card" data-availability="available" data-category="sport"
+                        <div class="motorcycle-card" data-availability="available" data-category="cruiser"
                             data-brand="bajaj">
                             <div class="card-image">
                                 <span class="status-tag available">available</span>
-                                <a href="bike.html">
+                                <a href="bike.html?slug=dominar-400-2023">
                                     <img src="assets/images/bikes/bike-15.jpg" alt="Dominar 400 (2023)">
                                 </a>
                             </div>
                             <div class="card-content">
-                                <h3><a href="bike.html">Dominar 400 (2023)</a></h3>
+                                <h3><a href="bike.html?slug=dominar-400-2023">Dominar 400 (2023)</a></h3>
                                 <div class="price">&#8377;1250<span class="per-day">/day</span></div>
                                 <div class="card-actions">
-                                    <a href="bike.html" class="btn btn-primary">Details</a>
+                                    <a href="bike.html?slug=dominar-400-2023" class="btn btn-primary">Details</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-3 col-sm-6 col-md-4">
-                        <div class="motorcycle-card" data-availability="not-available" data-category="sport"
+                        <div class="motorcycle-card" data-availability="not-available" data-category="adventure"
                             data-brand="royal-enfield">
                             <div class="card-image">
                                 <span class="status-tag not-available">not-available</span>
-                                <a href="bike.html">
+                                <a href="bike.html?slug=himalayan-2022">
                                     <img src="assets/images/bikes/bike-16.jpg" alt="Himalayan (2022)">
                                 </a>
                             </div>
                             <div class="card-content">
-                                <h3><a href="bike.html">Himalayan (2022)</a></h3>
+                                <h3><a href="bike.html?slug=himalayan-2022">Himalayan (2022)</a></h3>
                                 <div class="price">&#8377;1350<span class="per-day">/day</span></div>
                                 <div class="card-actions">
-                                    <a href="bike.html" class="btn btn-primary">Details</a>
+                                    <a href="bike.html?slug=himalayan-2022" class="btn btn-primary">Details</a>
                                 </div>
                             </div>
                         </div>
@@ -322,33 +327,33 @@
                             data-brand="yamaha">
                             <div class="card-image">
                                 <span class="status-tag available">available</span>
-                                <a href="bike.html">
+                                <a href="bike.html?slug=fz-s-fi-2023">
                                     <img src="assets/images/bikes/bike-17.jpg" alt="FZ-S FI (2023)">
                                 </a>
                             </div>
                             <div class="card-content">
-                                <h3><a href="bike.html">FZ-S FI (2023)</a></h3>
+                                <h3><a href="bike.html?slug=fz-s-fi-2023">FZ-S FI (2023)</a></h3>
                                 <div class="price">&#8377;1000<span class="per-day">/day</span></div>
                                 <div class="card-actions">
-                                    <a href="bike.html" class="btn btn-primary">Details</a>
+                                    <a href="bike.html?slug=fz-s-fi-2023" class="btn btn-primary">Details</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-3 col-sm-6 col-md-4">
-                        <div class="motorcycle-card" data-availability="available" data-category="sport"
+                        <div class="motorcycle-card" data-availability="available" data-category="cruiser"
                             data-brand="royal-enfield">
                             <div class="card-image">
                                 <span class="status-tag available">available</span>
-                                <a href="bike.html">
+                                <a href="bike.html?slug=bullet-350-2025">
                                     <img src="assets/images/bikes/bike-18.jpg" alt="Bullet 350 (2025)">
                                 </a>
                             </div>
                             <div class="card-content">
-                                <h3><a href="bike.html">Bullet 350 (2025)</a></h3>
+                                <h3><a href="bike.html?slug=bullet-350-2025">Bullet 350 (2025)</a></h3>
                                 <div class="price">&#8377;1400<span class="per-day">/day</span></div>
                                 <div class="card-actions">
-                                    <a href="bike.html" class="btn btn-primary">Details</a>
+                                    <a href="bike.html?slug=bullet-350-2025" class="btn btn-primary">Details</a>
                                 </div>
                             </div>
                         </div>
@@ -400,7 +405,7 @@
                                     City,<br>
                                     000000
                                 </address>
-                                <a href="https://maps.google.com" target="_blank" class="map-link" aria-label="View office location on Google Maps, opens in new tab">VIEW MAP</a>
+                                <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer" class="map-link" aria-label="View office location on Google Maps, opens in new tab">VIEW MAP</a>
                             </div>
 
                             <div class="footer-widget col-lg-6 col-md-6 col-sm-6">
@@ -432,7 +437,7 @@
 
                     <div class="footer-logo col-lg-4">
                         <a href="index.html">
-                            <img src="assets/images/site-logo.svg" alt="Lex Rider Motorcycle Club Logo"></a>
+                            <img src="assets/images/site-logo.svg" alt="Batmobilz Rentals - Home"></a>
                     </div>
 
                     <div class="social-media col-lg-4 col-md-6">
@@ -453,7 +458,6 @@
 
     <!-- Bootstrap Bundle JS (with Popper) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>

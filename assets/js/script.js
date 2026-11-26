@@ -1,4 +1,9 @@
+const prefersReducedMotion = window.matchMedia(
+  "(prefers-reduced-motion: reduce)"
+).matches;
+
 AOS.init({
+  disable: prefersReducedMotion,
   // disable: false, // accepts following values: 'phone', 'tablet', 'mobile', boolean, expression or function
   // startEvent: 'DOMContentLoaded', // name of the event dispatched on the document, that AOS should initialize on
   // initClassName: 'aos-init', // class applied after initialization
@@ -121,6 +126,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // BG Parallax
+  if (!prefersReducedMotion) {
   document.addEventListener("scroll", function () {
     const slides = document.querySelectorAll(
       ".hero-bannerSection .swiper-slide"
@@ -168,27 +174,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   });
-
-  // Bike Slider Section
-  var thumbsSwiper = new Swiper(".gallery-thumbs", {
-    loop: true,
-    spaceBetween: 10,
-    slidesPerView: 4,
-    freeMode: true,
-    watchSlidesProgress: true,
-  });
-
-  var mainSwiper = new Swiper(".gallery-slider", {
-    loop: true,
-    spaceBetween: 10,
-    navigation: {
-      nextEl: ".swiper-button-next",
-      prevEl: ".swiper-button-prev",
-    },
-    thumbs: {
-      swiper: thumbsSwiper,
-    },
-  });
+  }
 
   // Testimonial Slider
   var testimonialSwiper = new Swiper(".testimonial-slider", {
@@ -207,7 +193,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Image Slider Only
-  var testimonialSwiper = new Swiper(".imageOnly-slider", {
+  var imageOnlySwiper = new Swiper(".imageOnly-slider", {
     loop: true,
     speed: 1000,
     allowTouchMove: false,
@@ -329,6 +315,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const visible = matchAvail && matchCat && matchBrand;
       card.parentElement.style.display = visible ? "" : "none";
     });
+
+    updateListingToolbar();
   };
 
   form.addEventListener("submit", (e) => {
@@ -341,6 +329,7 @@ document.addEventListener("DOMContentLoaded", () => {
       bikeCards.forEach((card) => {
         card.parentElement.style.display = "";
       });
+      updateListingToolbar();
     }, 0);
   });
 });
