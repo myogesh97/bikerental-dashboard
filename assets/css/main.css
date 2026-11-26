@@ -887,6 +887,23 @@ footer {
   color: #6c757d;
   margin-bottom: 2rem;
 }
+.terms-page .table,
+.privacy-page .table,
+.charges-policy-page .table,
+.delivery-policy-page .table {
+  --bs-table-bg: transparent;
+  --bs-table-color: #c6c6c6;
+  --bs-table-striped-bg: rgba(255, 255, 255, 0.04);
+  --bs-table-striped-color: #c6c6c6;
+  --bs-table-border-color: #333;
+}
+.terms-page .table th,
+.privacy-page .table th,
+.charges-policy-page .table th,
+.delivery-policy-page .table th {
+  color: #fff;
+  border-bottom-color: #e50000;
+}
 .terms-page a,
 .privacy-page a,
 .charges-policy-page a,
@@ -1720,6 +1737,19 @@ body.nav-open::before {
   color: #fff;
 }
 
+.price .per-day {
+  font-size: 0.7em;
+  text-transform: none;
+  color: #aaa;
+  margin-left: 0.3rem;
+}
+
+@media all and (max-width: 576px) {
+  .product-detail-section .product-info .bike-specs .spec-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+}
 /*------------------------------------------
     Responsive Grid Media Queries - 1280, 1024, 768, 480
      1280-1024   - desktop (default grid)
@@ -2083,7 +2113,7 @@ body {
 }
 
 main {
-  padding-top: 14.6rem;
+  padding-top: 4.5rem;
 }
 
 img {
@@ -2232,38 +2262,4 @@ input[type=number] {
 
 .desk-none {
   display: none;
-}
-
-.terms-page .table,
-.privacy-page .table,
-.charges-policy-page .table,
-.delivery-policy-page .table {
-  --bs-table-bg: transparent;
-  --bs-table-color: #c6c6c6;
-  --bs-table-striped-bg: rgba(255, 255, 255, 0.04);
-  --bs-table-striped-color: #c6c6c6;
-  --bs-table-border-color: #333;
-}
-.terms-page .table th,
-.privacy-page .table th,
-.charges-policy-page .table th,
-.delivery-policy-page .table th {
-  color: #fff;
-  border-bottom-color: #e50000;
-}
-
-.price .per-day {
-  font-size: 0.7em;
-  text-transform: none;
-  color: #aaa;
-  margin-left: 0.3rem;
-}
-
-@media all and (max-width: 576px) {
-  .product-detail-section .product-info .bike-specs .spec-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
-  }
-}
-
-/*# sourceMappingURL=main.css.map */
+}/*# sourceMappingURL=main.css.map */

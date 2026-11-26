@@ -31,10 +31,21 @@ A responsive and interactive frontend website for a bike rental service. Built u
 
 ## Setup Instructions
 
-1. Clone the repository:
+1. Clone the repository.
 2. Open `index.html` in your browser to view the site locally.
-
 3. Make sure to include a local server if you're using component includes (like header/footer via jQuery `.load()`).
+
+### Styling (SCSS)
+
+SCSS source lives in `assets/css/main.scss` and compiles to `assets/css/main.css`. Sass is a local dev dependency (see `assets/css/package.json`), so use `npx` instead of a global install:
+
+```bash
+cd assets/css
+npm install          # installs sass locally
+npx sass --watch main.scss:main.css   # watch & compile on save
+```
+
+`assets/css/node_modules/` is git-ignored; `package.json` / `package-lock.json` are committed to keep the Sass version pinned.
 
 ## Future Enhancements
 
