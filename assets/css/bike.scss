@@ -108,7 +108,8 @@
 
         .price {
             font-size: 2.5rem;
-            color: #e50000;
+            // WCAG AA text-safe tint of the brand red (ACCESSIBILITY_AUDIT.md)
+            color: #ff4d4d;
             font-weight: 600;
             margin-bottom: 1.5rem;
         }
@@ -125,7 +126,8 @@
             h2 {
                 margin-bottom: 2rem;
                 font-size: 1.8rem;
-                color: #e50000;
+                // WCAG AA text-safe tint of the brand red (ACCESSIBILITY_AUDIT.md)
+                color: #ff4d4d;
             }
 
             .spec-grid {
@@ -236,7 +238,8 @@
 
         .price {
             font-family: "Noto Sans", sans-serif;
-            color: #e50000;
+            // WCAG AA text-safe tint of the brand red (ACCESSIBILITY_AUDIT.md)
+            color: #ff4d4d;
             font-size: 1.6rem;
             margin: 0;
         }
@@ -384,7 +387,8 @@
             .price {
                 font-family: "Noto Sans", sans-serif;
                 font-size: 1.5rem;
-                color: #e50000;
+                // WCAG AA text-safe tint of the brand red (ACCESSIBILITY_AUDIT.md)
+                color: #ff4d4d;
                 margin-bottom: 1.5rem;
             }
 

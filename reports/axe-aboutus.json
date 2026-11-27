@@ -1,107 +1,11 @@
 {
   "url": "http://localhost:8099/aboutus.html",
-  "timestamp": "2026-11-27T04:30:50.796Z",
+  "timestamp": "2026-11-27T05:46:04.890Z",
   "testEngine": {
     "name": "axe-core",
     "version": "4.14.1"
   },
-  "violations": [
-    {
-      "id": "color-contrast",
-      "impact": "serious",
-      "tags": [
-        "cat.color",
-        "wcag2aa",
-        "wcag143",
-        "TTv5",
-        "TT13.c",
-        "EN-301-549",
-        "EN-9.1.4.3",
-        "ACT",
-        "RGAAv4",
-        "RGAA-3.2.1"
-      ],
-      "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
-      "help": "Elements must meet minimum color contrast ratio thresholds",
-      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
-      "nodes": [
-        {
-          "any": [
-            {
-              "id": "color-contrast",
-              "data": {
-                "fgColor": "#e81938",
-                "bgColor": "#252525",
-                "contrastRatio": 3.37,
-                "fontSize": "13.5pt (18px)",
-                "fontWeight": "normal",
-                "messageKey": null,
-                "expectedContrastRatio": "4.5:1"
-              },
-              "relatedNodes": [
-                {
-                  "html": "<a href=\"aboutus.html\" class=\"nav-link active\">About</a>",
-                  "target": [
-                    ".active.nav-link[href$=\"aboutus.html\"]"
-                  ]
-                },
-                {
-                  "html": "<body data-aos-easing=\"ease\" data-aos-duration=\"400\" data-aos-delay=\"0\">",
-                  "target": [
-                    "body"
-                  ]
-                }
-              ],
-              "impact": "serious",
-              "message": "Element has insufficient color contrast of 3.37 (foreground color: #e81938, background color: #252525, font size: 13.5pt (18px), font weight: normal). Expected contrast ratio of 4.5:1"
-            }
-          ],
-          "all": [],
-          "none": [],
-          "impact": "serious",
-          "html": "<a href=\"aboutus.html\" class=\"nav-link active\">About</a>",
-          "target": [
-            ".active.nav-link[href$=\"aboutus.html\"]"
-          ],
-          "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.37 (foreground color: #e81938, background color: #252525, font size: 13.5pt (18px), font weight: normal). Expected contrast ratio of 4.5:1"
-        },
-        {
-          "any": [
-            {
-              "id": "color-contrast",
-              "data": {
-                "fgColor": "#e50000",
-                "bgColor": "#1a1a1a",
-                "contrastRatio": 3.58,
-                "fontSize": "9.0pt (12px)",
-                "fontWeight": "normal",
-                "messageKey": null,
-                "expectedContrastRatio": "4.5:1"
-              },
-              "relatedNodes": [
-                {
-                  "html": "<footer class=\"site-footer\">",
-                  "target": [
-                    "footer"
-                  ]
-                }
-              ],
-              "impact": "serious",
-              "message": "Element has insufficient color contrast of 3.58 (foreground color: #e50000, background color: #1a1a1a, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
-            }
-          ],
-          "all": [],
-          "none": [],
-          "impact": "serious",
-          "html": "<a href=\"https://maps.google.com\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"map-link\" aria-label=\"View office location on Google Maps, opens in new tab\">VIEW MAP</a>",
-          "target": [
-            ".map-link"
-          ],
-          "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.58 (foreground color: #e50000, background color: #1a1a1a, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
-        }
-      ]
-    }
-  ],
+  "violations": [],
   "incomplete": [
     {
       "id": "color-contrast",

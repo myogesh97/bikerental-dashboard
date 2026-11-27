@@ -548,7 +548,7 @@ footer {
   margin-bottom: 0;
 }
 .site-footer .footer-main .map-link {
-  color: #e50000;
+  color: #ff4d4d;
   text-decoration: none;
   font-size: 1.2rem;
   letter-spacing: 1px;
@@ -926,7 +926,7 @@ footer {
 .privacy-page a,
 .charges-policy-page a,
 .delivery-policy-page a {
-  color: #e50000;
+  color: #ff4d4d;
 }
 
 .delivery-policy-page .container {
@@ -1035,7 +1035,7 @@ footer {
 }
 .blogs-section-shell .post-content h2,
 .blogs-section-shell .post-content h3 {
-  color: #e81837;
+  color: #ff4d4d;
   line-height: 1.2;
   margin: 4rem 0 2rem;
   border-bottom: 2px solid;
@@ -1052,7 +1052,7 @@ footer {
   margin-bottom: 1rem;
 }
 .blogs-section-shell .post-content a {
-  color: #e50000;
+  color: #ff4d4d;
   text-decoration: none;
   transition: color 0.3s ease;
 }
@@ -1265,7 +1265,7 @@ body.nav-open::before {
   color: #fff;
 }
 .nav-link:hover, .nav-link.active {
-  color: #e81938;
+  color: #ff4d4d;
   background: rgba(255, 255, 255, 0.05);
   transform: translateY(-2px);
 }
@@ -1497,7 +1497,7 @@ body.nav-open::before {
 }
 .product-detail-section .product-info .price {
   font-size: 2.5rem;
-  color: #e50000;
+  color: #ff4d4d;
   font-weight: 600;
   margin-bottom: 1.5rem;
 }
@@ -1513,7 +1513,7 @@ body.nav-open::before {
 .product-detail-section .product-info .bike-specs h2 {
   margin-bottom: 2rem;
   font-size: 1.8rem;
-  color: #e50000;
+  color: #ff4d4d;
 }
 .product-detail-section .product-info .bike-specs .spec-grid {
   display: grid;
@@ -1601,7 +1601,7 @@ body.nav-open::before {
 }
 .related-products .product-card .price {
   font-family: "Noto Sans", sans-serif;
-  color: #e50000;
+  color: #ff4d4d;
   font-size: 1.6rem;
   margin: 0;
 }
@@ -1728,7 +1728,7 @@ body.nav-open::before {
 .inventory-page .motorcycle-card .card-content .price {
   font-family: "Noto Sans", sans-serif;
   font-size: 1.5rem;
-  color: #e50000;
+  color: #ff4d4d;
   margin-bottom: 1.5rem;
 }
 .inventory-page .motorcycle-card .card-content .card-actions {

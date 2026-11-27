@@ -669,7 +669,8 @@ footer {
         }
 
         .map-link {
-            color: #e50000;
+            // WCAG AA text-safe tint of the brand red (ACCESSIBILITY_AUDIT.md)
+            color: #ff4d4d;
             text-decoration: none;
             font-size: 1.2rem;
             letter-spacing: 1px;
@@ -1083,7 +1084,8 @@ footer {
     }
 
     a {
-        color: #e50000;
+        // WCAG AA text-safe tint of the brand red (ACCESSIBILITY_AUDIT.md)
+        color: #ff4d4d;
     }
 }
 
@@ -1215,7 +1217,8 @@ footer {
 
         h2,
         h3 {
-            color: #e81837;
+            // WCAG AA text-safe tint of the brand red (ACCESSIBILITY_AUDIT.md)
+            color: #ff4d4d;
             line-height: 1.2;
             margin: 4rem 0 2rem;
             border-bottom: 2px solid;
@@ -1236,7 +1239,8 @@ footer {
         }
 
         a {
-            color: #e50000;
+            // WCAG AA text-safe tint of the brand red (ACCESSIBILITY_AUDIT.md)
+            color: #ff4d4d;
             text-decoration: none;
             transition: color 0.3s ease;
 
