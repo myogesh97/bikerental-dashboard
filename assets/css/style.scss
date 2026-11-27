@@ -296,6 +296,10 @@ footer {
 }
 
 .testimonial-section {
+    // TODO: hot-linked demo image, replace with licensed local asset (PRODUCTION_READINESS.md #3)
+    background-image: url('https://demo2.wpopal.com/lexrider/wp-content/uploads/2019/04/lexrider_banner2_3.jpg');
+    overflow: initial;
+
     .section-primary_title {
         text-align: left;
 
@@ -307,6 +311,7 @@ footer {
             padding: 1.6rem 4rem;
             font-size: 1.8rem;
             text-transform: uppercase;
+            letter-spacing: 2px;
         }
     }
 
@@ -521,7 +526,8 @@ footer {
     position: relative;
     padding-top: 7rem;
     padding-bottom: 38rem;
-    // background-image: url('https://demo2.wpopal.com/lexrider/wp-content/uploads/2019/04/lexider_bg2_1.png');
+    // TODO: hot-linked demo image, replace with licensed local asset (PRODUCTION_READINESS.md #3)
+    background-image: url('https://demo2.wpopal.com/lexrider/wp-content/uploads/2019/04/lexider_bg2_1.png');
     background-size: cover;
     background-position: bottom center;
     background-repeat: no-repeat;
@@ -717,6 +723,7 @@ footer {
     .footer-bottom {
         padding: 5rem 0;
         background-color: #131313;
+        overflow: hidden;
 
         .footer-bottom-content {
             display: flex;
@@ -832,7 +839,8 @@ footer {
     align-items: center;
     justify-content: center;
     text-align: center;
-    // background-image: url('https://demo2.wpopal.com/lexrider/wp-content/uploads/2019/04/breadcrumb-contact.jpg');
+    // TODO: hot-linked demo image, replace with licensed local asset (PRODUCTION_READINESS.md #3)
+    background-image: url('https://demo2.wpopal.com/lexrider/wp-content/uploads/2019/04/breadcrumb-contact.jpg');
     background-size: cover;
     background-position: center;
 
@@ -1017,6 +1025,10 @@ footer {
     font-size: 1.6rem;
     margin-bottom: 1.2rem;
 
+    .container {
+        padding-top: 4rem;
+    }
+
     p,
     li {
         color: #c6c6c6;
@@ -1068,6 +1080,10 @@ footer {
     a {
         color: #e50000;
     }
+}
+
+.delivery-policy-page .container {
+    padding-bottom: 4rem;
 }
 
 .aboutus-section {

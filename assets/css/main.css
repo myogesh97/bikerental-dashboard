@@ -232,6 +232,10 @@ footer {
   align-items: center;
 }
 
+.testimonial-section {
+  background-image: url("https://demo2.wpopal.com/lexrider/wp-content/uploads/2019/04/lexrider_banner2_3.jpg");
+  overflow: initial;
+}
 .testimonial-section .section-primary_title {
   text-align: left;
 }
@@ -242,6 +246,7 @@ footer {
   padding: 1.6rem 4rem;
   font-size: 1.8rem;
   text-transform: uppercase;
+  letter-spacing: 2px;
 }
 .testimonial-section .testimonial-slider {
   background-color: #fff;
@@ -417,6 +422,7 @@ footer {
   position: relative;
   padding-top: 7rem;
   padding-bottom: 38rem;
+  background-image: url("https://demo2.wpopal.com/lexrider/wp-content/uploads/2019/04/lexider_bg2_1.png");
   background-size: cover;
   background-position: bottom center;
   background-repeat: no-repeat;
@@ -588,6 +594,7 @@ footer {
 .site-footer .footer-bottom {
   padding: 5rem 0;
   background-color: #131313;
+  overflow: hidden;
 }
 .site-footer .footer-bottom .footer-bottom-content {
   display: flex;
@@ -684,6 +691,7 @@ footer {
   align-items: center;
   justify-content: center;
   text-align: center;
+  background-image: url("https://demo2.wpopal.com/lexrider/wp-content/uploads/2019/04/breadcrumb-contact.jpg");
   background-size: cover;
   background-position: center;
 }
@@ -837,6 +845,12 @@ footer {
   font-size: 1.6rem;
   margin-bottom: 1.2rem;
 }
+.terms-page .container,
+.privacy-page .container,
+.charges-policy-page .container,
+.delivery-policy-page .container {
+  padding-top: 4rem;
+}
 .terms-page p,
 .terms-page li,
 .privacy-page p,
@@ -909,6 +923,10 @@ footer {
 .charges-policy-page a,
 .delivery-policy-page a {
   color: #e50000;
+}
+
+.delivery-policy-page .container {
+  padding-bottom: 4rem;
 }
 
 .aboutus-section .mission-grid {
@@ -1750,6 +1768,36 @@ body.nav-open::before {
     gap: 1rem;
   }
 }
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-to-main {
+  position: absolute;
+  top: -100%;
+  left: 0;
+  z-index: 10000;
+  padding: 0.8rem 2rem;
+  background: #e81938;
+  color: #fff;
+  font-size: 1.6rem;
+  text-decoration: none;
+  font-family: "Noto Sans", sans-serif;
+}
+.skip-to-main:focus {
+  top: 0;
+  outline: 3px solid #fff;
+  outline-offset: 2px;
+}
+
 /*------------------------------------------
     Responsive Grid Media Queries - 1280, 1024, 768, 480
      1280-1024   - desktop (default grid)
