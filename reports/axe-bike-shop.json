@@ -1,0 +1,448 @@
+{
+  "url": "http://localhost:8099/bike-shop.html",
+  "timestamp": "2026-11-27T04:30:55.164Z",
+  "testEngine": {
+    "name": "axe-core",
+    "version": "4.14.1"
+  },
+  "violations": [
+    {
+      "id": "color-contrast",
+      "impact": "serious",
+      "tags": [
+        "cat.color",
+        "wcag2aa",
+        "wcag143",
+        "TTv5",
+        "TT13.c",
+        "EN-301-549",
+        "EN-9.1.4.3",
+        "ACT",
+        "RGAAv4",
+        "RGAA-3.2.1"
+      ],
+      "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "nodes": [
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "fgColor": "#e81938",
+                "bgColor": "#252525",
+                "contrastRatio": 3.37,
+                "fontSize": "13.5pt (18px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<a href=\"bike-shop.html\" class=\"nav-link active\">",
+                  "target": [
+                    ".active"
+                  ]
+                },
+                {
+                  "html": "<body data-aos-easing=\"ease\" data-aos-duration=\"400\" data-aos-delay=\"0\">",
+                  "target": [
+                    "body"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element has insufficient color contrast of 3.37 (foreground color: #e81938, background color: #252525, font size: 13.5pt (18px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<a href=\"bike-shop.html\" class=\"nav-link active\">",
+          "target": [
+            ".active"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.37 (foreground color: #e81938, background color: #252525, font size: 13.5pt (18px), font weight: normal). Expected contrast ratio of 4.5:1"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "fgColor": "#e50000",
+                "bgColor": "#1a1a1a",
+                "contrastRatio": 3.58,
+                "fontSize": "11.3pt (15px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<div class=\"motorcycle-card\" data-availability=\"not-available\" data-category=\"adventure\" data-brand=\"hero\">",
+                  "target": [
+                    "div[data-brand=\"hero\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element has insufficient color contrast of 3.58 (foreground color: #e50000, background color: #1a1a1a, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<div class=\"price\">₹1100<span class=\"per-day\">/day</span></div>",
+          "target": [
+            "div[data-brand=\"hero\"] > .card-content > .price"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.58 (foreground color: #e50000, background color: #1a1a1a, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "fgColor": "#e50000",
+                "bgColor": "#1a1a1a",
+                "contrastRatio": 3.58,
+                "fontSize": "11.3pt (15px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<div class=\"motorcycle-card\" data-availability=\"available\" data-category=\"cruiser\" data-brand=\"jawa\">",
+                  "target": [
+                    "div[data-brand=\"jawa\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element has insufficient color contrast of 3.58 (foreground color: #e50000, background color: #1a1a1a, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<div class=\"price\">₹1300<span class=\"per-day\">/day</span></div>",
+          "target": [
+            "div[data-brand=\"jawa\"] > .card-content > .price"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.58 (foreground color: #e50000, background color: #1a1a1a, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "fgColor": "#e50000",
+                "bgColor": "#1a1a1a",
+                "contrastRatio": 3.58,
+                "fontSize": "11.3pt (15px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<div class=\"motorcycle-card\" data-availability=\"available\" data-category=\"sport\" data-brand=\"yamaha\">",
+                  "target": [
+                    ".col-lg-3.col-md-4.col-sm-6:nth-child(4) > div[data-brand=\"yamaha\"][data-category=\"sport\"][data-availability=\"available\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element has insufficient color contrast of 3.58 (foreground color: #e50000, background color: #1a1a1a, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<div class=\"price\">₹1100<span class=\"per-day\">/day</span></div>",
+          "target": [
+            ".col-lg-3.col-md-4.col-sm-6:nth-child(4) > div[data-brand=\"yamaha\"][data-category=\"sport\"][data-availability=\"available\"] > .card-content > .price"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.58 (foreground color: #e50000, background color: #1a1a1a, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "fgColor": "#e50000",
+                "bgColor": "#1a1a1a",
+                "contrastRatio": 3.58,
+                "fontSize": "11.3pt (15px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<div class=\"motorcycle-card\" data-availability=\"not-available\" data-category=\"sport\" data-brand=\"tvs\">",
+                  "target": [
+                    "div[data-brand=\"tvs\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element has insufficient color contrast of 3.58 (foreground color: #e50000, background color: #1a1a1a, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<div class=\"price\">₹1100<span class=\"per-day\">/day</span></div>",
+          "target": [
+            "div[data-brand=\"tvs\"] > .card-content > .price"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.58 (foreground color: #e50000, background color: #1a1a1a, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "fgColor": "#e50000",
+                "bgColor": "#1a1a1a",
+                "contrastRatio": 3.58,
+                "fontSize": "11.3pt (15px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<div class=\"motorcycle-card\" data-availability=\"available\" data-category=\"retro\" data-brand=\"royal-enfield\">",
+                  "target": [
+                    "div[data-category=\"retro\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element has insufficient color contrast of 3.58 (foreground color: #e50000, background color: #1a1a1a, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<div class=\"price\">₹1200<span class=\"per-day\">/day</span></div>",
+          "target": [
+            "div[data-category=\"retro\"] > .card-content > .price"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.58 (foreground color: #e50000, background color: #1a1a1a, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "fgColor": "#e50000",
+                "bgColor": "#1a1a1a",
+                "contrastRatio": 3.58,
+                "fontSize": "11.3pt (15px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<div class=\"motorcycle-card\" data-availability=\"available\" data-category=\"sport\" data-brand=\"ktm\">",
+                  "target": [
+                    "div[data-brand=\"ktm\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element has insufficient color contrast of 3.58 (foreground color: #e50000, background color: #1a1a1a, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<div class=\"price\">₹1500<span class=\"per-day\">/day</span></div>",
+          "target": [
+            "div[data-brand=\"ktm\"] > .card-content > .price"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.58 (foreground color: #e50000, background color: #1a1a1a, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "fgColor": "#e50000",
+                "bgColor": "#1a1a1a",
+                "contrastRatio": 3.58,
+                "fontSize": "11.3pt (15px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<div class=\"motorcycle-card\" data-availability=\"available\" data-category=\"cruiser\" data-brand=\"bajaj\">",
+                  "target": [
+                    "div[data-brand=\"bajaj\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element has insufficient color contrast of 3.58 (foreground color: #e50000, background color: #1a1a1a, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<div class=\"price\">₹1250<span class=\"per-day\">/day</span></div>",
+          "target": [
+            "div[data-brand=\"bajaj\"] > .card-content > .price"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.58 (foreground color: #e50000, background color: #1a1a1a, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "fgColor": "#e50000",
+                "bgColor": "#1a1a1a",
+                "contrastRatio": 3.58,
+                "fontSize": "11.3pt (15px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<div class=\"motorcycle-card\" data-availability=\"not-available\" data-category=\"adventure\" data-brand=\"royal-enfield\">",
+                  "target": [
+                    "div[data-category=\"adventure\"][data-availability=\"not-available\"][data-brand=\"royal-enfield\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element has insufficient color contrast of 3.58 (foreground color: #e50000, background color: #1a1a1a, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<div class=\"price\">₹1350<span class=\"per-day\">/day</span></div>",
+          "target": [
+            "div[data-category=\"adventure\"][data-availability=\"not-available\"][data-brand=\"royal-enfield\"] > .card-content > .price"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.58 (foreground color: #e50000, background color: #1a1a1a, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "fgColor": "#e50000",
+                "bgColor": "#1a1a1a",
+                "contrastRatio": 3.58,
+                "fontSize": "11.3pt (15px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<div class=\"motorcycle-card\" data-availability=\"available\" data-category=\"sport\" data-brand=\"yamaha\">",
+                  "target": [
+                    ".col-lg-3.col-md-4.col-sm-6:nth-child(10) > div[data-brand=\"yamaha\"][data-category=\"sport\"][data-availability=\"available\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element has insufficient color contrast of 3.58 (foreground color: #e50000, background color: #1a1a1a, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<div class=\"price\">₹1000<span class=\"per-day\">/day</span></div>",
+          "target": [
+            ".col-lg-3.col-md-4.col-sm-6:nth-child(10) > div[data-brand=\"yamaha\"][data-category=\"sport\"][data-availability=\"available\"] > .card-content > .price"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.58 (foreground color: #e50000, background color: #1a1a1a, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "fgColor": "#e50000",
+                "bgColor": "#1a1a1a",
+                "contrastRatio": 3.58,
+                "fontSize": "11.3pt (15px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<div class=\"motorcycle-card\" data-availability=\"available\" data-category=\"cruiser\" data-brand=\"royal-enfield\">",
+                  "target": [
+                    "div[data-category=\"cruiser\"][data-brand=\"royal-enfield\"][data-availability=\"available\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element has insufficient color contrast of 3.58 (foreground color: #e50000, background color: #1a1a1a, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<div class=\"price\">₹1400<span class=\"per-day\">/day</span></div>",
+          "target": [
+            "div[data-category=\"cruiser\"][data-brand=\"royal-enfield\"][data-availability=\"available\"] > .card-content > .price"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.58 (foreground color: #e50000, background color: #1a1a1a, font size: 11.3pt (15px), font weight: normal). Expected contrast ratio of 4.5:1"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "fgColor": "#e50000",
+                "bgColor": "#1a1a1a",
+                "contrastRatio": 3.58,
+                "fontSize": "9.0pt (12px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<footer class=\"site-footer\">",
+                  "target": [
+                    "footer"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element has insufficient color contrast of 3.58 (foreground color: #e50000, background color: #1a1a1a, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<a href=\"https://maps.google.com\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"map-link\" aria-label=\"View office location on Google Maps, opens in new tab\">VIEW MAP</a>",
+          "target": [
+            ".map-link"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.58 (foreground color: #e50000, background color: #1a1a1a, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+        }
+      ]
+    }
+  ],
+  "incomplete": [],
+  "passCount": 43,
+  "inapplicableCount": 45
+}

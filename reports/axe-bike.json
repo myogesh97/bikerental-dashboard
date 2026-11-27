@@ -1,0 +1,392 @@
+{
+  "url": "http://localhost:8099/bike.html",
+  "timestamp": "2026-11-27T04:30:53.032Z",
+  "testEngine": {
+    "name": "axe-core",
+    "version": "4.14.1"
+  },
+  "violations": [
+    {
+      "id": "color-contrast",
+      "impact": "serious",
+      "tags": [
+        "cat.color",
+        "wcag2aa",
+        "wcag143",
+        "TTv5",
+        "TT13.c",
+        "EN-301-549",
+        "EN-9.1.4.3",
+        "ACT",
+        "RGAAv4",
+        "RGAA-3.2.1"
+      ],
+      "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "nodes": [
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "fgColor": "#e50000",
+                "bgColor": "#111111",
+                "contrastRatio": 3.89,
+                "fontSize": "13.5pt (18px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<div class=\"bike-specs\">",
+                  "target": [
+                    ".bike-specs"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element has insufficient color contrast of 3.89 (foreground color: #e50000, background color: #111111, font size: 13.5pt (18px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<h2>Bike Specifications</h2>",
+          "target": [
+            ".bike-specs > h2"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.89 (foreground color: #e50000, background color: #111111, font size: 13.5pt (18px), font weight: normal). Expected contrast ratio of 4.5:1"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "fgColor": "#e50000",
+                "bgColor": "#1a1a1a",
+                "contrastRatio": 3.58,
+                "fontSize": "12.0pt (16px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<div class=\"product-card\">",
+                  "target": [
+                    ".col-md-4.col-lg-4:nth-child(1) > .product-card"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element has insufficient color contrast of 3.58 (foreground color: #e50000, background color: #1a1a1a, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<p class=\"price\">₹1300<span class=\"per-day\">/day</span></p>",
+          "target": [
+            "a[href=\"bike.html?slug=perak-2024\"] > .card-content > .price"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.58 (foreground color: #e50000, background color: #1a1a1a, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "fgColor": "#e50000",
+                "bgColor": "#1a1a1a",
+                "contrastRatio": 3.58,
+                "fontSize": "12.0pt (16px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<div class=\"product-card\">",
+                  "target": [
+                    ".col-md-4.col-lg-4:nth-child(2) > .product-card"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element has insufficient color contrast of 3.58 (foreground color: #e50000, background color: #1a1a1a, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<p class=\"price\">₹1100<span class=\"per-day\">/day</span></p>",
+          "target": [
+            "a[href=\"bike.html?slug=r15-v4-2022\"] > .card-content > .price"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.58 (foreground color: #e50000, background color: #1a1a1a, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "fgColor": "#e50000",
+                "bgColor": "#1a1a1a",
+                "contrastRatio": 3.58,
+                "fontSize": "12.0pt (16px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<div class=\"product-card\">",
+                  "target": [
+                    ".col-md-4.col-lg-4:nth-child(3) > .product-card"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element has insufficient color contrast of 3.58 (foreground color: #e50000, background color: #1a1a1a, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<p class=\"price\">₹1100<span class=\"per-day\">/day</span></p>",
+          "target": [
+            ".col-md-4.col-lg-4:nth-child(3) > .product-card > a > .card-content > .price"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.58 (foreground color: #e50000, background color: #1a1a1a, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "fgColor": "#e50000",
+                "bgColor": "#1a1a1a",
+                "contrastRatio": 3.58,
+                "fontSize": "9.0pt (12px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<footer class=\"site-footer\">",
+                  "target": [
+                    "footer"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element has insufficient color contrast of 3.58 (foreground color: #e50000, background color: #1a1a1a, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<a href=\"https://maps.google.com\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"map-link\" aria-label=\"View office location on Google Maps, opens in new tab\">VIEW MAP</a>",
+          "target": [
+            ".map-link"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.58 (foreground color: #e50000, background color: #1a1a1a, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+        }
+      ]
+    }
+  ],
+  "incomplete": [
+    {
+      "id": "color-contrast",
+      "impact": "serious",
+      "tags": [
+        "cat.color",
+        "wcag2aa",
+        "wcag143",
+        "TTv5",
+        "TT13.c",
+        "EN-301-549",
+        "EN-9.1.4.3",
+        "ACT",
+        "RGAAv4",
+        "RGAA-3.2.1"
+      ],
+      "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "nodes": [
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "13.5pt (18px)",
+                "fontWeight": "normal",
+                "messageKey": "imgNode",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<img src=\"assets/images/bikes/bike-11.jpg\" alt=\"R15 V4 (2022)\">",
+                  "target": [
+                    "img[alt=\"R15 V4 (2022)\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because element contains an image node"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<a href=\"index.html\" class=\"nav-link \">Home</a>",
+          "target": [
+            ".nav-link[href=\"index.html\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "13.5pt (18px)",
+                "fontWeight": "normal",
+                "messageKey": "imgNode",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<a href=\"bike-shop.html\" class=\"nav-link active\">",
+                  "target": [
+                    ".active"
+                  ]
+                },
+                {
+                  "html": "<img src=\"assets/images/bikes/bike-11.jpg\" alt=\"R15 V4 (2022)\">",
+                  "target": [
+                    "img[alt=\"R15 V4 (2022)\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because element contains an image node"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<a href=\"bike-shop.html\" class=\"nav-link active\">",
+          "target": [
+            ".active"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "13.5pt (18px)",
+                "fontWeight": "normal",
+                "messageKey": "imgNode",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<img src=\"assets/images/bikes/bike-11.jpg\" alt=\"R15 V4 (2022)\">",
+                  "target": [
+                    "img[alt=\"R15 V4 (2022)\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because element contains an image node"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<a href=\"#\" class=\"nav-link\" aria-haspopup=\"true\" aria-expanded=\"false\">",
+          "target": [
+            "a[aria-haspopup=\"true\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "13.5pt (18px)",
+                "fontWeight": "normal",
+                "messageKey": "imgNode",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<img src=\"assets/images/bikes/bike-11.jpg\" alt=\"R15 V4 (2022)\">",
+                  "target": [
+                    "img[alt=\"R15 V4 (2022)\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because element contains an image node"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<a href=\"aboutus.html\" class=\"nav-link\">About</a>",
+          "target": [
+            ".nav-link[href$=\"aboutus.html\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "13.5pt (18px)",
+                "fontWeight": "normal",
+                "messageKey": "imgNode",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<img src=\"assets/images/bikes/bike-11.jpg\" alt=\"R15 V4 (2022)\">",
+                  "target": [
+                    "img[alt=\"R15 V4 (2022)\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because element contains an image node"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<a href=\"contact.html\" class=\"nav-link\">Contact</a>",
+          "target": [
+            ".nav-link[href$=\"contact.html\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+        }
+      ]
+    }
+  ],
+  "passCount": 41,
+  "inapplicableCount": 47
+}
