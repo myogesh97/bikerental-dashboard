@@ -325,75 +325,106 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-// Bike Sorting
+// Bike listing: render from BIKES, filter, and paginate
 document.addEventListener("DOMContentLoaded", () => {
+  const grid = document.getElementById("bikesGrid");
+  if (!grid || typeof BIKES === "undefined") return;
+
   const form = document.getElementById("bikeFilterForm");
   const availability = document.getElementById("filterAvailability");
   const category = document.getElementById("filterCategory");
   const brand = document.getElementById("filterBrand");
+  const resultsCount = document.getElementById("resultsCount");
+  const viewPage = document.getElementById("viewPage");
+  const paginationContainer = document.getElementById("paginationContainer");
 
-  if (!form || !availability || !category || !brand) return;
+  const PAGE_SIZE = 8;
+  let currentPage = 1;
 
-  const bikeCards = document.querySelectorAll(".motorcycle-card");
+  const cardMarkup = (bike) => `
+    <div class="col-lg-3 col-sm-6 col-md-4">
+        <div class="motorcycle-card" data-availability="${bike.availability}" data-category="${bike.category}" data-brand="${bike.brand}">
+            <div class="card-image">
+                <span class="status-tag ${bike.availability}">${bike.availability}</span>
+                <a href="bike.html?slug=${bike.slug}">
+                    <img src="${bike.image}" alt="${bike.name}" loading="lazy">
+                </a>
+            </div>
+            <div class="card-content">
+                <h3><a href="bike.html?slug=${bike.slug}">${bike.name}</a></h3>
+                <div class="price">&#8377;${bike.price}<span class="per-day">/day</span></div>
+                <div class="card-actions">
+                    <a href="bike.html?slug=${bike.slug}" class="btn btn-primary">Details</a>
+                </div>
+            </div>
+        </div>
+    </div>`;
 
-  const filterBikes = () => {
+  const getFilteredBikes = () => {
     const availValue = availability.value;
     const categoryValue = category.value;
     const brandValue = brand.value;
 
-    bikeCards.forEach((card) => {
-      const matchAvail =
-        availValue === "all" || card.dataset.availability === availValue;
-      const matchCat =
-        categoryValue === "all" || card.dataset.category === categoryValue;
-      const matchBrand =
-        brandValue === "all" || card.dataset.brand === brandValue;
-
-      const visible = matchAvail && matchCat && matchBrand;
-      card.parentElement.style.display = visible ? "" : "none";
+    return BIKES.filter((bike) => {
+      const matchAvail = availValue === "all" || bike.availability === availValue;
+      const matchCat = categoryValue === "all" || bike.category === categoryValue;
+      const matchBrand = brandValue === "all" || bike.brand === brandValue;
+      return matchAvail && matchCat && matchBrand;
     });
-
-    updateListingToolbar();
   };
 
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
-    filterBikes();
-  });
+  const renderPagination = (totalPages) => {
+    paginationContainer.innerHTML = "";
+    if (totalPages <= 1) return;
 
-  form.addEventListener("reset", () => {
-    setTimeout(() => {
-      bikeCards.forEach((card) => {
-        card.parentElement.style.display = "";
+    for (let page = 1; page <= totalPages; page++) {
+      const li = document.createElement("li");
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "page-numbers" + (page === currentPage ? " current" : "");
+      btn.textContent = String(page);
+      if (page === currentPage) {
+        btn.setAttribute("aria-current", "page");
+      }
+      btn.addEventListener("click", () => {
+        currentPage = page;
+        render();
+        grid.scrollIntoView({ behavior: prefersReducedMotion ? "auto" : "smooth", block: "start" });
       });
-      updateListingToolbar();
-    }, 0);
-  });
-});
+      li.appendChild(btn);
+      paginationContainer.appendChild(li);
+    }
+  };
 
-function updateListingToolbar() {
-  const resultsCount = document.getElementById("resultsCount");
-  const viewPage = document.getElementById("viewPage");
+  const render = () => {
+    const filtered = getFilteredBikes();
+    const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+    currentPage = Math.min(currentPage, totalPages);
 
-  if (!resultsCount || !viewPage) return;
+    const start = (currentPage - 1) * PAGE_SIZE;
+    const pageBikes = filtered.slice(start, start + PAGE_SIZE);
 
-  const allCards = document.querySelectorAll(".motorcycle-card");
-  const visibleCards = Array.from(allCards).filter(
-    (card) => card.parentElement.style.display !== "none"
-  );
+    grid.innerHTML = pageBikes.map(cardMarkup).join("");
 
-  resultsCount.textContent = `Displaying ${visibleCards.length} of ${allCards.length}`;
-  viewPage.textContent = `Page 1`;
-}
+    resultsCount.textContent = `Displaying ${pageBikes.length} of ${filtered.length}`;
+    viewPage.textContent = `Page ${currentPage} of ${totalPages}`;
+    renderPagination(totalPages);
+  };
 
-document.addEventListener("DOMContentLoaded", () => {
-  const hasCards = document.querySelector(".motorcycle-card");
-  const hasResults = document.getElementById("resultsCount");
+  if (form) {
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      currentPage = 1;
+      render();
+    });
 
-  if (hasCards && hasResults) {
-    updateListingToolbar();
+    form.addEventListener("reset", () => {
+      setTimeout(() => {
+        currentPage = 1;
+        render();
+      }, 0);
+    });
   }
-});
 
-// Run on load
-updateListingToolbar();
+  render();
+});
