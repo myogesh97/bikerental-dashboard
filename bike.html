@@ -129,7 +129,7 @@
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="gallery" role="region" aria-label="Bike photo">
-                            <img id="bikeGalleryImage" src="assets/images/bikes/bike-9.jpg" alt="" loading="lazy" class="w-100 h-auto">
+                            <img id="bikeGalleryImage" src="assets/images/bikes/bike-9.jpg" alt="" fetchpriority="high" class="w-100 h-auto">
                         </div>
                     </div>
 
@@ -145,14 +145,13 @@
         <section class="related-products">
             <div class="container">
                 <div class="section-primary_title">
-                    <span><ion-icon name="filter-outline"></ion-icon> Check our <ion-icon
+                    <span><ion-icon name="filter-outline" aria-hidden="true"></ion-icon> Check our <ion-icon aria-hidden="true"
                             name="filter-outline"></ion-icon></span>
                     <h2>other motorcycles</h2>
                 </div>
                 <div class="row" id="relatedBikes"></div>
             </div>
         </section>
-    </main>
 
     <!-- Image Slider Section -->
     <section class="image-slider-only">
@@ -213,6 +212,7 @@
                 </div>
             </div>
     </section>
+    </main>
 
     <!-- Footer Section -->
     <footer class="site-footer">
@@ -332,14 +332,14 @@
                 </div>
                 <div class="price">&#8377;${bike.price}<span class="per-day">/day</span></div>
                 <div class="bike-specs">
-                    <h3>Bike Specifications</h3>
+                    <h2>Bike Specifications</h2>
                     <div class="spec-grid">
-                        <div class="spec-item"><h4>Fuel</h4><p>${bike.specs.fuel}</p></div>
-                        <div class="spec-item"><h4>Engine</h4><p>${bike.specs.engine}</p></div>
-                        <div class="spec-item"><h4>Gears</h4><p>${bike.specs.gears}</p></div>
-                        <div class="spec-item"><h4>Mileage</h4><p>${bike.specs.mileage}</p></div>
-                        <div class="spec-item"><h4>Brand</h4><p>${bike.brandLabel}</p></div>
-                        <div class="spec-item"><h4>Rental Basis</h4><p>Per Day</p></div>
+                        <div class="spec-item"><h3>Fuel</h3><p>${bike.specs.fuel}</p></div>
+                        <div class="spec-item"><h3>Engine</h3><p>${bike.specs.engine}</p></div>
+                        <div class="spec-item"><h3>Gears</h3><p>${bike.specs.gears}</p></div>
+                        <div class="spec-item"><h3>Mileage</h3><p>${bike.specs.mileage}</p></div>
+                        <div class="spec-item"><h3>Brand</h3><p>${bike.brandLabel}</p></div>
+                        <div class="spec-item"><h3>Rental Basis</h3><p>Per Day</p></div>
                     </div>
                     <p class="deposit-note">Security deposit and exact terms are confirmed with our team before handover &mdash; <a href="contact.html">contact us</a> for details.</p>
                 </div>

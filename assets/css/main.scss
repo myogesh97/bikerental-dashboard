@@ -32,6 +32,12 @@ main {
     // padding-top: 4.5rem;
 }
 
+// Homepage hero is full-bleed under the fixed header, unlike every
+// other page's <main>.
+main.main-full-bleed {
+    padding-top: 0;
+}
+
 img {
     max-width: 100%;
 }

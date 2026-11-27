@@ -749,7 +749,7 @@ footer {
   color: #e50000;
   line-height: 1;
 }
-.contact-section .info-block .info-text h4 {
+.contact-section .info-block .info-text h2 {
   color: #fff;
   font-size: 2rem;
   margin-bottom: 5px;
@@ -794,6 +794,10 @@ footer {
   margin-bottom: 30px;
   color: #8e8e8e;
   font-size: 1.2rem;
+}
+.contact-section .contact-form-wrapper .form-label {
+  color: #a0a0a0;
+  font-family: "Noto Sans", sans-serif;
 }
 .contact-section .contact-form-wrapper .form-control {
   background-color: #111;
@@ -898,7 +902,7 @@ footer {
 .delivery-policy-page .last-updated {
   text-align: center;
   font-size: 0.9em;
-  color: #6c757d;
+  color: #8e8e8e;
   margin-bottom: 2rem;
 }
 .terms-page .table,
@@ -1506,7 +1510,7 @@ body.nav-open::before {
   color: #fff;
   box-shadow: 0 0 0.8rem rgba(0, 0, 0, 0.3098039216);
 }
-.product-detail-section .product-info .bike-specs h3 {
+.product-detail-section .product-info .bike-specs h2 {
   margin-bottom: 2rem;
   font-size: 1.8rem;
   color: #e50000;
@@ -1523,7 +1527,7 @@ body.nav-open::before {
   text-align: center;
   border: 1px solid #333;
 }
-.product-detail-section .product-info .bike-specs .spec-grid .spec-item h4 {
+.product-detail-section .product-info .bike-specs .spec-grid .spec-item h3 {
   font-size: 1.1rem;
   margin-bottom: 0.5rem;
   color: #aaa;
@@ -1535,10 +1539,16 @@ body.nav-open::before {
   font-weight: 600;
   color: #fff;
 }
+.product-detail-section .product-info .bike-specs .deposit-note a {
+  color: #6ea8fe;
+}
 .product-detail-section .product-purchase-actions {
   margin-top: 3rem;
   display: flex;
   gap: 1.5rem;
+}
+.product-detail-section .product-purchase-actions .unavailable-note {
+  color: #a0a0a0;
 }
 .product-detail-section .product-purchase-actions .btn {
   text-transform: capitalize;
@@ -1940,7 +1950,7 @@ body.nav-open::before {
   }
 }
 @media all and (max-width: 576px) {
-  main {
+  main:not(.main-full-bleed) {
     padding-top: 13.83rem !important;
   }
   .nav-menu {
@@ -2171,6 +2181,10 @@ body {
 
 main {
   padding-top: 14.6rem;
+}
+
+main.main-full-bleed {
+  padding-top: 0;
 }
 
 img {
