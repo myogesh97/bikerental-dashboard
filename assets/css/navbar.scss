@@ -107,7 +107,14 @@ body.nav-open {
     // -webkit-backdrop-filter: saturate(180%) blur(10px);
     transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
+    &.scrolled {
+        padding: 0.7rem 2rem;
+        background-color: rgba(16, 16, 26, 0.7);
 
+        @media (max-width: 576px) {
+            padding: 0.7rem 1rem;
+        }
+    }
 }
 
 .logo {

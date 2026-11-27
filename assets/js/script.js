@@ -91,21 +91,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   handleScrollClass();
 
-  const style = document.createElement("style");
-  style.textContent = `
-    .scrolled {
-        padding: 0.7rem 2rem;
-        background-color: rgba(16, 16, 26, 0.7);
-    }
-
-    @media (max-width: 576px) {
-        .scrolled {
-            padding: 0.7rem 1rem;
-        }
-    }
-  `;
-  document.head.appendChild(style);
-
   // Homepage Banner Slider
   var heroSwiper = new Swiper(".hero-bannerSection", {
     loop: true,

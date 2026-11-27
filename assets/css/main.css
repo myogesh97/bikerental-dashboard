@@ -1170,6 +1170,15 @@ body.nav-open::before {
   align-items: center;
   transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
+.navbar.scrolled {
+  padding: 0.7rem 2rem;
+  background-color: rgba(16, 16, 26, 0.7);
+}
+@media (max-width: 576px) {
+  .navbar.scrolled {
+    padding: 0.7rem 1rem;
+  }
+}
 
 .logo {
   font-size: 1.5rem;
