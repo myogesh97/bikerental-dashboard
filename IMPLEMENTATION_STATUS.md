@@ -18,7 +18,9 @@ Ran axe-core (via Playwright `axe.run()` against the live DOM) and Lighthouse 13
 
 **Verified**: Sass compiles; full branch-vs-`main` Playwright screenshot diff at 375/768/1440px re-run after all these changes — every remaining pixel difference traced to an intended fix (newly-visible form labels, brightened date text) or the pre-existing bike.html slider animation noise, nothing unexplained.
 
-**Not fixed, flagged for the client**: the brand-red contrast issue above; the aboutus/bike/bike-shop/blogs performance gap, which Lighthouse's own breakdown shows is dominated by unconditional third-party bundle weight (Bootstrap+Swiper+AOS+animate.css+Font Awesome+ionicons on every page), not images — same root cause PERFORMANCE_AUDIT.md already flagged as needing the icon-consolidation decision (Phase 2 backlog item 5), now confirmed by measurement rather than just inventory.
+**Brand-red contrast — resolved 2026-11-27.** Client chose to fix only the failing text instances: introduced `#ff4d4d`, a WCAG-AA text-safe tint of the brand red (passes >=4.5:1 against every dark background in use), applied only where `#e50000`/`#e81938`/`#e81837` were used as small text on dark (nav active/hover state, map link, all prices, bike-spec heading, blog headings/links, legal-page links). Button backgrounds, borders, and large decorative headings keep the original brand reds. Verified: axe-core now reports **0 violations on all 10 pages** (down from 16 violation-instances at the start of this phase); branch-vs-main Playwright screenshot diff confirms only the intended text recolored.
+
+**Not fixed, flagged for the client**: the aboutus/bike/bike-shop/blogs performance gap, which Lighthouse's own breakdown shows is dominated by unconditional third-party bundle weight (Bootstrap+Swiper+AOS+animate.css+Font Awesome+ionicons on every page), not images — same root cause PERFORMANCE_AUDIT.md already flagged as needing the icon-consolidation decision (Phase 2 backlog item 5), now confirmed by measurement rather than just inventory.
 
 ## 2026-11-27 session, continued: mobile nav accessibility (Phase 2 item 1)
 
