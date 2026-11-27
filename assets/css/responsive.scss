@@ -186,7 +186,7 @@
 
 @media all and (max-width: 576px) {
 
-    main {
+    main:not(.main-full-bleed) {
         padding-top: 13.83rem !important;
     }
 

@@ -232,6 +232,10 @@ footer {
   align-items: center;
 }
 
+.testimonial-section {
+  background-image: url("https://demo2.wpopal.com/lexrider/wp-content/uploads/2019/04/lexrider_banner2_3.jpg");
+  overflow: initial;
+}
 .testimonial-section .section-primary_title {
   text-align: left;
 }
@@ -242,6 +246,7 @@ footer {
   padding: 1.6rem 4rem;
   font-size: 1.8rem;
   text-transform: uppercase;
+  letter-spacing: 2px;
 }
 .testimonial-section .testimonial-slider {
   background-color: #fff;
@@ -417,6 +422,7 @@ footer {
   position: relative;
   padding-top: 7rem;
   padding-bottom: 38rem;
+  background-image: url("https://demo2.wpopal.com/lexrider/wp-content/uploads/2019/04/lexider_bg2_1.png");
   background-size: cover;
   background-position: bottom center;
   background-repeat: no-repeat;
@@ -542,7 +548,7 @@ footer {
   margin-bottom: 0;
 }
 .site-footer .footer-main .map-link {
-  color: #e50000;
+  color: #ff4d4d;
   text-decoration: none;
   font-size: 1.2rem;
   letter-spacing: 1px;
@@ -588,6 +594,7 @@ footer {
 .site-footer .footer-bottom {
   padding: 5rem 0;
   background-color: #131313;
+  overflow: hidden;
 }
 .site-footer .footer-bottom .footer-bottom-content {
   display: flex;
@@ -684,6 +691,7 @@ footer {
   align-items: center;
   justify-content: center;
   text-align: center;
+  background-image: url("https://demo2.wpopal.com/lexrider/wp-content/uploads/2019/04/breadcrumb-contact.jpg");
   background-size: cover;
   background-position: center;
 }
@@ -741,7 +749,7 @@ footer {
   color: #e50000;
   line-height: 1;
 }
-.contact-section .info-block .info-text h4 {
+.contact-section .info-block .info-text h2 {
   color: #fff;
   font-size: 2rem;
   margin-bottom: 5px;
@@ -786,6 +794,10 @@ footer {
   margin-bottom: 30px;
   color: #8e8e8e;
   font-size: 1.2rem;
+}
+.contact-section .contact-form-wrapper .form-label {
+  color: #a0a0a0;
+  font-family: "Noto Sans", sans-serif;
 }
 .contact-section .contact-form-wrapper .form-control {
   background-color: #111;
@@ -837,6 +849,12 @@ footer {
   font-size: 1.6rem;
   margin-bottom: 1.2rem;
 }
+.terms-page .container,
+.privacy-page .container,
+.charges-policy-page .container,
+.delivery-policy-page .container {
+  padding-top: 4rem;
+}
 .terms-page p,
 .terms-page li,
 .privacy-page p,
@@ -884,7 +902,7 @@ footer {
 .delivery-policy-page .last-updated {
   text-align: center;
   font-size: 0.9em;
-  color: #6c757d;
+  color: #8e8e8e;
   margin-bottom: 2rem;
 }
 .terms-page .table,
@@ -908,7 +926,11 @@ footer {
 .privacy-page a,
 .charges-policy-page a,
 .delivery-policy-page a {
-  color: #e50000;
+  color: #ff4d4d;
+}
+
+.delivery-policy-page .container {
+  padding-bottom: 4rem;
 }
 
 .aboutus-section .mission-grid {
@@ -1013,7 +1035,7 @@ footer {
 }
 .blogs-section-shell .post-content h2,
 .blogs-section-shell .post-content h3 {
-  color: #e81837;
+  color: #ff4d4d;
   line-height: 1.2;
   margin: 4rem 0 2rem;
   border-bottom: 2px solid;
@@ -1030,7 +1052,7 @@ footer {
   margin-bottom: 1rem;
 }
 .blogs-section-shell .post-content a {
-  color: #e50000;
+  color: #ff4d4d;
   text-decoration: none;
   transition: color 0.3s ease;
 }
@@ -1152,6 +1174,15 @@ body.nav-open::before {
   align-items: center;
   transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
+.navbar.scrolled {
+  padding: 0.7rem 2rem;
+  background-color: rgba(16, 16, 26, 0.7);
+}
+@media (max-width: 576px) {
+  .navbar.scrolled {
+    padding: 0.7rem 1rem;
+  }
+}
 
 .logo {
   font-size: 1.5rem;
@@ -1234,7 +1265,7 @@ body.nav-open::before {
   color: #fff;
 }
 .nav-link:hover, .nav-link.active {
-  color: #e81938;
+  color: #ff4d4d;
   background: rgba(255, 255, 255, 0.05);
   transform: translateY(-2px);
 }
@@ -1466,7 +1497,7 @@ body.nav-open::before {
 }
 .product-detail-section .product-info .price {
   font-size: 2.5rem;
-  color: #e50000;
+  color: #ff4d4d;
   font-weight: 600;
   margin-bottom: 1.5rem;
 }
@@ -1479,10 +1510,10 @@ body.nav-open::before {
   color: #fff;
   box-shadow: 0 0 0.8rem rgba(0, 0, 0, 0.3098039216);
 }
-.product-detail-section .product-info .bike-specs h3 {
+.product-detail-section .product-info .bike-specs h2 {
   margin-bottom: 2rem;
   font-size: 1.8rem;
-  color: #e50000;
+  color: #ff4d4d;
 }
 .product-detail-section .product-info .bike-specs .spec-grid {
   display: grid;
@@ -1496,7 +1527,7 @@ body.nav-open::before {
   text-align: center;
   border: 1px solid #333;
 }
-.product-detail-section .product-info .bike-specs .spec-grid .spec-item h4 {
+.product-detail-section .product-info .bike-specs .spec-grid .spec-item h3 {
   font-size: 1.1rem;
   margin-bottom: 0.5rem;
   color: #aaa;
@@ -1508,10 +1539,16 @@ body.nav-open::before {
   font-weight: 600;
   color: #fff;
 }
+.product-detail-section .product-info .bike-specs .deposit-note a {
+  color: #6ea8fe;
+}
 .product-detail-section .product-purchase-actions {
   margin-top: 3rem;
   display: flex;
   gap: 1.5rem;
+}
+.product-detail-section .product-purchase-actions .unavailable-note {
+  color: #a0a0a0;
 }
 .product-detail-section .product-purchase-actions .btn {
   text-transform: capitalize;
@@ -1564,7 +1601,7 @@ body.nav-open::before {
 }
 .related-products .product-card .price {
   font-family: "Noto Sans", sans-serif;
-  color: #e50000;
+  color: #ff4d4d;
   font-size: 1.6rem;
   margin: 0;
 }
@@ -1691,7 +1728,7 @@ body.nav-open::before {
 .inventory-page .motorcycle-card .card-content .price {
   font-family: "Noto Sans", sans-serif;
   font-size: 1.5rem;
-  color: #e50000;
+  color: #ff4d4d;
   margin-bottom: 1.5rem;
 }
 .inventory-page .motorcycle-card .card-content .card-actions {
@@ -1750,6 +1787,36 @@ body.nav-open::before {
     gap: 1rem;
   }
 }
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-to-main {
+  position: absolute;
+  top: -100%;
+  left: 0;
+  z-index: 10000;
+  padding: 0.8rem 2rem;
+  background: #e81938;
+  color: #fff;
+  font-size: 1.6rem;
+  text-decoration: none;
+  font-family: "Noto Sans", sans-serif;
+}
+.skip-to-main:focus {
+  top: 0;
+  outline: 3px solid #fff;
+  outline-offset: 2px;
+}
+
 /*------------------------------------------
     Responsive Grid Media Queries - 1280, 1024, 768, 480
      1280-1024   - desktop (default grid)
@@ -1883,7 +1950,7 @@ body.nav-open::before {
   }
 }
 @media all and (max-width: 576px) {
-  main {
+  main:not(.main-full-bleed) {
     padding-top: 13.83rem !important;
   }
   .nav-menu {
@@ -2114,6 +2181,10 @@ body {
 
 main {
   padding-top: 14.6rem;
+}
+
+main.main-full-bleed {
+  padding-top: 0;
 }
 
 img {

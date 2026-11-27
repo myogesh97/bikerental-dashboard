@@ -1,0 +1,12 @@
+{
+  "url": "http://localhost:8099/terms-condition.html",
+  "timestamp": "2026-11-27T05:46:27.330Z",
+  "testEngine": {
+    "name": "axe-core",
+    "version": "4.14.1"
+  },
+  "violations": [],
+  "incomplete": [],
+  "passCount": 40,
+  "inapplicableCount": 48
+}

@@ -1,0 +1,326 @@
+{
+  "url": "http://localhost:8099/contact.html",
+  "timestamp": "2026-11-27T05:46:19.803Z",
+  "testEngine": {
+    "name": "axe-core",
+    "version": "4.14.1"
+  },
+  "violations": [],
+  "incomplete": [
+    {
+      "id": "color-contrast",
+      "impact": "serious",
+      "tags": [
+        "cat.color",
+        "wcag2aa",
+        "wcag143",
+        "TTv5",
+        "TT13.c",
+        "EN-301-549",
+        "EN-9.1.4.3",
+        "ACT",
+        "RGAAv4",
+        "RGAA-3.2.1"
+      ],
+      "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "nodes": [
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "13.5pt (18px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<textarea id=\"userMessage\" name=\"message\" class=\"form-control\" rows=\"10\" placeholder=\"Message\" required=\"\" aria-required=\"true\"></textarea>",
+                  "target": [
+                    "#userMessage"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<a href=\"index.html\" class=\"nav-link \">Home</a>",
+          "target": [
+            ".nav-link[href=\"index.html\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "13.5pt (18px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<textarea id=\"userMessage\" name=\"message\" class=\"form-control\" rows=\"10\" placeholder=\"Message\" required=\"\" aria-required=\"true\"></textarea>",
+                  "target": [
+                    "#userMessage"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<a href=\"bike-shop.html\" class=\"nav-link\">",
+          "target": [
+            ".has-dropdown.nav-item:nth-child(2) > .nav-link[href$=\"bike-shop.html\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "13.5pt (18px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<textarea id=\"userMessage\" name=\"message\" class=\"form-control\" rows=\"10\" placeholder=\"Message\" required=\"\" aria-required=\"true\"></textarea>",
+                  "target": [
+                    "#userMessage"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<a href=\"#\" class=\"nav-link\" aria-haspopup=\"true\" aria-expanded=\"false\">",
+          "target": [
+            "a[aria-haspopup=\"true\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "13.5pt (18px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<textarea id=\"userMessage\" name=\"message\" class=\"form-control\" rows=\"10\" placeholder=\"Message\" required=\"\" aria-required=\"true\"></textarea>",
+                  "target": [
+                    "#userMessage"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<a href=\"aboutus.html\" class=\"nav-link\">About</a>",
+          "target": [
+            ".nav-link[href$=\"aboutus.html\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "contrastRatio": 0,
+                "fontSize": "13.5pt (18px)",
+                "fontWeight": "normal",
+                "messageKey": "elmPartiallyObscured",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<a href=\"contact.html\" class=\"nav-link active\">Contact</a>",
+                  "target": [
+                    ".active.nav-link[href$=\"contact.html\"]"
+                  ]
+                },
+                {
+                  "html": "<textarea id=\"userMessage\" name=\"message\" class=\"form-control\" rows=\"10\" placeholder=\"Message\" required=\"\" aria-required=\"true\"></textarea>",
+                  "target": [
+                    "#userMessage"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<a href=\"contact.html\" class=\"nav-link active\">Contact</a>",
+          "target": [
+            ".active.nav-link[href$=\"contact.html\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "fontSize": "60.0pt (80px)",
+                "fontWeight": "normal",
+                "messageKey": "pseudoContent",
+                "expectedContrastRatio": "3:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section class=\"page-hero\">",
+                  "target": [
+                    ".page-hero"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined due to a pseudo element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<h1 class=\"\">CONTACT</h1>",
+          "target": [
+            "h1"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "fontSize": "15.0pt (20px)",
+                "fontWeight": "normal",
+                "messageKey": "pseudoContent",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section class=\"page-hero\">",
+                  "target": [
+                    ".page-hero"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined due to a pseudo element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<a href=\"index.html\">Home</a>",
+          "target": [
+            ".breadcrumb-item:nth-child(1) > a[href=\"index.html\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "fontSize": "15.0pt (20px)",
+                "fontWeight": "normal",
+                "messageKey": "pseudoContent",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<section class=\"page-hero\">",
+                  "target": [
+                    ".page-hero"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined due to a pseudo element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<li class=\"breadcrumb-item active\" aria-current=\"page\">Contact</li>",
+          "target": [
+            "li[aria-current=\"page\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element"
+        }
+      ]
+    },
+    {
+      "id": "frame-tested",
+      "impact": "critical",
+      "tags": [
+        "cat.structure",
+        "best-practice",
+        "review-item"
+      ],
+      "description": "Ensure <iframe> and <frame> elements contain the axe-core script",
+      "help": "Frames should be tested with axe-core",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/frame-tested?application=axeAPI",
+      "nodes": [
+        {
+          "any": [],
+          "all": [
+            {
+              "id": "frame-tested",
+              "data": null,
+              "relatedNodes": [],
+              "impact": "critical",
+              "message": "The iframe still has to be tested with axe-core"
+            }
+          ],
+          "none": [],
+          "impact": "critical",
+          "html": "<iframe title=\"Batmobilz Rentals office location on Google Maps\" src=\"https://maps.google.com/maps?q=India&output=embed\" width=\"100%\" height=\"280\" class=\"border-0\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\" aria-label=\"Map showing Batmobilz Rentals location\">",
+          "target": [
+            "iframe"
+          ],
+          "failureSummary": "Fix all of the following:\n  The iframe still has to be tested with axe-core"
+        }
+      ]
+    }
+  ],
+  "passCount": 45,
+  "inapplicableCount": 42
+}

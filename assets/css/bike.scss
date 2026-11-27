@@ -108,7 +108,8 @@
 
         .price {
             font-size: 2.5rem;
-            color: #e50000;
+            // WCAG AA text-safe tint of the brand red (ACCESSIBILITY_AUDIT.md)
+            color: #ff4d4d;
             font-weight: 600;
             margin-bottom: 1.5rem;
         }
@@ -122,10 +123,11 @@
             color: #fff;
             box-shadow: 0 0 .8rem #0000004f;
 
-            h3 {
+            h2 {
                 margin-bottom: 2rem;
                 font-size: 1.8rem;
-                color: #e50000;
+                // WCAG AA text-safe tint of the brand red (ACCESSIBILITY_AUDIT.md)
+                color: #ff4d4d;
             }
 
             .spec-grid {
@@ -140,7 +142,7 @@
                     text-align: center;
                     border: 1px solid #333;
 
-                    h4 {
+                    h3 {
                         font-size: 1.1rem;
                         margin-bottom: 0.5rem;
                         color: #aaa;
@@ -155,6 +157,10 @@
                     }
                 }
             }
+
+            .deposit-note a {
+                color: #6ea8fe;
+            }
         }
     }
 
@@ -162,6 +168,10 @@
         margin-top: 3rem;
         display: flex;
         gap: 1.5rem;
+
+        .unavailable-note {
+            color: #a0a0a0;
+        }
 
         .btn {
             text-transform: capitalize;
@@ -228,7 +238,8 @@
 
         .price {
             font-family: "Noto Sans", sans-serif;
-            color: #e50000;
+            // WCAG AA text-safe tint of the brand red (ACCESSIBILITY_AUDIT.md)
+            color: #ff4d4d;
             font-size: 1.6rem;
             margin: 0;
         }
@@ -376,7 +387,8 @@
             .price {
                 font-family: "Noto Sans", sans-serif;
                 font-size: 1.5rem;
-                color: #e50000;
+                // WCAG AA text-safe tint of the brand red (ACCESSIBILITY_AUDIT.md)
+                color: #ff4d4d;
                 margin-bottom: 1.5rem;
             }
 

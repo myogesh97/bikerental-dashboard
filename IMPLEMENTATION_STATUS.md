@@ -1,8 +1,54 @@
 # Implementation Status
 
-Last updated: 2026-11-26 (single session).
+Last updated: 2026-11-27.
 
-## Completed this session
+## 2026-11-27 session, continued: automated audits (Phase 2 item 2)
+
+Ran axe-core (via Playwright `axe.run()` against the live DOM) and Lighthouse 13.6.0 against all 10 pages on localhost. Raw/summarized results in `reports/` (`axe-*.json`, `lighthouse-summary.md`). ACCESSIBILITY_AUDIT.md, PERFORMANCE_AUDIT.md, and QA_REPORT.md rewritten with real pass/fail numbers in place of "needs live testing."
+
+**axe violations found and fixed** (16 violation-instances across 9 pages → 9, all one known issue):
+- `index.html` had `</main>` with no matching open tag (it was commented out) — every section after the hero sat outside any landmark. Restored as `<main class="main-full-bleed">`; added a CSS override so the full-bleed hero layout is unaffected (verified 0px shift at 1440px — but a mobile-only `main { ... !important }` rule at ≤576px needed a `:not(.main-full-bleed)` addition too, since `!important` beats specificity; caught by a branch-vs-main screenshot diff at 375px, not by eyeballing a single breakpoint).
+- `bike.html`'s image-slider section was similarly stuck outside `</main>`.
+- `bike-shop.html` had no `<h1>` — added a visually-hidden one ("Our Fleet", matching the existing `<title>`, nothing fabricated).
+- `bike.html` (`h1 > h3`) and `contact.html` (`h1 > h4`) both skipped heading levels — retagged to h2/h3, updated the matching SCSS tag selectors so styling didn't change.
+- Decorative `ion-icon` elements (filter-outline dividers, 3 value-item icons on aboutus.html) get `role="img"` from ionicons' runtime JS with no label — added `aria-hidden="true"` to match the pattern already used on every other icon.
+- Color contrast: `contact.html`'s form labels and `bike.html`'s `.unavailable-note` were inheriting the light-mode body color (`#333`) on dark backgrounds with no override at all — axe measured ~1.4-1.5:1 (need 4.5:1), i.e. barely legible. Fixed. The site's three brand reds used as text-on-dark (nav active state, prices, headings) also fail at 3.37-3.89:1 but weren't changed — that's a sitewide visible brand-color decision, flagged in ACCESSIBILITY_AUDIT.md for the client, not something to change unilaterally.
+
+**Lighthouse-flagged performance fixes**: `index.html`'s first hero-slide image and `bike.html`'s product image had `loading="lazy"` despite being each page's primary above-the-fold content (PERFORMANCE_AUDIT.md previously and wrongly called this "not a real LCP risk" — corrected). Removed, added `fetchpriority="high"`. Same attribute added to `bike-shop.html`'s actual measured LCP element. Added `<link rel="preload" as="image" fetchpriority="high">` on aboutus/contact/blogs for their CSS-background LCP elements, which the browser can't discover without it.
+
+**Verified**: Sass compiles; full branch-vs-`main` Playwright screenshot diff at 375/768/1440px re-run after all these changes — every remaining pixel difference traced to an intended fix (newly-visible form labels, brightened date text) or the pre-existing bike.html slider animation noise, nothing unexplained.
+
+**Brand-red contrast — resolved 2026-11-27.** Client chose to fix only the failing text instances: introduced `#ff4d4d`, a WCAG-AA text-safe tint of the brand red (passes >=4.5:1 against every dark background in use), applied only where `#e50000`/`#e81938`/`#e81837` were used as small text on dark (nav active/hover state, map link, all prices, bike-spec heading, blog headings/links, legal-page links). Button backgrounds, borders, and large decorative headings keep the original brand reds. Verified: axe-core now reports **0 violations on all 10 pages** (down from 16 violation-instances at the start of this phase); branch-vs-main Playwright screenshot diff confirms only the intended text recolored.
+
+**Not fixed, flagged for the client**: the aboutus/bike/bike-shop/blogs performance gap, which Lighthouse's own breakdown shows is dominated by unconditional third-party bundle weight (Bootstrap+Swiper+AOS+animate.css+Font Awesome+ionicons on every page), not images — same root cause PERFORMANCE_AUDIT.md already flagged as needing the icon-consolidation decision (Phase 2 backlog item 5), now confirmed by measurement rather than just inventory.
+
+## 2026-11-27 session, continued: mobile nav accessibility (Phase 2 item 1)
+
+**What changed** (`assets/js/script.js`): hamburger and dropdown toggles now sync `aria-expanded` with their actual open/close state (ACCESSIBILITY_AUDIT.md #2). Two adjacent bugs found and fixed while verifying this live:
+- The hamburger (`.nav-toggle`, a `role="button"` div) had no keydown handler — Enter/Space did nothing, so it was unreachable by keyboard.
+- The off-canvas `.nav-menu` is hidden via `right: -140%` (not display/visibility), so its links stayed focusable while off-screen. Now toggles the `inert` attribute on mobile widths only when closed; verified it does not affect desktop (nav-menu stays visible and non-inert at 1440px).
+
+Escape now closes an open dropdown or the mobile panel and returns focus to the toggle that opened it.
+
+Also moved a JS-injected `<style>` tag for `.scrolled` (missed by the Phase 1 grep since it's generated at runtime, not present in page source) into `navbar.scss` as `.navbar.scrolled`.
+
+**Verified**: `node --check` on the edited file; live Playwright test at 375px confirmed `aria-expanded` and `inert` toggle correctly on click and on keyboard Enter, Escape closes and restores focus, dropdown `aria-expanded` syncs; a second Playwright run at 1440px confirmed `nav-menu` stays visible/non-inert on desktop; `npx sass main.scss main.css` still exits 0.
+
+## 2026-11-27 session: inline CSS extraction (Phase 1 of a larger engagement)
+
+**What changed**: removed every `<style>` block (10, one per page — skip-link CSS, plus `bike-shop.html` additionally had a `.sr-only` rule inline) and every `style="..."` attribute (22, not ~23 as previously estimated) from all 10 HTML pages. All of it now lives in SCSS:
+- New `assets/css/a11y.scss` (skip-to-main + `.sr-only`), registered via `@use` in `main.scss`.
+- `.footer-bottom` (shared across all pages), `.page-hero`, `.stats-section`, `.testimonial-section` background images, and the four legal pages' `.container` padding all moved onto their existing component selectors in `style.scss` — no new one-off classes needed. Two of the background-image rules (`.stats-section`, `.page-hero`) already had the exact line present but commented out in `style.scss`; this pass just uncommented/applied them.
+- `contact.html`'s map iframe and `bike.html`'s `#bikeGalleryImage` use exact-match Bootstrap utilities (`border-0`, `w-100 h-auto`) instead of new SCSS, since those two are literal 1:1 matches and don't involve rem-based spacing.
+
+**Verified**: `npx sass main.scss main.css` exits 0 with no deprecation warnings; `grep -rn 'style="'` and `grep -rn '<style'` across all HTML return zero; all 10 pages serve HTTP 200; visual parity checked with Playwright + pixelmatch (chromium, screenshots at 375/768/1440px, branch vs. a `main` git worktree) — 8 of 10 pages are pixel-identical at all three widths, and the two with non-zero diffs (`index.html`, `bike.html`) were confirmed to be animation-timing noise from pre-existing auto-playing sliders (a self-diff of the *same* branch page taken 1s apart showed ~8.5% pixel difference, far larger than the ~0.02%–3.7% branch-vs-main diff — i.e. the diff is the slider autoplaying between two screenshots, not a CSS regression). Keyboard-tested with Playwright: skip link is the first Tab stop on every page and `#main-content` exists exactly once per page.
+
+**Doc corrections made by this pass**:
+- A browser automation tool (Playwright, via `npx playwright install chromium`) **is** available in this environment, contradicting the "no browser tool available" caveat repeated throughout ACCESSIBILITY_AUDIT.md, PERFORMANCE_AUDIT.md, QA_REPORT.md, and item 3 below — those "needs live testing" caveats should be treated as stale, not current, for future work.
+- `assets/css/style.css` / `style.css.map` are confirmed orphaned (not linked by any HTML, not needed by `main.scss`, which `@use`s `style.scss` directly) — flagged for the user to confirm deletion, not deleted.
+- Noted during verification but pre-existing on `main` (not introduced by this pass, not fixed): the skip link's `:focus` CSS doesn't move it on-screen in a headless Chromium Tab test (`top` computed as `-166.875px` instead of `0` on both `main` and this branch) — worth a follow-up with real browser/VoiceOver testing, out of scope for a style-relocation pass.
+
+## Completed earlier session (2026-11-26)
 
 **Discovery**: Read all 10 HTML pages, all 5 SCSS partials, `script.js`, `package.json`, `README.md` in full. Confirmed repo structure via `find`. Confirmed jQuery's actual usage (zero) via grep before removing it. Confirmed no `robots.txt`/`sitemap.xml` existed. Confirmed no broken internal links across the whole site.
 

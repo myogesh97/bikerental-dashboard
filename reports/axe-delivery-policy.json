@@ -1,0 +1,12 @@
+{
+  "url": "http://localhost:8099/delivery-policy.html",
+  "timestamp": "2026-11-27T05:46:21.672Z",
+  "testEngine": {
+    "name": "axe-core",
+    "version": "4.14.1"
+  },
+  "violations": [],
+  "incomplete": [],
+  "passCount": 39,
+  "inapplicableCount": 49
+}

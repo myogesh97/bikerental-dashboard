@@ -25,22 +25,71 @@ AOS.init({
 document.addEventListener("DOMContentLoaded", () => {
   const navbar = document.querySelector(".navbar");
   const navToggle = document.querySelector(".nav-toggle");
+  const navMenu = document.getElementById("nav-menu");
   const dropdowns = document.querySelectorAll(".has-dropdown");
 
+  const closeDropdown = (dropdown) => {
+    dropdown.classList.remove("active");
+    dropdown.querySelector(".nav-link").setAttribute("aria-expanded", "false");
+    const list = dropdown.querySelector(".dropdown");
+    list.style.animation = "slideUp 0.3s forwards";
+    setTimeout(() => {
+      list.style.animation = "";
+    }, 300);
+  };
+
+  // Off-canvas nav links shouldn't be reachable by keyboard while the
+  // panel is translated off-screen (mobile breakpoint only) - inert is
+  // a no-op in browsers that don't support it, so this is safe to add
+  // unconditionally.
+  const syncNavMenuInert = () => {
+    const isMobile = window.innerWidth <= 968;
+    const isOpen = navbar.classList.contains("nav-active");
+    navMenu.toggleAttribute("inert", isMobile && !isOpen);
+  };
+
+  const setNavOpen = (isOpen) => {
+    navbar.classList.toggle("nav-active", isOpen);
+    navToggle.setAttribute("aria-expanded", String(isOpen));
+    document.body.style.overflow = isOpen ? "hidden" : "";
+    document.body.classList.toggle("nav-open", isOpen);
+    syncNavMenuInert();
+  };
+
   navToggle.addEventListener("click", () => {
-    navbar.classList.toggle("nav-active");
-    const isNavActive = navbar.classList.contains("nav-active");
-    document.body.style.overflow = isNavActive ? "hidden" : "";
-    document.body.classList.toggle("nav-open", isNavActive);
+    setNavOpen(!navbar.classList.contains("nav-active"));
+  });
+
+  navToggle.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " " || e.key === "Spacebar") {
+      e.preventDefault();
+      setNavOpen(!navbar.classList.contains("nav-active"));
+    }
   });
 
   document.addEventListener("click", (e) => {
     const isClickOutside =
       !navbar.contains(e.target) && !navToggle.contains(e.target);
     if (isClickOutside && navbar.classList.contains("nav-active")) {
-      navbar.classList.remove("nav-active");
-      document.body.style.overflow = "";
-      document.body.classList.remove("nav-open");
+      setNavOpen(false);
+    }
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key !== "Escape") return;
+
+    const openDropdown = Array.from(dropdowns).find((d) =>
+      d.classList.contains("active")
+    );
+    if (openDropdown) {
+      closeDropdown(openDropdown);
+      openDropdown.querySelector(".nav-link").focus();
+      return;
+    }
+
+    if (navbar.classList.contains("nav-active")) {
+      setNavOpen(false);
+      navToggle.focus();
     }
   });
 
@@ -49,21 +98,19 @@ document.addEventListener("DOMContentLoaded", () => {
     link.addEventListener("click", (e) => {
       if (window.innerWidth <= 968) {
         e.preventDefault();
-        dropdown.classList.toggle("active");
+        const willOpen = !dropdown.classList.contains("active");
 
         dropdowns.forEach((other) => {
           if (other !== dropdown && other.classList.contains("active")) {
-            other.classList.remove("active");
-            const otherDropdown = other.querySelector(".dropdown");
-            otherDropdown.style.animation = "slideUp 0.3s forwards";
-            setTimeout(() => {
-              otherDropdown.style.animation = "";
-            }, 300);
+            closeDropdown(other);
           }
         });
 
+        dropdown.classList.toggle("active", willOpen);
+        link.setAttribute("aria-expanded", String(willOpen));
+
         const currentDropdown = dropdown.querySelector(".dropdown");
-        if (dropdown.classList.contains("active")) {
+        if (willOpen) {
           currentDropdown.style.animation = "slideDown 0.3s forwards";
         } else {
           currentDropdown.style.animation = "slideUp 0.3s forwards";
@@ -78,10 +125,15 @@ document.addEventListener("DOMContentLoaded", () => {
   window.addEventListener("resize", () => {
     if (window.innerWidth > 968) {
       navbar.classList.remove("nav-active");
-      dropdowns.forEach((dropdown) => dropdown.classList.remove("active"));
+      navToggle.setAttribute("aria-expanded", "false");
+      dropdowns.forEach((dropdown) => closeDropdown(dropdown));
       document.body.style.overflow = "";
+      document.body.classList.remove("nav-open");
     }
+    syncNavMenuInert();
   });
+
+  syncNavMenuInert();
 
   const handleScrollClass = () => {
     navbar.classList.toggle("scrolled", window.scrollY > 50);
@@ -90,21 +142,6 @@ document.addEventListener("DOMContentLoaded", () => {
   window.addEventListener("scroll", handleScrollClass);
 
   handleScrollClass();
-
-  const style = document.createElement("style");
-  style.textContent = `
-    .scrolled {
-        padding: 0.7rem 2rem;
-        background-color: rgba(16, 16, 26, 0.7);
-    }
-
-    @media (max-width: 576px) {
-        .scrolled {
-            padding: 0.7rem 1rem;
-        }
-    }
-  `;
-  document.head.appendChild(style);
 
   // Homepage Banner Slider
   var heroSwiper = new Swiper(".hero-bannerSection", {

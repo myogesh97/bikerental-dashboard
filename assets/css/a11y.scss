@@ -1,0 +1,30 @@
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.skip-to-main {
+    position: absolute;
+    top: -100%;
+    left: 0;
+    z-index: 10000;
+    padding: .8rem 2rem;
+    background: #e81938;
+    color: #fff;
+    font-size: 1.6rem;
+    text-decoration: none;
+    font-family: "Noto Sans", sans-serif;
+
+    &:focus {
+        top: 0;
+        outline: 3px solid #fff;
+        outline-offset: 2px;
+    }
+}

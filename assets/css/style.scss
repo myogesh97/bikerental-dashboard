@@ -296,6 +296,10 @@ footer {
 }
 
 .testimonial-section {
+    // TODO: hot-linked demo image, replace with licensed local asset (PRODUCTION_READINESS.md #3)
+    background-image: url('https://demo2.wpopal.com/lexrider/wp-content/uploads/2019/04/lexrider_banner2_3.jpg');
+    overflow: initial;
+
     .section-primary_title {
         text-align: left;
 
@@ -307,6 +311,7 @@ footer {
             padding: 1.6rem 4rem;
             font-size: 1.8rem;
             text-transform: uppercase;
+            letter-spacing: 2px;
         }
     }
 
@@ -521,7 +526,8 @@ footer {
     position: relative;
     padding-top: 7rem;
     padding-bottom: 38rem;
-    // background-image: url('https://demo2.wpopal.com/lexrider/wp-content/uploads/2019/04/lexider_bg2_1.png');
+    // TODO: hot-linked demo image, replace with licensed local asset (PRODUCTION_READINESS.md #3)
+    background-image: url('https://demo2.wpopal.com/lexrider/wp-content/uploads/2019/04/lexider_bg2_1.png');
     background-size: cover;
     background-position: bottom center;
     background-repeat: no-repeat;
@@ -663,7 +669,8 @@ footer {
         }
 
         .map-link {
-            color: #e50000;
+            // WCAG AA text-safe tint of the brand red (ACCESSIBILITY_AUDIT.md)
+            color: #ff4d4d;
             text-decoration: none;
             font-size: 1.2rem;
             letter-spacing: 1px;
@@ -717,6 +724,7 @@ footer {
     .footer-bottom {
         padding: 5rem 0;
         background-color: #131313;
+        overflow: hidden;
 
         .footer-bottom-content {
             display: flex;
@@ -832,7 +840,8 @@ footer {
     align-items: center;
     justify-content: center;
     text-align: center;
-    // background-image: url('https://demo2.wpopal.com/lexrider/wp-content/uploads/2019/04/breadcrumb-contact.jpg');
+    // TODO: hot-linked demo image, replace with licensed local asset (PRODUCTION_READINESS.md #3)
+    background-image: url('https://demo2.wpopal.com/lexrider/wp-content/uploads/2019/04/breadcrumb-contact.jpg');
     background-size: cover;
     background-position: center;
 
@@ -899,7 +908,7 @@ footer {
         }
 
         .info-text {
-            h4 {
+            h2 {
                 color: #fff;
                 font-size: 2rem;
                 margin-bottom: 5px;
@@ -955,6 +964,11 @@ footer {
             margin-bottom: 30px;
             color: #8e8e8e;
             font-size: 1.2rem;
+        }
+
+        .form-label {
+            color: #a0a0a0;
+            font-family: "Noto Sans", sans-serif;
         }
 
         .form-control {
@@ -1017,6 +1031,10 @@ footer {
     font-size: 1.6rem;
     margin-bottom: 1.2rem;
 
+    .container {
+        padding-top: 4rem;
+    }
+
     p,
     li {
         color: #c6c6c6;
@@ -1048,7 +1066,7 @@ footer {
     .last-updated {
         text-align: center;
         font-size: 0.9em;
-        color: #6c757d;
+        color: #8e8e8e;
         margin-bottom: 2rem;
     }
 
@@ -1066,8 +1084,13 @@ footer {
     }
 
     a {
-        color: #e50000;
+        // WCAG AA text-safe tint of the brand red (ACCESSIBILITY_AUDIT.md)
+        color: #ff4d4d;
     }
+}
+
+.delivery-policy-page .container {
+    padding-bottom: 4rem;
 }
 
 .aboutus-section {
@@ -1194,7 +1217,8 @@ footer {
 
         h2,
         h3 {
-            color: #e81837;
+            // WCAG AA text-safe tint of the brand red (ACCESSIBILITY_AUDIT.md)
+            color: #ff4d4d;
             line-height: 1.2;
             margin: 4rem 0 2rem;
             border-bottom: 2px solid;
@@ -1215,7 +1239,8 @@ footer {
         }
 
         a {
-            color: #e50000;
+            // WCAG AA text-safe tint of the brand red (ACCESSIBILITY_AUDIT.md)
+            color: #ff4d4d;
             text-decoration: none;
             transition: color 0.3s ease;
 
