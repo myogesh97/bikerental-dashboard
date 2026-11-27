@@ -59,7 +59,7 @@ footer {
 }
 .hero-bannerSection-Box .hero-bannerSection {
   position: relative;
-  height: calc(100vh - 4.6rem);
+  height: 100vh;
   background: #000;
 }
 .hero-bannerSection-Box .hero-bannerSection .slide-background-image {
