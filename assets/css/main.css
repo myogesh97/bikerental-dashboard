@@ -827,6 +827,12 @@ footer {
 .contact-section .contact-form-wrapper .form-check-label a:hover {
   color: #e50000;
 }
+.contact-section .contact-form-wrapper .form-disclosure {
+  color: #8e8e8e;
+  font-family: "Noto Sans", sans-serif;
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+}
 .contact-section .contact-form-wrapper .form-check-input {
   background-color: #444;
   border-color: #666;
