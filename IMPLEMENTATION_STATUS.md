@@ -2,6 +2,20 @@
 
 Last updated: 2026-11-27.
 
+## 2026-11-27 session, continued: remaining Phase 2 backlog (items 3-7)
+
+Per the project owner's explicit direction, this phase changed scope from the original "don't invent business data" rule for one reason: **this is a personal learning/demo project, not a real business, and will never go live.** Every change below replaces an obviously-fake placeholder with realistic-looking dummy data, or ships a real feature — nothing here claims to be a real company's real information.
+
+1. **Pagination (item 3)**: rather than remove the dead markup, expanded the bike inventory from 10 to 18 real motorcycle models (using 8 previously-unused local images already in the repo) and wired up real pagination (8/page, 3 pages) in `script.js`, rendering cards from `bikes-data.js` instead of duplicating them as static HTML. This also fixed the long-standing "18 bikes in fleet" stat vs. 10-cards-shown mismatch for real.
+2. **Contact form honesty (item 4)**: added a one-line disclosure before the submit button. Folded into the same pass: replaced every placeholder (`+91 00000 00000`, `info@example.com`, `Street Address...000000`, `REPLACE-WITH-PRODUCTION-DOMAIN`) sitewide with consistent dummy data (a Guwahati address/phone/email/domain), filled in the two bracketed legal placeholders in `terms-condition.html`, and gave the four generic "Team Member" cards distinct names/roles.
+3. **Icon consolidation (item 5)**: removed Font Awesome entirely (143 icons across 9 pages converted to ionicons, kit script removed from all pages). Found and fixed a real bug this surfaced: two SCSS selectors were written against the `svg` tag because Font Awesome renders to inline SVG at runtime, but `<ion-icon>` is a custom element — those rules silently stopped matching and four homepage stat icons rendered at browser-default tiny size until fixed.
+4. **SRI + version pinning (item 6)**: pinned Swiper off its floating `@11` tag to an exact version (11.2.10) and added `integrity`/`crossorigin` to all 9 remaining CDN resources (90 attributes across 10 pages), computed from the actual fetched files.
+5. **CSP readiness (item 7)**: extracted the last two inline `<script>` blocks (`bike.html`, `contact.html`) to external files, then — with zero inline scripts/styles/handlers left anywhere — actually tested a draft strict CSP against all 10 pages using Playwright to inject it as a real response header and watching for genuine browser-reported violations, rather than just listing theoretical blockers. Found three real ones, all inside third-party library internals (ionicons' runtime-injected stylesheet, Swiper's embedded icon font, ionicons' per-icon SVG fetch) that reading the code never would have surfaced. Final policy verified at 0 violations on all 10 pages; written up in SECURITY_AUDIT.md with a `_headers.example` reference file (not deployed).
+
+**Verified across all of the above**: axe-core 0 violations on all 10 pages (re-checked after each change); all pages serve HTTP 200 and load with zero console/page errors; Playwright screenshots confirm no unintended visual changes; the CSP policy was verified empirically, not just drafted.
+
+**Branching note**: this phase's commits live on `feat/dummy-data-and-pagination`, branched from `main` after PR #2 (the Phase 1 + Phase 2 items 1-2 work) was merged. One commit was made directly to `main` by mistake before this was caught — moved to this branch and `main` reset back to match `origin/main` before continuing, so `main` was never actually ahead of what was reviewed and merged.
+
 ## 2026-11-27 session, continued: automated audits (Phase 2 item 2)
 
 Ran axe-core (via Playwright `axe.run()` against the live DOM) and Lighthouse 13.6.0 against all 10 pages on localhost. Raw/summarized results in `reports/` (`axe-*.json`, `lighthouse-summary.md`). ACCESSIBILITY_AUDIT.md, PERFORMANCE_AUDIT.md, and QA_REPORT.md rewritten with real pass/fail numbers in place of "needs live testing."
