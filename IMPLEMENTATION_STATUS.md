@@ -2,6 +2,18 @@
 
 Last updated: 2026-11-27.
 
+## 2026-11-27 session, continued: mobile nav accessibility (Phase 2 item 1)
+
+**What changed** (`assets/js/script.js`): hamburger and dropdown toggles now sync `aria-expanded` with their actual open/close state (ACCESSIBILITY_AUDIT.md #2). Two adjacent bugs found and fixed while verifying this live:
+- The hamburger (`.nav-toggle`, a `role="button"` div) had no keydown handler — Enter/Space did nothing, so it was unreachable by keyboard.
+- The off-canvas `.nav-menu` is hidden via `right: -140%` (not display/visibility), so its links stayed focusable while off-screen. Now toggles the `inert` attribute on mobile widths only when closed; verified it does not affect desktop (nav-menu stays visible and non-inert at 1440px).
+
+Escape now closes an open dropdown or the mobile panel and returns focus to the toggle that opened it.
+
+Also moved a JS-injected `<style>` tag for `.scrolled` (missed by the Phase 1 grep since it's generated at runtime, not present in page source) into `navbar.scss` as `.navbar.scrolled`.
+
+**Verified**: `node --check` on the edited file; live Playwright test at 375px confirmed `aria-expanded` and `inert` toggle correctly on click and on keyboard Enter, Escape closes and restores focus, dropdown `aria-expanded` syncs; a second Playwright run at 1440px confirmed `nav-menu` stays visible/non-inert on desktop; `npx sass main.scss main.css` still exits 0.
+
 ## 2026-11-27 session: inline CSS extraction (Phase 1 of a larger engagement)
 
 **What changed**: removed every `<style>` block (10, one per page — skip-link CSS, plus `bike-shop.html` additionally had a `.sr-only` rule inline) and every `style="..."` attribute (22, not ~23 as previously estimated) from all 10 HTML pages. All of it now lives in SCSS:
