@@ -228,7 +228,8 @@ footer {
             p {
                 color: #c6c6c6;
 
-                svg {
+                svg,
+                ion-icon {
                     color: #e81938;
                     margin-right: .4rem;
                 }
@@ -545,7 +546,8 @@ footer {
         color: #fff;
 
         .stat-item {
-            svg {
+            svg,
+            ion-icon {
                 font-size: 5rem;
                 color: #fff;
                 margin-bottom: 2rem;

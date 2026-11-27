@@ -180,7 +180,8 @@ footer {
 .info-banner-section .info-below-content ul p {
   color: #c6c6c6;
 }
-.info-banner-section .info-below-content ul p svg {
+.info-banner-section .info-below-content ul p svg,
+.info-banner-section .info-below-content ul p ion-icon {
   color: #e81938;
   margin-right: 0.4rem;
 }
@@ -438,7 +439,8 @@ footer {
   text-align: center;
   color: #fff;
 }
-.stats-section .stats-grid .stat-item svg {
+.stats-section .stats-grid .stat-item svg,
+.stats-section .stats-grid .stat-item ion-icon {
   font-size: 5rem;
   color: #fff;
   margin-bottom: 2rem;
