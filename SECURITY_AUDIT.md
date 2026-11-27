@@ -26,7 +26,46 @@ This appears once per page (footer "VIEW MAP" link) — **10 occurrences total, 
 
 **This was fixed in this pass** — `rel="noopener noreferrer"` added to the Google Maps link in every page's footer and in `contact.html`'s "VIEW MAP"-equivalent link.
 
-## What was NOT tested
+## Content Security Policy (2026-11-27)
 
-- No dependency vulnerability scan (e.g. `npm audit`) was run beyond the one local `package.json` (`sass`, a dev-only build tool with no runtime exposure) — there is no other `package.json`/lockfile for the CDN-loaded libraries since they aren't installed via npm in this project; their versions are pinned in each page's `<script src>` URL (Bootstrap 5.3.3, Swiper 11, AOS 2.3.1, Font Awesome via kit, animate.css 4.1.1). Checking each of those for known CVEs against their pinned versions would need an internet-connected vulnerability database lookup, which wasn't performed in this session.
-- No browser-based testing (CSP header behavior, mixed-content warnings, actual console errors) — no browser tool available this session.
+Drafted and **empirically tested** against all 10 pages (not deployed — ship this as a host header, not a meta tag, so `frame-ancestors`/reporting work and it can be edited without touching markup).
+
+### Why this is testable now and wasn't before
+
+A strict CSP needs zero inline `<script>`/`<style>` and zero `onclick=`-style handlers to work without `'unsafe-inline'`. Checked all three across all 10 pages:
+- **Inline event handlers / `javascript:` URLs**: zero found (and zero in this codebase previously).
+- **Inline `<style>` blocks / `style="..."` attributes**: zero — removed in the Phase 1 inline-CSS-extraction pass (see IMPLEMENTATION_STATUS.md).
+- **Inline `<script>` blocks**: two remained (`bike.html`'s per-bike renderer, `contact.html`'s form handler) — extracted to `assets/js/bike-detail.js` and `assets/js/contact-form.js` this session (IMPLEMENTATION_STATUS.md).
+
+With all three clear, a real browser test became possible: used Playwright to inject a draft CSP as a response header (not a meta tag, so it behaves exactly like a real deployment) on all 10 pages, interacted with each page (scrolled, opened the mobile nav), and collected actual `Content-Security-Policy` violation console messages — rather than guessing which third-party scripts need what.
+
+### What that test found (three real, non-obvious blockers)
+
+An initial draft policy produced violations on every page. All three traced to **third-party library internals**, not this codebase's own markup:
+
+1. **`style-src` needs ionicons' own injected stylesheet.** ionicons injects a tiny static `<style>` tag at runtime for FOUC prevention (`ion-icon{visibility:hidden}.hydrated{visibility:inherit}`) — confirmed by reading it back from the live DOM and hashing it. Allowed with a specific hash (`'sha256-NBfyYgxoWTkJ9SyHWLNVIq8UkKGvsaGPAaGmNMpVMSA='`) instead of `'unsafe-inline'`, so nothing else can inject arbitrary styles.
+2. **`font-src` needs `data:`.** Swiper's bundled CSS embeds its own navigation-arrow icon font as a base64 `data:` URI directly in a `@font-face` rule (confirmed by grepping the fetched `swiper-bundle.min.css`) — not something this project's code controls.
+3. **`connect-src` needs `https://unpkg.com`.** ionicons doesn't inline every icon's SVG; it `fetch()`es each one individually at runtime from the same host its script loads from. Without this, every single icon on the page silently fails to render under a strict CSP.
+
+None of these would have been found by reading the code alone — all three are internal behavior of third-party libraries, only visible by actually running them under an enforced policy.
+
+### The policy (verified zero violations on all 10 pages)
+
+```
+Content-Security-Policy: default-src 'none'; script-src 'self' https://cdn.jsdelivr.net https://unpkg.com; style-src 'self' 'sha256-NBfyYgxoWTkJ9SyHWLNVIq8UkKGvsaGPAaGmNMpVMSA=' https://fonts.googleapis.com https://cdn.jsdelivr.net https://unpkg.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' https://demo2.wpopal.com https://images.unsplash.com data:; frame-src https://maps.google.com https://www.google.com; connect-src 'self' https://unpkg.com; base-uri 'none'; form-action 'self';
+```
+
+Recommended deployment (Netlify `_headers`, not committed/active — see `_headers.example` in the repo root):
+
+```
+/*
+  Content-Security-Policy: default-src 'none'; script-src 'self' https://cdn.jsdelivr.net https://unpkg.com; style-src 'self' 'sha256-NBfyYgxoWTkJ9SyHWLNVIq8UkKGvsaGPAaGmNMpVMSA=' https://fonts.googleapis.com https://cdn.jsdelivr.net https://unpkg.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' https://demo2.wpopal.com https://images.unsplash.com data:; frame-src https://maps.google.com https://www.google.com; connect-src 'self' https://unpkg.com; base-uri 'none'; form-action 'self'
+```
+
+`img-src` still allows `demo2.wpopal.com` (hot-linked hero/team photos) and `images.unsplash.com` (one blog post header background) — both go away once PRODUCTION_READINESS.md's real-photography item is resolved and images are self-hosted, at which point `img-src 'self'` alone would work. `frame-src` allows Google Maps for the embedded office map. `form-action 'self'` is safe since the contact form never actually submits anywhere (it opens WhatsApp via JS, not a form POST).
+
+### What would still block this at actual deploy time
+
+- This was verified by injecting the header via Playwright's request interception, which behaves identically to a real server header for the browser's CSP engine — but it was never tested against a real Netlify/Vercel deploy, real network latency, or a real user's browser extensions (ad blockers etc. can themselves trigger CSP-adjacent console noise that looks like a violation but isn't).
+- Report-only mode (`Content-Security-Policy-Report-Only` plus a `report-uri`/`report-to`) wasn't set up — recommended as the actual rollout step before enforcing, in case a browser/extension combination this session didn't test trips a new violation in production.
+- No dependency vulnerability scan (e.g. `npm audit`) was run beyond the one local `package.json` (`sass`, a dev-only build tool with no runtime exposure) — there is no other `package.json`/lockfile for the CDN-loaded libraries since they aren't installed via npm in this project; their exact versions are now pinned and SRI-hashed (see finding #4). Checking each against known CVEs would need an internet-connected vulnerability database lookup, not performed in this session.
