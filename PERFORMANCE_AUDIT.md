@@ -1,6 +1,15 @@
 # Performance Audit — Batmobilz Rentals
 
-Method: static inspection of network dependencies, asset sizes on disk, and JS execution patterns. **No Lighthouse/WebPageTest run was performed** — no browser automation tool was available in this session, so there are no measured LCP/INP/CLS numbers here, only structural findings and their likely impact. Treat the Core Web Vitals targets in the original brief as aspirational until someone runs Lighthouse against a deployed copy.
+Original method (2026-11-26): static inspection only, no browser tool available. **Updated 2026-11-27**: Lighthouse 13.6.0 run against all 10 pages on localhost via Playwright's Chrome for Testing — real scores and Core Web Vitals numbers now exist in `reports/lighthouse-summary.md`, replacing the estimates below. Localhost + Lighthouse's default simulated throttling are not representative of production hosting; treat these as directional until measured against a real deploy.
+
+## Real numbers (2026-11-27, after this session's fixes)
+
+Performance scores range 71-96; accessibility 96-100; best-practices and SEO are 100 on every page. Full table in `reports/lighthouse-summary.md`. Two clusters emerged:
+
+- **Legal pages + index.html (94-96 performance)**: LCP is either CSS/text-based or fixed with `fetchpriority="high"` this session — nothing obvious left to fix without a hosting/CDN change.
+- **aboutus/bike/bike-shop/blogs (71-76 performance, LCP 5.9-9.2s)**: fixed the per-image issues (see below) but the bulk of the gap traces back to the same unconditional CDN bundle weight described below (Bootstrap+Swiper+AOS+animate.css+Font Awesome+ionicons on every page) — confirmed by Lighthouse's own LCP-breakdown audit showing the measured resource-load subparts sum to under 1 second even on bike-shop.html, meaning the gap is in render-blocking work, not image loading. The icon-consolidation / bundle-splitting item below is the real fix, not a per-page patch.
+
+**Fixed this session**: `index.html`'s first hero-slide image and `bike.html`'s product image were `loading="lazy"` despite being each page's primary above-the-fold content (a real bug, not the "minor point" this doc previously claimed — see the old note under Images below, now corrected); removed and replaced with `fetchpriority="high"`. Same attribute added to `bike-shop.html`'s actual measured LCP element (first inventory card image). `aboutus.html`/`contact.html`/`blogs.html` have a CSS `background-image` as their LCP element, which the browser's preload scanner can't discover from the initial HTML — added `<link rel="preload" as="image" fetchpriority="high">` for each.
 
 ## Dependency load on every single page
 
@@ -26,7 +35,7 @@ That's three icon systems (Font Awesome, ionicons, and Bootstrap's bundled icon-
 
 - Hero/banner/team/testimonial photography is hot-linked from `demo2.wpopal.com` (a third-party template demo site) rather than hosted in `assets/images/`. This is a performance *and* reliability risk: load time depends on a server Batmobilz doesn't control, and if that demo site is ever taken down, those images 404 in production. See PRODUCTION_READINESS.md.
 - Bike photography (`assets/images/bikes/bike-*.jpg`) is hosted locally — good — but has not been checked for appropriate sizing/compression (no browser tool to measure actual rendered-vs-natural pixel dimensions in this session).
-- `loading="lazy"` is used consistently on below-the-fold slider images; the hero slider's first image is not marked `loading="eager"` explicitly, but since it's the very first thing in the DOM this is a minor point, not a real LCP risk by itself.
+- ~~`loading="lazy"` is used consistently on below-the-fold slider images; the hero slider's first image is not marked `loading="eager"` explicitly, but since it's the very first thing in the DOM this is a minor point, not a real LCP risk by itself.~~ **This was wrong — corrected 2026-11-27.** The hero slider's first image, and `bike.html`'s above-the-fold product image, actually had `loading="lazy"` explicitly set, which does delay the browser's fetch of exactly the element Lighthouse measures as LCP. Fixed — see above.
 - No responsive `srcset`/`sizes` anywhere — every image ships one resolution to every device, including mobile.
 
 ## JavaScript execution patterns
@@ -35,15 +44,15 @@ That's three icon systems (Font Awesome, ionicons, and Bootstrap's bundled icon-
 - The counter animation (`animateCounter`) uses `setTimeout` recursion rather than `requestAnimationFrame` — works, but isn't frame-synced. Low priority.
 - `updateListingToolbar()` now runs correctly after every filter/reset (fixed — see PROJECT_AUDIT.md) and only queries `.motorcycle-card` — cheap, not a performance concern even at larger inventory sizes.
 
-## What this means for Core Web Vitals (unverified estimate, not measured)
+## What this means for Core Web Vitals (measured 2026-11-27, see table above)
 
-- **LCP**: likely dominated by the hot-linked hero image from a third-party host — bringing that in-house (local, correctly sized, WebP) is the single highest-leverage fix once real photography exists.
-- **CLS**: no obvious layout-shift red flags in the markup (images don't have explicit `width`/`height` attributes, which *can* cause shift, but Bootstrap's `img { max-width: 100% }` plus CSS-driven aspect boxes in the SCSS may already constrain this — would need live measurement to confirm either way).
-- **INP**: the unthrottled scroll listeners are the most plausible contributor; not large on a page this simple, but worth fixing before they're copy-pasted into more pages.
+- **LCP**: confirmed dominated by the hot-linked hero/background images on the slower pages, plus unconditional third-party bundle weight — see "Real numbers" above. Bringing images in-house (local, correctly sized, WebP) remains the single highest-leverage fix once real photography exists.
+- **CLS**: measured 0.004-0.029 across all pages — all well under the 0.1 "good" threshold. No fix needed.
+- **TBT**: measured 0-120ms across all pages — well under the 200ms "good" threshold. The unthrottled scroll listeners are a code-quality concern more than a measured performance problem right now.
 
-## Recommended next steps (require a browser / build step this session didn't have)
+## Recommended next steps
 
-1. Run Lighthouse against a deployed or locally-served copy of each page to get real LCP/INP/CLS numbers before optimizing further by guesswork.
+1. ~~Run Lighthouse against a deployed or locally-served copy~~ **Done 2026-11-27** — see above.
 2. Decide on and execute an image strategy: license/commission real photography, host it locally, serve WebP with `srcset`.
-3. Trim the icon-library overlap (pick one of Font Awesome / ionicons, not both).
+3. Trim the icon-library overlap (pick one of Font Awesome / ionicons, not both) — now confirmed by measurement, not just inventory, to be the dominant remaining performance lever on aboutus/bike/bike-shop/blogs.
 4. Throttle or merge the two scroll-parallax listeners with `requestAnimationFrame`.

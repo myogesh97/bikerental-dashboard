@@ -2,6 +2,24 @@
 
 Last updated: 2026-11-27.
 
+## 2026-11-27 session, continued: automated audits (Phase 2 item 2)
+
+Ran axe-core (via Playwright `axe.run()` against the live DOM) and Lighthouse 13.6.0 against all 10 pages on localhost. Raw/summarized results in `reports/` (`axe-*.json`, `lighthouse-summary.md`). ACCESSIBILITY_AUDIT.md, PERFORMANCE_AUDIT.md, and QA_REPORT.md rewritten with real pass/fail numbers in place of "needs live testing."
+
+**axe violations found and fixed** (16 violation-instances across 9 pages → 9, all one known issue):
+- `index.html` had `</main>` with no matching open tag (it was commented out) — every section after the hero sat outside any landmark. Restored as `<main class="main-full-bleed">`; added a CSS override so the full-bleed hero layout is unaffected (verified 0px shift at 1440px — but a mobile-only `main { ... !important }` rule at ≤576px needed a `:not(.main-full-bleed)` addition too, since `!important` beats specificity; caught by a branch-vs-main screenshot diff at 375px, not by eyeballing a single breakpoint).
+- `bike.html`'s image-slider section was similarly stuck outside `</main>`.
+- `bike-shop.html` had no `<h1>` — added a visually-hidden one ("Our Fleet", matching the existing `<title>`, nothing fabricated).
+- `bike.html` (`h1 > h3`) and `contact.html` (`h1 > h4`) both skipped heading levels — retagged to h2/h3, updated the matching SCSS tag selectors so styling didn't change.
+- Decorative `ion-icon` elements (filter-outline dividers, 3 value-item icons on aboutus.html) get `role="img"` from ionicons' runtime JS with no label — added `aria-hidden="true"` to match the pattern already used on every other icon.
+- Color contrast: `contact.html`'s form labels and `bike.html`'s `.unavailable-note` were inheriting the light-mode body color (`#333`) on dark backgrounds with no override at all — axe measured ~1.4-1.5:1 (need 4.5:1), i.e. barely legible. Fixed. The site's three brand reds used as text-on-dark (nav active state, prices, headings) also fail at 3.37-3.89:1 but weren't changed — that's a sitewide visible brand-color decision, flagged in ACCESSIBILITY_AUDIT.md for the client, not something to change unilaterally.
+
+**Lighthouse-flagged performance fixes**: `index.html`'s first hero-slide image and `bike.html`'s product image had `loading="lazy"` despite being each page's primary above-the-fold content (PERFORMANCE_AUDIT.md previously and wrongly called this "not a real LCP risk" — corrected). Removed, added `fetchpriority="high"`. Same attribute added to `bike-shop.html`'s actual measured LCP element. Added `<link rel="preload" as="image" fetchpriority="high">` on aboutus/contact/blogs for their CSS-background LCP elements, which the browser can't discover without it.
+
+**Verified**: Sass compiles; full branch-vs-`main` Playwright screenshot diff at 375/768/1440px re-run after all these changes — every remaining pixel difference traced to an intended fix (newly-visible form labels, brightened date text) or the pre-existing bike.html slider animation noise, nothing unexplained.
+
+**Not fixed, flagged for the client**: the brand-red contrast issue above; the aboutus/bike/bike-shop/blogs performance gap, which Lighthouse's own breakdown shows is dominated by unconditional third-party bundle weight (Bootstrap+Swiper+AOS+animate.css+Font Awesome+ionicons on every page), not images — same root cause PERFORMANCE_AUDIT.md already flagged as needing the icon-consolidation decision (Phase 2 backlog item 5), now confirmed by measurement rather than just inventory.
+
 ## 2026-11-27 session, continued: mobile nav accessibility (Phase 2 item 1)
 
 **What changed** (`assets/js/script.js`): hamburger and dropdown toggles now sync `aria-expanded` with their actual open/close state (ACCESSIBILITY_AUDIT.md #2). Two adjacent bugs found and fixed while verifying this live:

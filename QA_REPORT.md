@@ -1,6 +1,6 @@
 # QA Report — Batmobilz Rentals
 
-**Important caveat up front:** this session had no browser automation tool (no Playwright, no headless Chrome, no screen reader). Everything marked "Verified" below was checked by static analysis (reading code, running the Sass compiler, serving the files over HTTP and checking status codes/response bodies with `curl`, and running small Node scripts against the data files). Everything that genuinely requires a rendered browser — visual layout, click interactions, keyboard navigation, animation behavior, cross-browser quirks — is marked **"Not tested"** below. Do not read "Not tested" as "assumed fine."
+Original caveat (2026-11-26): no browser automation tool was available that session; everything was static analysis. **That's no longer true as of 2026-11-27** — Playwright + Chrome for Testing is available in this environment and was used for real browser-based checks (visual screenshots, keyboard interaction, axe-core, Lighthouse). Items below are updated where re-verified; anything still marked "Not tested" genuinely wasn't covered by this session either, usually because it needs a real device/screen reader/multiple real browsers rather than headless Chromium.
 
 ## Automated / scriptable checks performed
 
@@ -14,6 +14,11 @@
 | Every `bike-shop.html` card's `?slug=` matches a real entry in `bikes-data.js` | Grep + cross-reference script | ✅ All 10 match exactly |
 | jQuery usage | Grepped for `$(` across every JS file and inline `<script>` block | ✅ Confirmed zero usage before removing the `<script>` tag |
 | Stray citation artifact / fabricated related-product ("Duke 250") | Full-text grep after fixes | ✅ Confirmed gone |
+| Visual parity of CSS refactor (Phase 1: inline styles → SCSS) | Playwright screenshots at 375/768/1440px, branch vs. a `main` git worktree, pixelmatch diff | ✅ 8/10 pages pixel-identical at all 3 widths; the 2 with diffs (index.html, bike.html) traced to pre-existing autoplay sliders via a same-branch self-diff test, not a regression |
+| Skip link is the first Tab stop; `#main-content`/landmark targets exist | Playwright keyboard test on all 10 pages | ✅ Confirmed on every page |
+| Mobile nav: `aria-expanded` sync, keyboard activation, Escape-to-close, no off-canvas keyboard trap | Playwright at 375px (interaction) and 1440px (desktop regression check) | ✅ All pass — see IMPLEMENTATION_STATUS.md for what was actually broken and fixed |
+| Accessibility (axe-core, WCAG 2a/2aa/2.2aa/best-practice rules) | Playwright + axe-core against all 10 pages | ✅ 0-1 violations per page after fixes (down from 16 violation-instances across 9 pages); only remaining violation is a flagged-not-fixed brand-color decision — see ACCESSIBILITY_AUDIT.md |
+| Lighthouse performance/accessibility/best-practices/SEO | Lighthouse 13.6.0 against all 10 pages on localhost | ✅ Real scores in `reports/lighthouse-summary.md`: accessibility 96-100, best-practices 100, SEO 100, performance 71-96 |
 
 ## Functional review per page (code-level; not click-tested in a browser)
 
@@ -24,13 +29,13 @@
 - **aboutus.html / blogs.html** — Static content pages, no interactive logic beyond the shared header/footer/slider scripts. Content reads consistently with the rest of the site after the brand-name fix.
 - **pricing-policy.html / delivery-policy.html / privacy-policy.html / terms-condition.html** — All internal cross-links between these four pages (e.g., Terms linking to Pricing and Delivery policies) were checked and resolve correctly. `terms-condition.html` still contains two bracketed placeholder values (security deposit range, refund SLA days) that need real business figures before this is legally publishable — documented, not invented.
 
-## Explicitly not tested (requires tooling not available this session)
+## Explicitly not tested
 
-- Visual rendering and responsive layout at any viewport width (320px–1920px as specified in the original brief).
-- Keyboard-only navigation end-to-end (Tab order, Escape behavior, focus trapping) on the mobile nav, dropdown, and sliders.
-- Screen reader behavior (VoiceOver/NVDA).
-- Cross-browser testing (Chrome/Firefox/Safari/Edge).
-- Lighthouse/axe-core automated scores.
+- ~~Visual rendering and responsive layout~~ **Partially done 2026-11-27** at 375/768/1440px via Playwright screenshots (see above) — the original brief's full 320px-1920px range wasn't swept, just these three representative breakpoints.
+- ~~Keyboard-only navigation~~ **Done 2026-11-27 for the mobile nav** (see above). Bike filter form and Swiper prev/next buttons still not keyboard-tested.
+- Screen reader behavior (VoiceOver/NVDA) — genuinely not testable from this environment (headless Chromium has no screen reader to drive).
+- Cross-browser testing (Chrome/Firefox/Safari/Edge) — only Chromium was available; Firefox/Safari/Edge rendering differences are still unverified.
+- ~~Lighthouse/axe-core automated scores~~ **Done 2026-11-27** — see above and `reports/`.
 - Actual click-through of the WhatsApp deep links (can't open an external app/service from this sandboxed session).
 
 ## Net assessment
