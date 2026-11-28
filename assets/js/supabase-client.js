@@ -6,7 +6,7 @@
 // assets/ - it lives only in Edge Function secrets (Phase 4+).
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.119.2?target=es2022";
 
-export const SUPABASE_URL = "https://ngssgjuagrlyhsvtiwhk.supabase.co";
-const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_Xg7LhnnYTjQhTkPea28TTQ_Yuvt5Kh3";
+export const SUPABASE_URL = "https://oyaszdphawxklmunjinh.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_qH8O12tvuwbAEOJCfTwu7w_KhzgO-LJ";
 
 export const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
