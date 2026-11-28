@@ -5,10 +5,11 @@
 // line and the disabled-WhatsApp-button-when-unavailable logic. That
 // was driven by a static, fake availability field - this project's
 // hard rule is "no mocked availability". Real per-date availability
-// needs get_availability() (Phase 3); until then, the WhatsApp button
-// always works, which is honest (it always did just open a chat, it
-// never actually checked real availability either).
+// now comes from get_bike_blocked_ranges() (Phase 3, see booking.js) -
+// the WhatsApp button stays unconditional regardless, since it only
+// ever opened a chat and never claimed to check availability itself.
 import { supabase } from "./supabase-client.js";
+import { initBookingWidget } from "./booking.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
   const params = new URLSearchParams(window.location.search);
@@ -24,7 +25,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   const { data: bike, error } = await supabase
     .from("bikes")
-    .select("slug,name,brand_label,category,price_paise,image_path,specs")
+    .select("id,slug,name,brand_label,category,price_paise,image_path,specs")
     .eq("slug", slug)
     .eq("is_active", true)
     .maybeSingle();
@@ -64,12 +65,16 @@ document.addEventListener("DOMContentLoaded", async () => {
             </div>
             <p class="deposit-note">Security deposit and exact terms are confirmed with our team before handover &mdash; <a href="contact.html">contact us</a> for details.</p>
         </div>
+        <div class="booking-widget" id="bookingWidget"></div>
         <div class="product-purchase-actions">
             <button id="whatsappButton" class="btn btn-primary" aria-label="Contact us via WhatsApp about this bike">
                 <ion-icon name="logo-whatsapp" aria-hidden="true"></ion-icon> Contact us
             </button>
         </div>
     `;
+
+  const bookingWidget = document.getElementById("bookingWidget");
+  if (bookingWidget) initBookingWidget(bookingWidget, bike);
 
   const whatsappButton = document.getElementById("whatsappButton");
   if (whatsappButton) {

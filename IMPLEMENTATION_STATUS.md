@@ -2,6 +2,110 @@
 
 Last updated: 2026-11-28.
 
+## 2026-11-28, continued: Phase 3 (booking-hold + conflict-proof availability)
+
+Confirmed first: the Phase 2 open item (Supabase Dashboard Site URL /
+Redirect URLs config) is done.
+
+**Business-fact blocker, resolved by explicit decision**: `create_booking_hold`
+needs `business_config.advance_percent` to compute `advance_amount_paise`
+(`NOT NULL CHECK > 0`), but that column was still `NULL`
+("blocked on the client" per the hard rules). Asked the project owner
+rather than inventing a number — decided **100%** (pay in full at
+booking time, no partial-advance math to build yet, consistent with
+this project having no real payment flow until Phase 4) and to leave
+`security_deposit_min/max_paise` `NULL` (unused by this phase's
+functions; deposit is collected offline at pickup per `docs/data-model.md`).
+
+**New migrations** (`supabase/migrations/20261128120000_booking_functions.sql`,
+`20261128120100_fix_booking_function_grants.sql`), both pushed to the
+hosted project via `supabase db push --remote --yes`:
+- `create_booking_hold(bike_id, start_date, end_date)` — the only
+  sanctioned way a customer creates a booking. Validates dates (not in
+  the past, end after start, min/max rental days), checks the bike is
+  active, checks `bike_blocks` overlap (not covered by the exclusion
+  constraint), computes price server-side from `bikes.price_paise`
+  (client never sends a price), inserts as `status='held'`, and
+  translates the exclusion constraint's raw `23P01` into a clean
+  "no longer available" error.
+- `cancel_booking_hold(booking_id)` — lets a customer cancel their own
+  still-`held` (unpaid) booking. Confirmed-booking cancellation with
+  refund math stays Phase 6, not this.
+- `get_bike_blocked_ranges(bike_id)` — anon-callable, SECURITY DEFINER;
+  exposes only `start_at`/`end_at` for active holds/confirmed/
+  picked-up bookings + maintenance blocks, never `customer_id` or any
+  other column, so checking availability needs no login.
+- No `pg_cron` on this hosted project (checked — not installed, and
+  enabling it is a dashboard-level call this session shouldn't make
+  unilaterally). Expired holds are self-healed inline instead:
+  `create_booking_hold` flips any stale `held` row past its
+  `hold_expires_at` to `expired` before attempting its own insert —
+  the only moment a stale hold can actually block someone.
+
+**Real bug caught by testing, not by reading the SQL**: the first grant
+pass did `revoke all on function ... from public` and then granted
+`EXECUTE` only to `authenticated` — but Supabase grants `EXECUTE` on
+every newly-created public-schema function to `anon`/`authenticated`/
+`service_role` by default at the platform level (a standing
+`ALTER DEFAULT PRIVILEGES`, invisible in this repo's own migrations),
+independently of the schema's `PUBLIC` pseudo-role grant. Revoking
+from `PUBLIC` alone left `anon` still able to call
+`create_booking_hold`/`cancel_booking_hold` — caught by pgTAP test 1
+in the new suite expecting `42501` and instead getting all the way
+into the function body. Fixed with an explicit
+`revoke execute ... from anon` in a second migration.
+
+**Tests**: new pgTAP suite `supabase/tests/database/002_booking_functions.sql`
+(15 assertions) — **15/15 passing** against the hosted project.
+Covers: anon cannot call the customer-only functions; date validation;
+inactive-bike rejection; correct pricing (2 nights × price, 100%
+advance = amount due); the exclusion constraint's conflict rejected
+with a clean message, not a raw `23P01`; a non-overlapping hold by a
+different customer succeeds; a `bike_blocks` maintenance window also
+blocks a hold (this path is NOT covered by the exclusion constraint,
+so needed its own explicit check + its own test); ownership on
+cancellation (customer A cannot cancel customer B's hold); a
+cancelled booking's dates become bookable again; `get_bike_blocked_ranges`
+is anon-callable and never leaks a null/customer-identifying row.
+
+**Frontend**: `assets/js/booking.js` (new) — the booking-hold widget,
+wired into `bike.html` via `bike-detail.js` (which now also selects
+`bikes.id`, needed for the RPC calls). Logged-out visitors see a
+"log in to book" prompt instead of the form (no redirect-after-login
+flow built — kept in scope; a plain prompt was enough for this phase).
+Logged-in flow: native `<input type="date">` pickup/return pair (per
+`docs/roadmap-phase-mapping.md`'s flagged native-vs-styled tradeoff —
+native was the accessibility default, no calendar-graying UI built),
+a live nights×price preview computed client-side purely for display
+(the database always computes the real, authoritative amount —
+no discrepancy risk), a list of currently-unavailable date ranges
+fetched from `get_bike_blocked_ranges`, and on submit a hold
+confirmation panel with the booking reference, a live
+`hold_expires_at` countdown, and a cancel button. New `.booking-widget`
+SCSS block in `bike.scss`, styled to match `.auth-card`'s existing
+dark-form conventions.
+
+**Verified**: `npx sass` compiles clean; `node --check` on both new/
+edited JS files; a headless-Chromium (Playwright) pass against the
+real hosted project confirmed the logged-out state renders correctly
+at 1440px and 375px with zero console/page errors, screenshots taken.
+**Not verified**: the logged-in interactive flow (submitting real
+dates, seeing a hold confirmation, the countdown, cancelling) was not
+driven in a live authenticated browser session — doing so would have
+required either creating a real `auth.users` row against the hosted
+project or fabricating a signed session token, both judged out of
+scope for this pass. That flow's correctness rests on the pgTAP suite
+(same RPCs, same validation, same error paths, run as real
+authenticated roles) plus manual code review of `booking.js`'s calls
+into those RPCs, not on a browser click-through — flagged here per
+this project's "say what was and wasn't tested" convention, same as
+`QA_REPORT.md`.
+
+**Not started**: Phase 4 (Razorpay payment capture, confirming a
+`held` booking to `confirmed`), Phase 5 (admin dashboard — pickup/
+return, ID/deposit checkboxes, bike-block management UI), Phase 6
+(booking history / confirmed-booking cancellation with refund math).
+
 ## 2026-11-28, continued: Supabase project fix, Phase 2 login, UI fixes, rebrand
 
 **Read this entry first in a new session** — it's a condensed handoff of everything done after Phase 1 below. Also read `ENGINEERING_PERSONA_PROMPT.md` (project owner hands this to any LLM as a system prompt for senior-engineer/CTO-level judgment on this codebase).

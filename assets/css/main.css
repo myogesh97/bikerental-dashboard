@@ -1604,6 +1604,73 @@ body.nav-open::before {
 .product-detail-section .product-info .bike-specs .deposit-note a {
   color: #6ea8fe;
 }
+.product-detail-section .product-info .booking-widget {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #111;
+  border-radius: 6px;
+  color: #fff;
+  box-shadow: 0 0 0.8rem rgba(0, 0, 0, 0.3098039216);
+}
+.product-detail-section .product-info .booking-widget h2 {
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+  color: #ff4d4d;
+}
+.product-detail-section .product-info .booking-widget .form-label {
+  color: #a0a0a0;
+  font-family: "Noto Sans", sans-serif;
+  font-size: 1.3rem;
+}
+.product-detail-section .product-info .booking-widget .form-control {
+  background-color: #1c1c1c;
+  border: 1px solid #444;
+  color: #fff;
+  font-size: 1.5rem;
+}
+.product-detail-section .product-info .booking-widget .form-control:focus {
+  background-color: #1c1c1c;
+  color: #fff;
+  border-color: #e50000;
+  box-shadow: 0 0 0 0.25rem rgba(229, 0, 0, 0.25);
+}
+.product-detail-section .product-info .booking-widget .booking-dates {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+.product-detail-section .product-info .booking-widget .booking-unavailable-note {
+  font-family: "Noto Sans", sans-serif;
+  font-size: 1.2rem;
+  color: #a0a0a0;
+  min-height: 0;
+}
+.product-detail-section .product-info .booking-widget .booking-unavailable-note:empty {
+  margin: 0;
+}
+.product-detail-section .product-info .booking-widget .booking-summary {
+  font-family: "Noto Sans", sans-serif;
+  font-size: 1.4rem;
+  color: #fff;
+  min-height: 1.4rem;
+}
+.product-detail-section .product-info .booking-widget .booking-error {
+  font-family: "Noto Sans", sans-serif;
+  font-size: 1.3rem;
+  color: #ff4d4d;
+}
+.product-detail-section .product-info .booking-widget .booking-hold-panel {
+  font-family: "Noto Sans", sans-serif;
+  font-size: 1.4rem;
+}
+.product-detail-section .product-info .booking-widget .booking-hold-panel p {
+  margin-bottom: 1rem;
+}
+.product-detail-section .product-info .booking-widget .booking-hold-panel a {
+  color: #6ea8fe;
+}
 .product-detail-section .unavailable-note {
   color: #a0a0a0;
 }

@@ -177,6 +177,89 @@
                 color: #6ea8fe;
             }
         }
+
+        // Matches .auth-card's dark-form conventions (auth.scss) - same
+        // site, same reason: Bootstrap's default light form controls
+        // would otherwise render with poor contrast here too.
+        .booking-widget {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: #111;
+            border-radius: 6px;
+            color: #fff;
+            box-shadow: 0 0 .8rem #0000004f;
+
+            h2 {
+                margin-bottom: 1.5rem;
+                font-size: 1.8rem;
+                color: #ff4d4d;
+            }
+
+            .form-label {
+                color: #a0a0a0;
+                font-family: "Noto Sans", sans-serif;
+                font-size: 1.3rem;
+            }
+
+            .form-control {
+                background-color: #1c1c1c;
+                border: 1px solid #444;
+                color: #fff;
+                font-size: 1.5rem;
+
+                &:focus {
+                    background-color: #1c1c1c;
+                    color: #fff;
+                    border-color: #e50000;
+                    box-shadow: 0 0 0 0.25rem rgba(229, 0, 0, 0.25);
+                }
+            }
+
+            .booking-dates {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                gap: 1.5rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .booking-unavailable-note {
+                font-family: "Noto Sans", sans-serif;
+                font-size: 1.2rem;
+                color: #a0a0a0;
+                min-height: 0;
+
+                &:empty {
+                    margin: 0;
+                }
+            }
+
+            .booking-summary {
+                font-family: "Noto Sans", sans-serif;
+                font-size: 1.4rem;
+                color: #fff;
+                min-height: 1.4rem;
+            }
+
+            .booking-error {
+                font-family: "Noto Sans", sans-serif;
+                font-size: 1.3rem;
+                color: #ff4d4d;
+            }
+
+            .booking-hold-panel {
+                font-family: "Noto Sans", sans-serif;
+                font-size: 1.4rem;
+
+                p {
+                    margin-bottom: 1rem;
+                }
+
+                a {
+                    color: #6ea8fe;
+                }
+            }
+        }
     }
 
     // Shared by the purchase-actions "not available" note AND the
