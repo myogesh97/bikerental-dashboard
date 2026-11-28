@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://www.batmobilzrentals.com/index.html</loc><priority>1.0</priority></url>
-  <url><loc>https://www.batmobilzrentals.com/bike-shop.html</loc><priority>0.9</priority></url>
-  <url><loc>https://www.batmobilzrentals.com/aboutus.html</loc><priority>0.7</priority></url>
-  <url><loc>https://www.batmobilzrentals.com/contact.html</loc><priority>0.7</priority></url>
-  <url><loc>https://www.batmobilzrentals.com/blogs.html</loc><priority>0.5</priority></url>
-  <url><loc>https://www.batmobilzrentals.com/pricing-policy.html</loc><priority>0.3</priority></url>
-  <url><loc>https://www.batmobilzrentals.com/delivery-policy.html</loc><priority>0.3</priority></url>
-  <url><loc>https://www.batmobilzrentals.com/privacy-policy.html</loc><priority>0.2</priority></url>
-  <url><loc>https://www.batmobilzrentals.com/terms-condition.html</loc><priority>0.2</priority></url>
+  <url><loc>https://www.example.com/index.html</loc><priority>1.0</priority></url>
+  <url><loc>https://www.example.com/bike-shop.html</loc><priority>0.9</priority></url>
+  <url><loc>https://www.example.com/aboutus.html</loc><priority>0.7</priority></url>
+  <url><loc>https://www.example.com/contact.html</loc><priority>0.7</priority></url>
+  <url><loc>https://www.example.com/blogs.html</loc><priority>0.5</priority></url>
+  <url><loc>https://www.example.com/pricing-policy.html</loc><priority>0.3</priority></url>
+  <url><loc>https://www.example.com/delivery-policy.html</loc><priority>0.3</priority></url>
+  <url><loc>https://www.example.com/privacy-policy.html</loc><priority>0.2</priority></url>
+  <url><loc>https://www.example.com/terms-condition.html</loc><priority>0.2</priority></url>
 </urlset>

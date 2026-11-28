@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        const phoneNumber = "919876543210";
+        const phoneNumber = "910000000000";
         const encodedMsg = encodeURIComponent(
             `Name: ${name}\nEmail: ${email}\nMessage: ${message}`
         );

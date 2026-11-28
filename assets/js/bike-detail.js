@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const whatsappButton = document.getElementById("whatsappButton");
   if (whatsappButton) {
     const message = `Hi, I'm interested in renting the bike: ${bike.name} priced at ₹${priceRupees}/day. Please provide more details.`;
-    const whatsappURL = `https://wa.me/919876543210?text=${encodeURIComponent(message)}`;
+    const whatsappURL = `https://wa.me/910000000000?text=${encodeURIComponent(message)}`;
     whatsappButton.addEventListener("click", () => {
       window.open(whatsappURL, "_blank");
     });
