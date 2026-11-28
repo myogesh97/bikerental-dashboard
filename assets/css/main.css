@@ -1458,10 +1458,18 @@ body.nav-open::before {
   padding: 6rem 0;
   background-color: #1a1a1a;
 }
+.product-detail-section .row {
+  min-height: 0;
+}
+.product-detail-section .row > [class*=col-] {
+  min-height: 0;
+}
 .product-detail-section .gallery {
   width: 100%;
   max-width: 620px;
+  height: 100%;
   margin: 2rem auto;
+  max-height: 610px;
 }
 .product-detail-section .gallery-slider {
   width: 100%;
@@ -1688,14 +1696,36 @@ body.nav-open::before {
   gap: 2rem;
   align-items: center;
 }
-.inventory-page .inventory-search-box .search-form select {
-  padding: 12px;
-  background-color: #111;
-  color: #fff;
-  letter-spacing: 1px;
-  border: 1px solid #444;
-  font-size: 1.6rem;
+.inventory-page .inventory-search-box .search-form .choices {
+  --choices-bg-color: #111;
+  --choices-bg-color-dropdown: rgba(20, 20, 35, 0.95);
+  --choices-keyline-color: #444;
+  --choices-text-color: #fff;
+  --choices-highlighted-color: rgba(229, 0, 0, 0.25);
+  --choices-border-radius: 2px;
+  --choices-font-size-md: 1.6rem;
+  --choices-input-height: 45px;
+  margin-bottom: 0;
   text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.inventory-page .inventory-search-box .search-form .choices__list--single .choices__item {
+  color: #fff;
+}
+.inventory-page .inventory-search-box .search-form .choices__list--dropdown {
+  backdrop-filter: saturate(180%) blur(10px);
+  -webkit-backdrop-filter: saturate(180%) blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.inventory-page .inventory-search-box .search-form .choices__list--dropdown .choices__item {
+  color: #fff;
+}
+.inventory-page .inventory-search-box .search-form .choices__item--selectable.is-highlighted {
+  color: #ff4d4d;
+}
+.inventory-page .inventory-search-box .search-form .choices__input {
+  background-color: transparent;
+  color: #fff;
 }
 .inventory-page .inventory-search-box .search-form button {
   height: 45px;
@@ -1869,18 +1899,22 @@ body.nav-open::before {
 
 .skip-to-main {
   position: absolute;
-  top: -100%;
-  left: 0;
+  top: 2% !important;
+  left: 0.5%;
   z-index: 10000;
   padding: 0.8rem 2rem;
   background: #e81938;
-  color: #fff;
+  color: #fff !important;
   font-size: 1.6rem;
   text-decoration: none;
   font-family: "Noto Sans", sans-serif;
+  opacity: 0;
+  visibility: 0;
+  transition: 0s all;
 }
 .skip-to-main:focus {
-  top: 0;
+  opacity: 1;
+  visibility: visible;
   outline: 3px solid #fff;
   outline-offset: 2px;
 }

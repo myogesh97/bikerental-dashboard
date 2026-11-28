@@ -2,10 +2,25 @@
     padding: 6rem 0;
     background-color: #1a1a1a;
 
+    // Flex items can't shrink below their content's intrinsic size unless
+    // min-height is overridden - without this, the image column's own
+    // natural (tall) aspect ratio still forces the row's height, and the
+    // shorter text column just silently stretches to fill the extra space
+    // (same background color on both, so it isn't visually obvious why).
+    .row {
+        min-height: 0;
+
+        > [class*="col-"] {
+            min-height: 0;
+        }
+    }
+
     .gallery {
         width: 100%;
         max-width: 620px;
+        height: 100%;
         margin: 2rem auto;
+        max-height: 610px;
 
         &-slider {
             width: 100%;
@@ -281,14 +296,50 @@
             gap: 2rem;
             align-items: center;
 
-            select {
-                padding: 12px;
-                background-color: #111;
-                color: #fff;
-                letter-spacing: 1px;
-                border: 1px solid #444;
-                font-size: 1.6rem;
+            // Choices.js re-theme via its own CSS custom properties (11.x)
+            // instead of fighting its internal selectors - matches this
+            // site's dark inputs + the nav dropdown's glassy dark panel.
+            .choices {
+                --choices-bg-color: #111;
+                --choices-bg-color-dropdown: rgba(20, 20, 35, 0.95);
+                --choices-keyline-color: #444;
+                --choices-text-color: #fff;
+                --choices-highlighted-color: rgba(229, 0, 0, 0.25);
+                --choices-border-radius: 2px;
+                --choices-font-size-md: 1.6rem;
+                --choices-input-height: 45px;
+                margin-bottom: 0;
                 text-transform: uppercase;
+                letter-spacing: 1px;
+            }
+
+            // Same gap as the dropdown list items: the closed box's
+            // displayed value isn't driven by --choices-text-color either.
+            .choices__list--single .choices__item {
+                color: #fff;
+            }
+
+            .choices__list--dropdown {
+                backdrop-filter: saturate(180%) blur(10px);
+                -webkit-backdrop-filter: saturate(180%) blur(10px);
+                border: 1px solid rgba(255, 255, 255, 0.08);
+
+                // --choices-text-color only drives the closed-box arrow
+                // caret in this version, not list-item text, which
+                // otherwise falls back to Choices' own low-contrast
+                // default against this dark background - override directly.
+                .choices__item {
+                    color: #fff;
+                }
+            }
+
+            .choices__item--selectable.is-highlighted {
+                color: #ff4d4d;
+            }
+
+            .choices__input {
+                background-color: transparent;
+                color: #fff;
             }
 
             button {

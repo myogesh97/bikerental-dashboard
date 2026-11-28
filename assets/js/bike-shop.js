@@ -24,6 +24,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("bikeFilterForm");
   const category = document.getElementById("filterCategory");
   const brand = document.getElementById("filterBrand");
+  // Choices.js enhances the <select> elements in place and keeps them as
+  // the source of truth, so category.value/brand.value below keep working
+  // unchanged - it's purely a visual replacement for the native dropdown.
+  const categoryChoices = new Choices(category, { searchEnabled: false, itemSelectText: "" });
+  const brandChoices = new Choices(brand, { searchEnabled: true, itemSelectText: "" });
   const resultsCount = document.getElementById("resultsCount");
   const viewPage = document.getElementById("viewPage");
   const paginationContainer = document.getElementById("paginationContainer");
@@ -129,6 +134,10 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     form.addEventListener("reset", () => {
+      // Choices.js doesn't visually reset on a native form reset (only the
+      // underlying <select>'s value does) - sync its display explicitly.
+      categoryChoices.setChoiceByValue("all");
+      brandChoices.setChoiceByValue("all");
       setTimeout(() => {
         currentPage = 1;
         render();
