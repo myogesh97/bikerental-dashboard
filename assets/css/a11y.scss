@@ -12,18 +12,22 @@
 
 .skip-to-main {
     position: absolute;
-    top: -100%;
-    left: 0;
+    top: 2% !important;
+    left: .5%;
     z-index: 10000;
     padding: .8rem 2rem;
     background: #e81938;
-    color: #fff;
+    color: #fff !important;
     font-size: 1.6rem;
     text-decoration: none;
     font-family: "Noto Sans", sans-serif;
+    opacity: 0;
+    visibility: 0;
+    transition: 0s all;
 
     &:focus {
-        top: 0;
+        opacity: 1;
+        visibility: visible;
         outline: 3px solid #fff;
         outline-offset: 2px;
     }
