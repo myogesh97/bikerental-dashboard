@@ -58,15 +58,21 @@ async function updateNavAuthUI(session) {
     userNameEl.textContent = firstName || session.user.email;
   }
 
-  // Phase 5: inject an "Admin Dashboard" link into the existing account
-  // dropdown for admins only - done in JS rather than editing all 11
-  // pages' nav markup, since every page already has this same dropdown
-  // structure to hook into.
+  // Phase 5/6: inject "My Bookings" (every signed-in user) and "Admin
+  // Dashboard" (admins only) links into the existing account dropdown -
+  // done in JS rather than editing all 11 pages' nav markup, since every
+  // page already has this same dropdown structure to hook into.
   const dropdown = userItem.querySelector(".dropdown");
   const logoutItem = document.getElementById("navLogout")?.closest("li");
-  const existingAdminLink = document.getElementById("navAdminLink");
   const isAdmin = !error && data?.role === "admin";
 
+  if (dropdown && logoutItem && !document.getElementById("navMyBookingsLink")) {
+    const myBookingsItem = document.createElement("li");
+    myBookingsItem.innerHTML = `<a href="my-bookings.html" id="navMyBookingsLink">My Bookings</a>`;
+    dropdown.insertBefore(myBookingsItem, logoutItem);
+  }
+
+  const existingAdminLink = document.getElementById("navAdminLink");
   if (isAdmin && dropdown && logoutItem && !existingAdminLink) {
     const adminItem = document.createElement("li");
     adminItem.innerHTML = `<a href="admin.html" id="navAdminLink">Admin Dashboard</a>`;

@@ -2,6 +2,37 @@
 
 Last updated: 2026-11-28.
 
+## 2026-11-28, continued: Phase 6, partial (customer booking history)
+
+Built the slice of Phase 6 that has no Razorpay dependency, while
+waiting on real Razorpay test keys for Phase 4 (asked the project
+owner for these rather than inventing/stubbing them - a credential,
+not a judgment call).
+
+**New page**: `my-bookings.html` + `assets/js/my-bookings.js` - any
+signed-in customer's own booking list (`bookings` RLS already scopes
+this to `customer_id = auth.uid()`, so the query just asks for that
+customer's rows; RLS is the real guarantee, not the `.eq()` filter).
+Cancelling a still-`held` booking reuses Phase 3's
+`cancel_booking_hold` RPC directly - no new backend code needed.
+`auth.js`'s nav-dropdown injection (from Phase 5) extended to add a
+"My Bookings" link for every signed-in user, not just admins.
+
+**Deliberately NOT built here**: cancelling a `confirmed` booking with
+the cancellation-refund-percentage math from `business_config`
+(`cancel_refund_percent_gt_24h`/`lte_24h`). That needs a real captured
+payment to refund against via Razorpay - which doesn't exist until
+Phase 4 ships. Building it now would mean fabricating a refund for a
+payment this system never actually took, which is exactly what the
+"no fake features" hard rule rules out. This is why Phase 6 is marked
+"partial," not done.
+
+**Verified**: `node --check` on new/edited JS; Playwright confirmed the
+signed-out state renders correctly with zero console errors.
+**Not verified**: the logged-in list + cancel-button flow, same gap as
+Phase 3/5 and for the same reason (no real inbox access in this
+session to complete an OTP login).
+
 ## 2026-11-28, continued: Phase 5 (admin dashboard)
 
 Built before Phase 4 (Razorpay), at the project owner's explicit
