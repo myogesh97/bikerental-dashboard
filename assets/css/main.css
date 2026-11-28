@@ -2052,6 +2052,174 @@ body.nav-open::before {
   color: #ff4d4d;
 }
 
+.admin-section {
+  background-color: #1a1a1a;
+  padding: 6rem 0;
+  color: #fff;
+  font-family: "Noto Sans", sans-serif;
+}
+.admin-section h1 {
+  font-family: "Teko", sans-serif;
+  font-size: 4rem;
+  margin-bottom: 2rem;
+}
+.admin-section h2,
+.admin-section h3 {
+  font-family: "Teko", sans-serif;
+  color: #ff4d4d;
+  margin-bottom: 1.5rem;
+}
+.admin-section #adminDenied h1 {
+  color: #ff4d4d;
+}
+.admin-section a {
+  color: #6ea8fe;
+}
+.admin-section .form-label {
+  color: #a0a0a0;
+}
+.admin-section .form-control {
+  background-color: #111;
+  border: 1px solid #444;
+  color: #fff;
+}
+.admin-section .form-control:focus {
+  background-color: #111;
+  color: #fff;
+  border-color: #e50000;
+  box-shadow: 0 0 0 0.25rem rgba(229, 0, 0, 0.25);
+}
+
+.admin-tabs {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+  border-bottom: 1px solid #333;
+}
+.admin-tabs .admin-tab-button {
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  color: #a0a0a0;
+  font-family: "Teko", sans-serif;
+  font-size: 1.8rem;
+  letter-spacing: 1px;
+  padding: 1rem 0.5rem;
+  cursor: pointer;
+}
+.admin-tabs .admin-tab-button.active, .admin-tabs .admin-tab-button:hover {
+  color: #fff;
+  border-bottom-color: #e50000;
+}
+
+.admin-tab-panel {
+  margin-bottom: 4rem;
+}
+
+.admin-table-wrapper {
+  overflow-x: auto;
+  margin-bottom: 2rem;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 1.3rem;
+}
+.admin-table th,
+.admin-table td {
+  padding: 1rem;
+  border-bottom: 1px solid #333;
+  text-align: left;
+  vertical-align: middle;
+}
+.admin-table th {
+  color: #a0a0a0;
+  text-transform: uppercase;
+  font-size: 1.1rem;
+  letter-spacing: 0.5px;
+}
+.admin-table .bike-price-input {
+  width: 9rem;
+}
+
+.status-pill {
+  display: inline-block;
+  padding: 0.3rem 0.8rem;
+  border-radius: 2rem;
+  font-size: 1.1rem;
+  text-transform: capitalize;
+  background: #333;
+  color: #fff;
+}
+.status-pill.status-held {
+  background: #5a4a00;
+}
+.status-pill.status-confirmed {
+  background: #1d4e2e;
+}
+.status-pill.status-picked_up {
+  background: #1d3a4e;
+}
+.status-pill.status-returned {
+  background: #2a2a2a;
+}
+.status-pill.status-cancelled_by_customer, .status-pill.status-cancelled_by_admin, .status-pill.status-no_show, .status-pill.status-expired {
+  background: #4e1d1d;
+}
+
+.admin-actions-cell {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+.admin-actions-cell .btn {
+  font-size: 1.1rem;
+  padding: 0.5rem 1rem;
+}
+
+.admin-action-panel-row td {
+  border-bottom: 1px solid #333;
+  padding-top: 0;
+}
+
+.admin-action-panel {
+  background: #111;
+  border: 1px solid #333;
+  border-radius: 4px;
+  padding: 1.5rem;
+  max-width: 420px;
+}
+.admin-action-panel .form-label {
+  margin-top: 1rem;
+}
+.admin-action-panel .form-control {
+  margin-bottom: 0.5rem;
+}
+.admin-action-panel .btn {
+  margin-top: 1rem;
+}
+
+.admin-form {
+  background: #111;
+  border: 1px solid #333;
+  border-radius: 6px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+.admin-form .admin-form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+.admin-form #addBikeStatus,
+.admin-form #addBlockStatus {
+  margin-top: 1rem;
+  margin-bottom: 0;
+  color: #a0a0a0;
+}
+
 /*------------------------------------------
     Responsive Grid Media Queries - 1280, 1024, 768, 480
      1280-1024   - desktop (default grid)

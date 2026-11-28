@@ -1,7 +1,17 @@
-// Two-step email-OTP login form for login.html. Session/nav state is
-// handled separately by auth.js (loaded on every page); this file only
-// drives the request-code -> verify-code UI on this one page.
-import { requestOtp, verifyOtp, getSession, onSignedIn } from "./auth.js";
+// Single-step email login form for login.html. No typed code: the email
+// is a plain click-to-log-in link only (see auth.js/requestOtp's
+// emailRedirectTo). This replaced an earlier two-step request-code ->
+// type-code design (2026-11-28) after discovering the hosted project's
+// actual Magic Link email template has no {{ .Token }} in it - editing
+// that template's content needs Supabase Dashboard access this session
+// doesn't have, so the fix was to stop asking for a code the email never
+// actually shows, not to keep chasing template content blind. Magic-link
+// and typed-OTP are treated as equally secure in docs/threat-model.md
+// (possession of the inbox is the credential either way), so this isn't
+// a security downgrade - it's dropping a UI step the email never
+// supported in practice. Session/nav state is handled separately by
+// auth.js (loaded on every page).
+import { requestOtp, getSession, onSignedIn } from "./auth.js";
 
 const RESEND_COOLDOWN_SECONDS = 30;
 
@@ -11,9 +21,8 @@ const redirectAfterLogin = () => {
 };
 
 document.addEventListener("DOMContentLoaded", async () => {
-  const requestForm = document.getElementById("otpRequestForm");
-  const verifyForm = document.getElementById("otpVerifyForm");
-  if (!requestForm || !verifyForm) return;
+  const form = document.getElementById("otpRequestForm");
+  if (!form) return;
 
   // A logged-in user landing here directly (bookmark, back button, already
   // had a session from an earlier visit) should never see the login form.
@@ -25,16 +34,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // Covers the email's link being clicked in a DIFFERENT tab: that tab
   // creates the session, supabase-js syncs it here via storage, and this
-  // listener fires so we don't stay stuck showing the code-entry step.
+  // listener fires so the still-open login tab updates too.
   onSignedIn(redirectAfterLogin);
 
   const emailInput = document.getElementById("loginEmail");
   const fullNameInput = document.getElementById("loginFullName");
-  const codeInput = document.getElementById("loginCode");
-  const verifyingEmailLabel = document.getElementById("verifyingEmailLabel");
-  const sendCodeBtn = document.getElementById("sendCodeBtn");
-  const verifyCodeBtn = document.getElementById("verifyCodeBtn");
-  const resendCodeBtn = document.getElementById("resendCodeBtn");
+  const sendLinkBtn = document.getElementById("sendLinkBtn");
   const statusEl = document.getElementById("authStatus");
 
   let resendTimer = null;
@@ -46,74 +51,43 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   const startResendCooldown = () => {
     let remaining = RESEND_COOLDOWN_SECONDS;
-    resendCodeBtn.disabled = true;
-    resendCodeBtn.textContent = `Resend Code (${remaining}s)`;
+    sendLinkBtn.disabled = true;
+    sendLinkBtn.textContent = `Resend Link (${remaining}s)`;
     clearInterval(resendTimer);
     resendTimer = setInterval(() => {
       remaining -= 1;
       if (remaining <= 0) {
         clearInterval(resendTimer);
-        resendCodeBtn.disabled = false;
-        resendCodeBtn.textContent = "Resend Code";
+        sendLinkBtn.disabled = false;
+        sendLinkBtn.textContent = "Send Login Link";
       } else {
-        resendCodeBtn.textContent = `Resend Code (${remaining}s)`;
+        sendLinkBtn.textContent = `Resend Link (${remaining}s)`;
       }
     }, 1000);
   };
 
-  const sendCode = async () => {
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
     const email = emailInput.value.trim();
     const fullName = fullNameInput.value.trim();
     if (!email) return;
 
-    sendCodeBtn.disabled = true;
-    setStatus("Sending code…", false);
+    sendLinkBtn.disabled = true;
+    setStatus("Sending…", false);
 
     const { error } = await requestOtp(email, fullName);
 
-    sendCodeBtn.disabled = false;
-
     if (error) {
-      setStatus(error.message || "Couldn't send the code. Please try again.", true);
+      sendLinkBtn.disabled = false;
+      sendLinkBtn.textContent = "Send Login Link";
+      setStatus(error.message || "Couldn't send the login link. Please try again.", true);
       return;
     }
 
-    verifyingEmailLabel.textContent = `Code sent to ${email}.`;
-    requestForm.hidden = true;
-    verifyForm.hidden = false;
-    codeInput.focus();
-    setStatus("Check your email for an 8-digit code.", false);
+    setStatus(
+      `Check your email (${email}) and click the link to log in. This page updates automatically once you do.`,
+      false
+    );
     startResendCooldown();
-  };
-
-  requestForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-    sendCode();
-  });
-
-  resendCodeBtn.addEventListener("click", () => {
-    sendCode();
-  });
-
-  verifyForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const email = emailInput.value.trim();
-    const token = codeInput.value.trim();
-    if (!email || !token) return;
-
-    verifyCodeBtn.disabled = true;
-    setStatus("Verifying…", false);
-
-    const { error } = await verifyOtp(email, token);
-
-    verifyCodeBtn.disabled = false;
-
-    if (error) {
-      setStatus(error.message || "That code didn't work. Please check it and try again.", true);
-      return;
-    }
-
-    setStatus("Logged in! Redirecting…", false);
-    redirectAfterLogin();
   });
 });
