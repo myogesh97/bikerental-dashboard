@@ -2,6 +2,26 @@
 
 Last updated: 2026-11-28.
 
+## 2026-11-28, continued: Supabase project fix, Phase 2 login, UI fixes, rebrand
+
+**Read this entry first in a new session** — it's a condensed handoff of everything done after Phase 1 below. Also read `ENGINEERING_PERSONA_PROMPT.md` (project owner hands this to any LLM as a system prompt for senior-engineer/CTO-level judgment on this codebase).
+
+**Supabase project fix**: the frontend had been wired to `guwahati-rent-mumbai`, a Supabase project actually serving an unrelated production site. Created a dedicated `bikerental-dashboard` project (ref `oyaszdphawxklmunjinh`, ap-south-1), re-applied all 13 migrations, repointed `assets/js/supabase-client.js`. Deleted an unrelated unused `guwahati-rent` project to free a free-tier project slot.
+
+**Phase 2 (login)**: email-OTP auth (no passwords, per ADR 0001) — `login.html`, `assets/js/auth.js` (shared session/nav state, `requestOtp`/`verifyOtp`/`signOut`/`onSignedIn`), `assets/js/login.js` (two-step request-code → verify-code form). Nav shows a "Login" link when logged out and an "Account ▾ / Logout" dropdown when logged in, on all 11 pages. Session sync works across tabs/paths: clicking the email's magic-link in one tab now correctly redirects a stuck code-entry tab in another, via `onAuthStateChange` + an explicit `emailRedirectTo`. Real OTP code length on the hosted project is **8 digits**, not the 6 in `supabase/config.jsonc`'s local scaffold default. **Still needs manual Supabase Dashboard step** (not yet confirmed done): Authentication → URL Configuration → Site URL `http://127.0.0.1:5500` + Redirect URLs `http://127.0.0.1:5500/**` (update when a real domain exists).
+
+**Bug fixes found by testing, not by reading code**: homepage hero slider's "double-click only registers once" was a duplicate `speed` key in `assets/js/script.js` silently doubling the fade transition to 2000ms (same bug also existed in the testimonial slider); a second real bug had `heroSwiper`/`testimonialSwiper` sharing unscoped nav-button selectors so each one's arrows also drove the other slider — both fixed, plus a Swiper progress-bar pagination + restyled nav buttons added. `bike.html`'s product image rendering much taller than its info column was a flexbox min-content-size quirk (`object-fit:cover`+`h-100` alone isn't enough; needs `min-height:0` on the flex row/columns too). Dead `swiper-lazy-preloader` spinner markup (no lazy-loading module was ever enabled to manage it) removed from `index.html`/`aboutus.html`/`bike.html`. Account-dropdown nav menu was overflowing off the right edge of the viewport (last nav item, needed `right: 0` not the default `left: 0`).
+
+**bike-shop.html filter dropdowns**: replaced native `<select>` with Choices.js (pinned `11.2.4`, SRI-verified), themed via its CSS custom properties — but note its item/list-item text color isn't actually driven by `--choices-text-color` in this version, needed explicit `color: #fff` overrides on `.choices__item`.
+
+**Sitewide rebrand**: swapped "Batmobilz Rentals" (113 occurrences) for generic placeholder "Your Company Name" everywhere visitor-facing (titles, meta, footer, legal prose, `robots.txt`/`sitemap.xml`), and reverted contact details to this project's own pre-"realistic dummy data" placeholder scheme: `+91 00000 00000` / `info@example.com` / a generic street address, with the contact-page map now querying just "Guwahati, Assam" (city-level, stays honest) instead of a fake street address. Logo stays the original image (reverted after a brief text-logo experiment) — only its alt text changed, since the wordmark is vector art, not editable text. Internal audit docs (`*_AUDIT.md`, `QA_REPORT.md`, `PRODUCTION_READINESS.md`) and `reports/axe-contact.json` deliberately left untouched — historical records of real past work, not live site content. Added SEO fixes (login page `noindex`, a grammar bug in its description, an overlong title trimmed) but deliberately did **not** add canonical/Open-Graph/`LocalBusiness` tags — `SEO_AUDIT.md` already has sound reasoning for why each would be wrong right now (no real domain, hot-linked hero images, fake business schema), unchanged.
+
+**Open, undecided** (flagged, not acted on): `assets/css/style.css`/`style.css.map` are still orphaned (not linked by any HTML; `main.scss` is the real source) — never confirmed for deletion.
+
+**Not started**: Phase 3 (real booking/availability + conflict-proof holds), Phase 4 (Razorpay), Phase 5 (admin dashboard), Phase 6 (booking history / account profile).
+
+All of the above landed via 3 PRs (#5, #6, #7), all merged to `main`.
+
 ## 2026-11-28: Booking system Phase 0 + Phase 1
 
 New mission: implement FUTURE_ROADMAP.md (online booking, admin
