@@ -116,6 +116,20 @@
                         <li class="nav-item nav-buttonLink">
                             <a href="bike-shop.html" class="nav-link">JOIN THE CLUB</a>
                         </li>
+                        <li class="nav-item nav-auth" id="navAuthGuest">
+                            <a href="login.html" class="nav-link">Login</a>
+                        </li>
+                        <li class="nav-item has-dropdown nav-auth" id="navAuthUser" hidden>
+                            <a href="#" class="nav-link" aria-haspopup="true" aria-expanded="false">
+                                <span id="navUserName">Account</span>
+                                <svg class="icon chevron-icon" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" focusable="false">
+                                    <path d="M7 10l5 5 5-5z" fill="currentColor"></path>
+                                </svg>
+                            </a>
+                            <ul class="dropdown">
+                                <li><a href="#" id="navLogout">Logout</a></li>
+                            </ul>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -130,7 +144,6 @@
                 <div class="swiper-slide">
                     <div class="slide-background-image">
                         <img src="https://demo2.wpopal.com/lexrider/wp-content/uploads/2019/04/rev_slidehome1_1.jpg" alt="Motorcycle Banner" fetchpriority="high">
-                        <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
                     </div>
                     <div class="text-content-shell">
                         <div class="text-content">
@@ -143,7 +156,6 @@
                 <div class="swiper-slide">
                     <div class="slide-background-image">
                         <img src="https://demo2.wpopal.com/lexrider/wp-content/uploads/2019/04/rev_slidehome1_2.jpg" alt="Motorcycle Banner" loading="lazy">
-                        <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
                     </div>
                     <div class="text-content-shell">
                         <div class="text-content">
@@ -156,7 +168,6 @@
                 <div class="swiper-slide">
                     <div class="slide-background-image">
                         <img src="https://demo2.wpopal.com/lexrider/wp-content/uploads/2019/04/rev_slidehome1_3.jpg" alt="Motorcycle Banner" loading="lazy">
-                        <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
                     </div>
                     <div class="text-content-shell">
                         <div class="text-content">
@@ -167,6 +178,7 @@
                     </div>
                 </div>
             </div>
+            <div class="hero-progress-pagination swiper-pagination"></div>
             <button type="button" class="swiper-button-prev s-button_box" aria-label="Previous slide"><ion-icon name="chevron-back-outline" aria-hidden="true"></ion-icon></button>
             <button type="button" class="swiper-button-next s-button_box" aria-label="Next slide"><ion-icon name="chevron-forward-outline" aria-hidden="true"></ion-icon></button>
         </div>
@@ -499,55 +511,42 @@
                 <div class="swiper-wrapper">
                     <div class="swiper-slide">
                         <img src="assets/images/bikes/bike-1.jpg" alt="bike image" loading="lazy">
-                        <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
                     </div>
                     <div class="swiper-slide">
                         <img src="assets/images/bikes/bike-2.jpg" alt="bike image" loading="lazy">
-                        <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
                     </div>
                     <div class="swiper-slide">
                         <img src="assets/images/bikes/bike-3.jpg" alt="bike image" loading="lazy">
-                        <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
                     </div>
                     <div class="swiper-slide">
                         <img src="assets/images/bikes/bike-4.jpg" alt="bike image" loading="lazy">
-                        <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
                     </div>
                     <div class="swiper-slide">
                         <img src="assets/images/bikes/bike-5.jpg" alt="bike image" loading="lazy">
-                        <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
                     </div>
                     <div class="swiper-slide">
                         <img src="assets/images/bikes/bike-6.jpg" alt="bike image" loading="lazy">
-                        <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
                     </div>
                     <div class="swiper-slide">
                         <img src="assets/images/bikes/bike-7.jpg" alt="bike image" loading="lazy">
-                        <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
                     </div>
                     <div class="swiper-slide">
                         <img src="assets/images/bikes/bike-8.jpg" alt="bike image" loading="lazy">
-                        <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
                     </div>
                     <div class="swiper-slide">
                         <img src="assets/images/bikes/bike-9.jpg" alt="bike image" loading="lazy">
-                        <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
                     </div>
                     <div class="swiper-slide">
                         <img src="assets/images/bikes/bike-11.jpg" alt="bike image" loading="lazy">
-                        <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
                     </div>
                     <div class="swiper-slide">
                         <img src="assets/images/bikes/bike-12.jpg" alt="bike image" loading="lazy">
-                        <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
                     </div>
                     <div class="swiper-slide">
                         <img src="assets/images/bikes/bike-13.jpg" alt="bike image" loading="lazy">
-                        <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
                     </div>
                     <div class="swiper-slide">
                         <img src="assets/images/bikes/bike-14.jpg" alt="bike image" loading="lazy">
-                        <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
                     </div>
                 </div>
             </div>
@@ -645,6 +644,7 @@
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js" integrity="sha384-xyQ/Vpt1cq1pdPYlRaT/QkcSj2vrYyWI3WOhxGBzqnP1vgvsS2yrhWXe3/wIoCr5" crossorigin="anonymous"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js" integrity="sha384-KAUcUASKfGZ0sxENVFRiH12jtpvd9SsVpgzvYdvv8ZMLqB99G3gX3DAts418wzIC" crossorigin="anonymous"></script>
     <script src="assets/js/script.js"></script>
+    <script type="module" src="assets/js/auth.js"></script>
 </body>
 
 </html>
