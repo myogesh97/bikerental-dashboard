@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Login - Your Company Name</title>
-    <meta name="description" content="Log in to your account with a one-time code sent to your email - no password needed.">
+    <meta name="description" content="Log in to your account with a secure link sent to your email - no password needed.">
     <meta name="robots" content="noindex, nofollow">
     <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
 
@@ -144,7 +144,7 @@
             <div class="container">
                 <div class="auth-card">
                     <h3>LOG IN WITH EMAIL</h3>
-                    <p>No password needed — we'll email you a one-time 8-digit code. The email also has a "Log In" link if you'd rather click than type (opening it logs you in right there — this page updates automatically either way).</p>
+                    <p>No password needed — we'll email you a secure login link. Click it and you're in; this page updates automatically once you do, even if you click it from another tab or device.</p>
 
                     <form id="otpRequestForm" novalidate>
                         <div class="mb-3">
@@ -155,17 +155,7 @@
                             <label for="loginFullName" class="form-label">Full Name</label>
                             <input type="text" id="loginFullName" name="fullName" class="form-control" placeholder="Full Name (for new accounts)" autocomplete="name">
                         </div>
-                        <button type="submit" class="btn btn-primary" id="sendCodeBtn">Send Code</button>
-                    </form>
-
-                    <form id="otpVerifyForm" novalidate hidden>
-                        <p id="verifyingEmailLabel"></p>
-                        <div class="mb-3">
-                            <label for="loginCode" class="form-label">8-Digit Code <span aria-hidden="true">*</span></label>
-                            <input type="text" id="loginCode" name="code" class="form-control" placeholder="12345678" required aria-required="true" inputmode="numeric" pattern="[0-9]*" maxlength="8" autocomplete="one-time-code">
-                        </div>
-                        <button type="submit" class="btn btn-primary" id="verifyCodeBtn">Verify &amp; Log In</button>
-                        <button type="button" class="btn btn-secondary" id="resendCodeBtn">Resend Code</button>
+                        <button type="submit" class="btn btn-primary" id="sendLinkBtn">Send Login Link</button>
                     </form>
 
                     <p id="authStatus" role="status" aria-live="polite"></p>

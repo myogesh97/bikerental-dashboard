@@ -2,6 +2,40 @@
 
 Last updated: 2026-11-28.
 
+## 2026-11-28, continued: login OTP fix, round 2 - dropped the typed-code step entirely
+
+The `enable_confirmations` fix (previous entry below) was real and
+correctly applied, but didn't fix the reported symptom: the project
+owner still only received a "Confirm your email" email, no 8-digit
+code, even for an already-confirmed existing account (verified via a
+read-only query - both test accounts show `email_confirmed_at` set,
+and the hosted project's `enable_confirmations` is confirmed still
+`false`). Asked for the literal email subject/button text rather than
+guessing again: it said "Confirm your email," which with an
+already-confirmed account pointed at the actual content of the Magic
+Link email template itself - it has no `{{ .Token }}` placeholder
+anywhere in it, so no code was ever going to appear no matter what the
+`enable_confirmations` toggle was set to. That template's HTML lives
+in the Supabase Dashboard, with no CLI/Management-API surface this
+session has access to - so it couldn't be fixed the same way as the
+first bug.
+
+**Fix**: rather than ask the project owner to go make a Dashboard edit
+I can't verify, dropped the typed-code step entirely.
+`login.html`/`assets/js/login.js` now only ever send a login link and
+wait (`onSignedIn`) - no second form, no code input.
+`docs/threat-model.md` already treated magic-link and OTP as equally
+secure (inbox possession is the credential either way), so this isn't
+a security downgrade, just removing a UI step the email never actually
+supported. Removed the now-unused `verifyOtp` export from `auth.js`.
+
+**Verified**: `node --check` on both edited JS files; a Playwright run
+against the real hosted project submitted the form with a real email
+and confirmed the success message renders, with zero console errors -
+this is the first Phase 2-related frontend behavior in this project
+verified against a live submission, not just a logged-out/structural
+check.
+
 ## 2026-11-28, continued: Phase 6, partial (customer booking history)
 
 Built the slice of Phase 6 that has no Razorpay dependency, while

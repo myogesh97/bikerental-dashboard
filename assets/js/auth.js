@@ -1,9 +1,10 @@
 // Shared auth helpers + nav login/logout state, loaded on every page.
-// Email OTP only (no passwords) - see docs/adr/0001-backend-architecture.md
-// and docs/threat-model.md. verifyOtp's `type: "email"` covers the typed
-// 8-digit code flow (distinct from the legacy "magiclink" type). The
-// code length is set by auth.email.otp_length on the hosted project,
-// independent of supabase/config.jsonc's local default.
+// Email magic-link only (no passwords, no typed code) - see
+// docs/adr/0001-backend-architecture.md and docs/threat-model.md. There
+// is no verifyOtp/typed-code path: the hosted project's actual Magic
+// Link email template has no {{ .Token }} in it (Dashboard content this
+// session can't edit), so login.js only ever sends the link and waits
+// for onSignedIn - see login.js's header comment for the full story.
 import { supabase } from "./supabase-client.js";
 
 export async function requestOtp(email, fullName) {
@@ -12,10 +13,6 @@ export async function requestOtp(email, fullName) {
   };
   if (fullName) options.data = { full_name: fullName };
   return supabase.auth.signInWithOtp({ email, options });
-}
-
-export async function verifyOtp(email, token) {
-  return supabase.auth.verifyOtp({ email, token, type: "email" });
 }
 
 export async function signOut() {
