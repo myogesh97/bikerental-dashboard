@@ -113,28 +113,65 @@ footer {
   text-transform: uppercase;
   font-weight: 500;
 }
+.hero-bannerSection-Box .hero-progress-pagination {
+  position: absolute;
+  left: 0;
+  right: 3rem;
+  bottom: 3rem;
+  top: auto;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 2px;
+  z-index: 2;
+}
+.hero-bannerSection-Box .hero-progress-pagination .swiper-pagination-progressbar-fill {
+  background: #ff4d4d;
+  border-radius: 2px;
+}
 .hero-bannerSection-Box .s-button_box {
-  background-color: transparent;
+  background-color: rgba(26, 26, 26, 0.45);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
   color: #fff;
   height: 5rem;
   width: 5rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  opacity: 0.6;
-  transition: 0.2s all;
+  opacity: 0.7;
+  transition: 0.25s ease;
+}
+.hero-bannerSection-Box .s-button_box ion-icon {
+  font-size: 2rem;
+  transition: transform 0.25s ease;
 }
 .hero-bannerSection-Box .s-button_box::after {
   content: none;
 }
 .hero-bannerSection-Box .s-button_box:hover {
   opacity: 1;
+  border-color: #ff4d4d;
+  background-color: rgba(229, 0, 0, 0.25);
+}
+.hero-bannerSection-Box .s-button_box:hover ion-icon {
+  transform: scale(1.15);
 }
 .hero-bannerSection-Box .s-button_box.swiper-button-prev {
   left: 3rem;
 }
+.hero-bannerSection-Box .s-button_box.swiper-button-prev:hover ion-icon {
+  transform: translateX(-2px) scale(1.15);
+}
 .hero-bannerSection-Box .s-button_box.swiper-button-next {
   right: 3rem;
+}
+.hero-bannerSection-Box .s-button_box.swiper-button-next:hover ion-icon {
+  transform: translateX(2px) scale(1.15);
+}
+.hero-bannerSection-Box .s-button_box.swiper-button-disabled {
+  opacity: 0.3;
+  pointer-events: none;
 }
 
 .info-banner-section .row .col-lg-6 {
@@ -180,7 +217,8 @@ footer {
 .info-banner-section .info-below-content ul p {
   color: #c6c6c6;
 }
-.info-banner-section .info-below-content ul p svg {
+.info-banner-section .info-below-content ul p svg,
+.info-banner-section .info-below-content ul p ion-icon {
   color: #e81938;
   margin-right: 0.4rem;
 }
@@ -232,6 +270,10 @@ footer {
   align-items: center;
 }
 
+.testimonial-section {
+  background-image: url("https://demo2.wpopal.com/lexrider/wp-content/uploads/2019/04/lexrider_banner2_3.jpg");
+  overflow: initial;
+}
 .testimonial-section .section-primary_title {
   text-align: left;
 }
@@ -242,6 +284,7 @@ footer {
   padding: 1.6rem 4rem;
   font-size: 1.8rem;
   text-transform: uppercase;
+  letter-spacing: 2px;
 }
 .testimonial-section .testimonial-slider {
   background-color: #fff;
@@ -417,6 +460,7 @@ footer {
   position: relative;
   padding-top: 7rem;
   padding-bottom: 38rem;
+  background-image: url("https://demo2.wpopal.com/lexrider/wp-content/uploads/2019/04/lexider_bg2_1.png");
   background-size: cover;
   background-position: bottom center;
   background-repeat: no-repeat;
@@ -432,7 +476,8 @@ footer {
   text-align: center;
   color: #fff;
 }
-.stats-section .stats-grid .stat-item svg {
+.stats-section .stats-grid .stat-item svg,
+.stats-section .stats-grid .stat-item ion-icon {
   font-size: 5rem;
   color: #fff;
   margin-bottom: 2rem;
@@ -542,7 +587,7 @@ footer {
   margin-bottom: 0;
 }
 .site-footer .footer-main .map-link {
-  color: #e50000;
+  color: #ff4d4d;
   text-decoration: none;
   font-size: 1.2rem;
   letter-spacing: 1px;
@@ -588,6 +633,7 @@ footer {
 .site-footer .footer-bottom {
   padding: 5rem 0;
   background-color: #131313;
+  overflow: hidden;
 }
 .site-footer .footer-bottom .footer-bottom-content {
   display: flex;
@@ -684,6 +730,7 @@ footer {
   align-items: center;
   justify-content: center;
   text-align: center;
+  background-image: url("https://demo2.wpopal.com/lexrider/wp-content/uploads/2019/04/breadcrumb-contact.jpg");
   background-size: cover;
   background-position: center;
 }
@@ -741,7 +788,7 @@ footer {
   color: #e50000;
   line-height: 1;
 }
-.contact-section .info-block .info-text h4 {
+.contact-section .info-block .info-text h2 {
   color: #fff;
   font-size: 2rem;
   margin-bottom: 5px;
@@ -787,6 +834,10 @@ footer {
   color: #8e8e8e;
   font-size: 1.2rem;
 }
+.contact-section .contact-form-wrapper .form-label {
+  color: #a0a0a0;
+  font-family: "Noto Sans", sans-serif;
+}
 .contact-section .contact-form-wrapper .form-control {
   background-color: #111;
   border: 1px solid #444;
@@ -815,6 +866,12 @@ footer {
 .contact-section .contact-form-wrapper .form-check-label a:hover {
   color: #e50000;
 }
+.contact-section .contact-form-wrapper .form-disclosure {
+  color: #8e8e8e;
+  font-family: "Noto Sans", sans-serif;
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+}
 .contact-section .contact-form-wrapper .form-check-input {
   background-color: #444;
   border-color: #666;
@@ -836,6 +893,12 @@ footer {
   color: #c6c6c6;
   font-size: 1.6rem;
   margin-bottom: 1.2rem;
+}
+.terms-page .container,
+.privacy-page .container,
+.charges-policy-page .container,
+.delivery-policy-page .container {
+  padding-top: 4rem;
 }
 .terms-page p,
 .terms-page li,
@@ -884,7 +947,7 @@ footer {
 .delivery-policy-page .last-updated {
   text-align: center;
   font-size: 0.9em;
-  color: #6c757d;
+  color: #8e8e8e;
   margin-bottom: 2rem;
 }
 .terms-page .table,
@@ -908,7 +971,11 @@ footer {
 .privacy-page a,
 .charges-policy-page a,
 .delivery-policy-page a {
-  color: #e50000;
+  color: #ff4d4d;
+}
+
+.delivery-policy-page .container {
+  padding-bottom: 4rem;
 }
 
 .aboutus-section .mission-grid {
@@ -1013,7 +1080,7 @@ footer {
 }
 .blogs-section-shell .post-content h2,
 .blogs-section-shell .post-content h3 {
-  color: #e81837;
+  color: #ff4d4d;
   line-height: 1.2;
   margin: 4rem 0 2rem;
   border-bottom: 2px solid;
@@ -1030,7 +1097,7 @@ footer {
   margin-bottom: 1rem;
 }
 .blogs-section-shell .post-content a {
-  color: #e50000;
+  color: #ff4d4d;
   text-decoration: none;
   transition: color 0.3s ease;
 }

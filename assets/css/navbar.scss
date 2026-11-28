@@ -302,6 +302,21 @@ body.nav-open {
     }
 }
 
+// The account dropdown is the last nav item, flush against the right edge
+// of the viewport - left-aligning its dropdown (the default above) pushes
+// it off-screen. Right-align it instead, flipping the pointer caret to match.
+#navAuthUser {
+    .dropdown {
+        left: auto;
+        right: 0;
+
+        &::before {
+            left: auto;
+            right: 20px;
+        }
+    }
+}
+
 .nav-toggle {
     display: none;
     cursor: pointer;

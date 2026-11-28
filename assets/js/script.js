@@ -146,19 +146,31 @@ document.addEventListener("DOMContentLoaded", () => {
   // Homepage Banner Slider
   var heroSwiper = new Swiper(".hero-bannerSection", {
     loop: true,
-    speed: 1000,
+    speed: 900,
     allowTouchMove: false,
     autoplay: {
-      delay: 5000,
+      delay: 6000,
+      disableOnInteraction: false,
+      pauseOnMouseEnter: true,
     },
     effect: "fade",
     fadeEffect: {
       crossFade: true,
     },
-    speed: 2000,
     navigation: {
-      nextEl: ".swiper-button-next",
-      prevEl: ".swiper-button-prev",
+      nextEl: ".hero-bannerSection .swiper-button-next",
+      prevEl: ".hero-bannerSection .swiper-button-prev",
+    },
+    pagination: {
+      el: ".hero-bannerSection .hero-progress-pagination",
+      type: "progressbar",
+    },
+    keyboard: {
+      enabled: true,
+      onlyInViewport: true,
+    },
+    a11y: {
+      enabled: true,
     },
   });
 
@@ -222,10 +234,9 @@ document.addEventListener("DOMContentLoaded", () => {
     fadeEffect: {
       crossFade: true,
     },
-    speed: 1000,
     navigation: {
-      nextEl: ".swiper-button-next",
-      prevEl: ".swiper-button-prev",
+      nextEl: ".testimonial-slider .swiper-button-next",
+      prevEl: ".testimonial-slider .swiper-button-prev",
     },
   });
 
