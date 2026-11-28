@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Dashboard - Your Company Name</title>
+    <meta name="description" content="Manage bookings, bike inventory, and maintenance schedules.">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Teko:wght@300..700&display=swap"
+        rel="stylesheet">
+    <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/swiper@11.2.10/swiper-bundle.min.css' integrity="sha384-gAPqlBuTCdtVcYt9ocMOYWrnBZ4XSL6q+4eXqwNycOr4iFczhNKtnYhF3NEXJM51" crossorigin="anonymous">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" integrity="sha384-/rJKQnzOkEo+daG0jMjU1IwwY9unxt1NBw3Ef2fmOJ3PW/TfAg2KXVoWwMZQZtw9" crossorigin="anonymous" rel="stylesheet">
+    <!-- Bootstrap 5 CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" integrity="sha384-Gu3KVV2H9d+yA4QDpVB7VcOyhJlAVrcXd0thEjr4KznfaFPLe0xQJyonVxONa4ZC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="assets/css/main.css">
+</head>
+
+<body>
+    <a href="#main-content" class="skip-to-main">Skip to main content</a>
+
+    <!-- Header Section -->
+    <header class="header">
+        <div class="sub-header">
+            <div class="container p-0 sub-headerInner">
+                <ul class="content-left">
+                    <li>
+                        <p>Welcome to our club!</p>
+                    </li>
+                    <li>
+                        <a href="mailto:info@example.com">info@example.com</a>
+                    </li>
+                </ul>
+                <ul class="content-right" aria-label="Social media links">
+                    <li>
+                        <a href="#!" aria-label="Facebook"><ion-icon name="logo-facebook" aria-hidden="true"></ion-icon></a>
+                    </li>
+                    <li>
+                        <a href="#!" aria-label="YouTube"><ion-icon name="logo-youtube" aria-hidden="true"></ion-icon></a>
+                    </li>
+                    <li>
+                        <a href="#!" aria-label="Twitter"><ion-icon name="logo-twitter" aria-hidden="true"></ion-icon></a>
+                    </li>
+                    <li>
+                        <a href="#!" aria-label="Share"><ion-icon name="share-social-outline" aria-hidden="true"></ion-icon></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <nav class="navbar">
+            <div class="container p-0">
+                <div class="nav-brand">
+                    <a href="index.html" class="logo">
+                        <img src="./assets/images/site-logo.svg" alt="Your Company Name - Home">
+                    </a>
+                </div>
+
+                <div class="nav-toggle" role="button" tabindex="0" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-menu">
+                    <div class="hamburger" aria-hidden="true">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+
+                <div class="nav-menu" id="nav-menu" role="navigation" aria-label="Main navigation">
+                    <ul class="nav-list">
+                        <li class="nav-item">
+                            <a href="index.html" class="nav-link">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="bike-shop.html" class="nav-link">Bikes</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="aboutus.html" class="nav-link">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="contact.html" class="nav-link">Contact</a>
+                        </li>
+                        <li class="nav-item nav-auth" id="navAuthGuest">
+                            <a href="login.html" class="nav-link">Login</a>
+                        </li>
+                        <li class="nav-item has-dropdown nav-auth" id="navAuthUser" hidden>
+                            <a href="#" class="nav-link active" aria-haspopup="true" aria-expanded="false">
+                                <span id="navUserName">Account</span>
+                                <svg class="icon chevron-icon" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" focusable="false">
+                                    <path d="M7 10l5 5 5-5z" fill="currentColor"></path>
+                                </svg>
+                            </a>
+                            <ul class="dropdown">
+                                <li><a href="#" id="navLogout">Logout</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main id="main-content">
+        <section class="admin-section">
+            <div class="container">
+                <p id="adminLoading" role="status">Checking access&hellip;</p>
+
+                <div id="adminDenied" role="alert" hidden>
+                    <h1>Access denied</h1>
+                    <p>This page is only available to admin accounts. <a href="index.html">Return home</a>.</p>
+                </div>
+
+                <div id="adminApp" hidden>
+                    <h1>Admin Dashboard</h1>
+
+                    <div class="admin-tabs" role="tablist" aria-label="Admin sections">
+                        <button type="button" class="admin-tab-button active" role="tab" aria-selected="true" aria-controls="panel-bookings" id="tab-bookings">Bookings</button>
+                        <button type="button" class="admin-tab-button" role="tab" aria-selected="false" aria-controls="panel-bikes" id="tab-bikes">Bikes</button>
+                        <button type="button" class="admin-tab-button" role="tab" aria-selected="false" aria-controls="panel-blocks" id="tab-blocks">Maintenance Blocks</button>
+                    </div>
+
+                    <section id="panel-bookings" class="admin-tab-panel" role="tabpanel" aria-labelledby="tab-bookings">
+                        <h2 class="sr-only">Bookings</h2>
+                        <p id="bookingsStatus" role="status" aria-live="polite"></p>
+                        <div class="admin-table-wrapper">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Reference</th>
+                                        <th scope="col">Bike</th>
+                                        <th scope="col">Customer</th>
+                                        <th scope="col">Dates</th>
+                                        <th scope="col">Status</th>
+                                        <th scope="col">Amount due</th>
+                                        <th scope="col">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="bookingsTableBody"></tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <section id="panel-bikes" class="admin-tab-panel" role="tabpanel" aria-labelledby="tab-bikes" hidden>
+                        <h2 class="sr-only">Bikes</h2>
+                        <p id="bikesStatus" role="status" aria-live="polite"></p>
+                        <div class="admin-table-wrapper">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Brand</th>
+                                        <th scope="col">Category</th>
+                                        <th scope="col">Price/day (&#8377;)</th>
+                                        <th scope="col">Active</th>
+                                        <th scope="col"></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="bikesTableBody"></tbody>
+                            </table>
+                        </div>
+
+                        <h3>Add a bike</h3>
+                        <form id="addBikeForm" class="admin-form" novalidate>
+                            <div class="admin-form-grid">
+                                <div>
+                                    <label class="form-label" for="newBikeSlug">Slug <span aria-hidden="true">*</span></label>
+                                    <input type="text" id="newBikeSlug" class="form-control" required aria-required="true" placeholder="royal-enfield-classic-350">
+                                </div>
+                                <div>
+                                    <label class="form-label" for="newBikeName">Name <span aria-hidden="true">*</span></label>
+                                    <input type="text" id="newBikeName" class="form-control" required aria-required="true">
+                                </div>
+                                <div>
+                                    <label class="form-label" for="newBikeBrand">Brand slug <span aria-hidden="true">*</span></label>
+                                    <input type="text" id="newBikeBrand" class="form-control" required aria-required="true" placeholder="royal-enfield">
+                                </div>
+                                <div>
+                                    <label class="form-label" for="newBikeBrandLabel">Brand display name <span aria-hidden="true">*</span></label>
+                                    <input type="text" id="newBikeBrandLabel" class="form-control" required aria-required="true" placeholder="Royal Enfield">
+                                </div>
+                                <div>
+                                    <label class="form-label" for="newBikeCategory">Category <span aria-hidden="true">*</span></label>
+                                    <select id="newBikeCategory" class="form-control" required aria-required="true">
+                                        <option value="sport">Sport</option>
+                                        <option value="cruiser">Cruiser</option>
+                                        <option value="retro">Retro</option>
+                                        <option value="adventure">Adventure</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="form-label" for="newBikePrice">Price/day (&#8377;) <span aria-hidden="true">*</span></label>
+                                    <input type="number" id="newBikePrice" class="form-control" min="1" required aria-required="true">
+                                </div>
+                                <div>
+                                    <label class="form-label" for="newBikeImagePath">Image path <span aria-hidden="true">*</span></label>
+                                    <input type="text" id="newBikeImagePath" class="form-control" required aria-required="true" placeholder="assets/images/bikes/bike-1.jpg">
+                                </div>
+                                <div>
+                                    <label class="form-label" for="newBikeFuel">Fuel</label>
+                                    <input type="text" id="newBikeFuel" class="form-control" placeholder="Petrol">
+                                </div>
+                                <div>
+                                    <label class="form-label" for="newBikeEngine">Engine</label>
+                                    <input type="text" id="newBikeEngine" class="form-control" placeholder="349cc">
+                                </div>
+                                <div>
+                                    <label class="form-label" for="newBikeGears">Gears</label>
+                                    <input type="text" id="newBikeGears" class="form-control" placeholder="5-Speed Manual">
+                                </div>
+                                <div>
+                                    <label class="form-label" for="newBikeMileage">Mileage</label>
+                                    <input type="text" id="newBikeMileage" class="form-control" placeholder="~35 km/l">
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Add bike</button>
+                            <p id="addBikeStatus" role="status" aria-live="polite"></p>
+                        </form>
+                    </section>
+
+                    <section id="panel-blocks" class="admin-tab-panel" role="tabpanel" aria-labelledby="tab-blocks" hidden>
+                        <h2 class="sr-only">Maintenance Blocks</h2>
+                        <p id="blocksStatus" role="status" aria-live="polite"></p>
+                        <div class="admin-table-wrapper">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Bike</th>
+                                        <th scope="col">Dates</th>
+                                        <th scope="col">Reason</th>
+                                        <th scope="col"></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="blocksTableBody"></tbody>
+                            </table>
+                        </div>
+
+                        <h3>Add a maintenance block</h3>
+                        <form id="addBlockForm" class="admin-form" novalidate>
+                            <div class="admin-form-grid">
+                                <div>
+                                    <label class="form-label" for="blockBikeSelect">Bike <span aria-hidden="true">*</span></label>
+                                    <select id="blockBikeSelect" class="form-control" required aria-required="true"></select>
+                                </div>
+                                <div>
+                                    <label class="form-label" for="blockStart">Start date <span aria-hidden="true">*</span></label>
+                                    <input type="date" id="blockStart" class="form-control" required aria-required="true">
+                                </div>
+                                <div>
+                                    <label class="form-label" for="blockEnd">End date <span aria-hidden="true">*</span></label>
+                                    <input type="date" id="blockEnd" class="form-control" required aria-required="true">
+                                </div>
+                                <div>
+                                    <label class="form-label" for="blockReason">Reason</label>
+                                    <input type="text" id="blockReason" class="form-control" placeholder="Scheduled servicing">
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Add block</button>
+                            <p id="addBlockStatus" role="status" aria-live="polite"></p>
+                        </form>
+                    </section>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="site-footer">
+        <div class="footer-main">
+            <div class="container">
+                <div class="footer-grid row">
+                    <div class="footer-widget col-lg-7">
+                        <h2 class="widget-title">
+                            READY TO EXPLORE <br>
+                            THE <span class="highlight-text">NORTHEAST?</span>
+                        </h2>
+                        <div class="contact-info">
+                            <p>
+                                <ion-icon name="call-outline" aria-hidden="true"></ion-icon>
+                                <a href="tel:+910000000000">+91 00000 00000</a>
+                            </p>
+                            <p>
+                                <ion-icon name="mail-open-outline" aria-hidden="true"></ion-icon>
+
+                                <a href="mailto:info@example.com">info@example.com</a>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-5">
+                        <div class="row">
+                            <div class="footer-widget col-lg-6 col-md-6 col-sm-6">
+                                <h3 class="widget-title-sm">HEAD OFFICE</h3>
+                                <address>
+                                    123 Example Street,<br>
+                                    Guwahati, Assam<br>
+                                    000000
+                                </address>
+                                <a href="https://maps.google.com/maps?q=Guwahati%2C+Assam" target="_blank" rel="noopener noreferrer" class="map-link" aria-label="View office location on Google Maps, opens in new tab">VIEW MAP</a>
+                            </div>
+
+                            <div class="footer-widget col-lg-6 col-md-6 col-sm-6">
+                                <h3 class="widget-title-sm">QUICK LINKS</h3>
+                                <ul class="quick-links">
+                                    <li><a href="aboutus.html">About</a></li>
+                                    <li><a href="blogs.html">Blogs</a></li>
+                                    <li><a href="contact.html">Contact</a></li>
+                                    <li><a href="delivery-policy.html">delivery Policy</a></li>
+                                    <li><a href="pricing-policy.html">pricing Policy</a></li>
+                                    <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                                    <li><a href="terms-condition.html">T&C</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="footer-bottom-content row">
+
+                    <div class="copyright-text col-lg-4 col-md-6">
+                        <p>Copyright © 2025. All Rights Reserved.</p>
+                    </div>
+
+                    <div class="footer-logo col-lg-4">
+                        <a href="index.html">
+                            <img src="assets/images/site-logo.svg" alt="Your Company Name - Home"></a>
+                    </div>
+
+                    <div class="social-media col-lg-4 col-md-6">
+                        <span>SOCIAL MEDIA</span>
+                        <a href="#" aria-label="Facebook"><ion-icon name="logo-facebook" aria-hidden="true"></ion-icon></a>
+                        <a href="#" aria-label="YouTube"><ion-icon name="logo-youtube" aria-hidden="true"></ion-icon></a>
+                        <a href="#" aria-label="Twitter"><ion-icon name="logo-twitter" aria-hidden="true"></ion-icon></a>
+                        <a href="#" aria-label="Share"><ion-icon name="share-social-outline" aria-hidden="true"></ion-icon></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <a href="#top" class="scroll-to-top-button" aria-label="Scroll to top">
+            <ion-icon name="chevron-up-outline" aria-hidden="true"></ion-icon>
+        </a>
+    </footer>
+
+    <!-- Bootstrap Bundle JS (with Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" integrity="sha384-wziAfh6b/qT+3LrqebF9WeK4+J5sehS6FA10J1t3a866kJ/fvU5UwofWnQyzLtwu" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11.2.10/swiper-bundle.min.js" integrity="sha384-2UI1PfnXFjVMQ7/ZDEF70CR943oH3v6uZrFQGGqJYlvhh4g6z6uVktxYbOlAczav" crossorigin="anonymous"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js" integrity="sha384-xyQ/Vpt1cq1pdPYlRaT/QkcSj2vrYyWI3WOhxGBzqnP1vgvsS2yrhWXe3/wIoCr5" crossorigin="anonymous"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js" integrity="sha384-KAUcUASKfGZ0sxENVFRiH12jtpvd9SsVpgzvYdvv8ZMLqB99G3gX3DAts418wzIC" crossorigin="anonymous"></script>
+    <script src="assets/js/script.js"></script>
+    <script type="module" src="assets/js/auth.js"></script>
+    <script type="module" src="assets/js/admin.js"></script>
+</body>
+
+</html>

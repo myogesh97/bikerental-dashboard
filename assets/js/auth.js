@@ -47,14 +47,32 @@ async function updateNavAuthUI(session) {
   if (userItem) userItem.hidden = !session;
   if (!session || !userItem) return;
 
+  const { data, error } = await supabase
+    .from("profiles")
+    .select("full_name, role")
+    .eq("id", session.user.id)
+    .single();
+
   if (userNameEl) {
-    const { data, error } = await supabase
-      .from("profiles")
-      .select("full_name")
-      .eq("id", session.user.id)
-      .single();
     const firstName = !error && data?.full_name ? data.full_name.split(" ")[0] : null;
     userNameEl.textContent = firstName || session.user.email;
+  }
+
+  // Phase 5: inject an "Admin Dashboard" link into the existing account
+  // dropdown for admins only - done in JS rather than editing all 11
+  // pages' nav markup, since every page already has this same dropdown
+  // structure to hook into.
+  const dropdown = userItem.querySelector(".dropdown");
+  const logoutItem = document.getElementById("navLogout")?.closest("li");
+  const existingAdminLink = document.getElementById("navAdminLink");
+  const isAdmin = !error && data?.role === "admin";
+
+  if (isAdmin && dropdown && logoutItem && !existingAdminLink) {
+    const adminItem = document.createElement("li");
+    adminItem.innerHTML = `<a href="admin.html" id="navAdminLink">Admin Dashboard</a>`;
+    dropdown.insertBefore(adminItem, logoutItem);
+  } else if (!isAdmin && existingAdminLink) {
+    existingAdminLink.closest("li").remove();
   }
 }
 

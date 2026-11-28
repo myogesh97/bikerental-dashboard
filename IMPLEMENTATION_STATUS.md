@@ -2,6 +2,88 @@
 
 Last updated: 2026-11-28.
 
+## 2026-11-28, continued: Phase 5 (admin dashboard)
+
+Built before Phase 4 (Razorpay), at the project owner's explicit
+direction to sequence all three remaining phases back-to-back; Phase 5
+has no Razorpay dependency so it could go first.
+
+**New page**: `admin.html` + `assets/js/admin.js`, gated behind
+`profiles.role = 'admin'` (checked client-side via a `profiles` select,
+backed by the existing `is_admin()`-driven RLS on every table it
+touches — the real authorization boundary, not the page-level check,
+which only exists so a non-admin sees a clean "access denied" instead
+of an empty/broken dashboard). A logged-out visitor is redirected to
+`login.html?redirect=admin.html`; `login.js` already supported the
+`redirect` param from Phase 2, so this needed no changes there.
+`auth.js` now also injects an "Admin Dashboard" link into the existing
+account dropdown (done in JS, not by editing all 11 pages' nav markup)
+when the signed-in profile's role is `admin`.
+
+**Deliberate scope decision — no new SQL functions**: bikes/
+bike_blocks/bookings already have admin-unrestricted RLS write
+policies (`bikes_write_admin`/`update_admin`, `bike_blocks_write_admin`/
+`update_admin`/`delete_admin`, `bookings_update_admin`) from Phase 1.
+A new SECURITY DEFINER function for e.g. "mark picked up" would only
+re-implement an authorization check RLS already enforces for a role
+that's trusted by definition — so `admin.js` does direct
+`supabase.from(...).update(...)` calls instead, and which action
+buttons even render is the only business-rule gate (e.g. "Mark picked
+up" only shows for a `status='confirmed'` booking).
+
+**Real dependency surfaced, not faked around**: per the booking state
+machine (`docs/data-model.md`), `held → confirmed` only happens via a
+Razorpay webhook (Phase 4, doesn't exist yet) — so no booking can
+reach `confirmed` until Phase 4 ships, which means "Mark picked up"
+and "Mark no-show" have no real row to act on yet. Built anyway (the
+UI correctly gates on status, not faking a transition), but this is
+the reason Phase 4 has to come next, not later.
+
+**Sections**: Bookings (list all, with reference/bike/customer/dates/
+status/amount; inline action panel per row for cancel/pickup/return/
+no-show, each gated to the right starting status); Bikes (inline
+price/active-toggle edit + an add-bike form — deliberately no
+photo-upload UI: `bike_images`/Storage exist in the schema but there's
+still no real photography to upload, same reasoning as Phase 1;
+`image_path` stays a plain text field pointing at the existing static
+assets); Maintenance Blocks (list + add/delete a `bike_blocks` date
+range per bike, directly feeding `get_bike_blocked_ranges` from Phase
+3's booking widget).
+
+**Admin account provisioning**: `role` is a trust boundary a client
+can never set (`profiles_prevent_role_self_update` trigger) — so a
+new migration (`20261128130000_promote_admin.sql`) promotes the
+project owner's own account to `admin`. First attempt failed for a
+real reason, not a typo: it looked up the id via
+`select id from auth.users where email = ...` inside the migration,
+and the hosted migration-runner connection doesn't have grants on the
+`auth` schema even after `set local role service_role` — switched to
+the literal `profiles.id` (already known from an earlier read-only
+query) instead. Confirmed via a follow-up read-only query that
+`role = 'admin'` actually took.
+
+**A role-escalation push was correctly stopped for a fresh
+confirmation**: even though the project owner had pre-approved
+building Phase 4/5/6 without further check-ins, the sandbox's own
+safety classifier blocked the `db push` that grants `admin` on its own
+merits (an irreversible-ish, security-sensitive action) until asked
+and confirmed explicitly, separately from the general go-ahead — asked
+and got an explicit yes before retrying.
+
+**Verified**: `npx sass` compiles clean; `node --check` on
+`admin.js`/`auth.js`; a Playwright pass confirmed the logged-out
+redirect (`admin.html` → `login.html?redirect=admin.html`) works with
+zero console errors. **Not verified**: the actual admin-logged-in
+flow (bookings table rendering, pickup/cancel/return actions, bike
+edit/add, block add/delete) was not driven in a live authenticated
+browser session, for the same reason as Phase 3's equivalent gap (no
+real inbox access to complete an OTP login in this session) — rests on
+code review + the fact that every query/mutation here is a thin,
+direct call against RLS policies already covered by `001_rls_and_constraints.sql`'s
+pgTAP suite, not a fresh authorization mechanism. Please click through
+the three tabs once logged in as the newly-promoted admin and report
+back anything that looks wrong.
+
 ## 2026-11-28, continued: Phase 3 (booking-hold + conflict-proof availability)
 
 Confirmed first: the Phase 2 open item (Supabase Dashboard Site URL /
