@@ -2,152 +2,43 @@
 
 Last updated: 2026-11-28.
 
-## 2026-11-28, continued: login OTP fix, round 2 - dropped the typed-code step entirely
+## 2026-11-28, continued: login OTP email fix (auth.email.enable_confirmations drift)
 
-The `enable_confirmations` fix (previous entry below) was real and
-correctly applied, but didn't fix the reported symptom: the project
-owner still only received a "Confirm your email" email, no 8-digit
-code, even for an already-confirmed existing account (verified via a
-read-only query - both test accounts show `email_confirmed_at` set,
-and the hosted project's `enable_confirmations` is confirmed still
-`false`). Asked for the literal email subject/button text rather than
-guessing again: it said "Confirm your email," which with an
-already-confirmed account pointed at the actual content of the Magic
-Link email template itself - it has no `{{ .Token }}` placeholder
-anywhere in it, so no code was ever going to appear no matter what the
-`enable_confirmations` toggle was set to. That template's HTML lives
-in the Supabase Dashboard, with no CLI/Management-API surface this
-session has access to - so it couldn't be fixed the same way as the
-first bug.
+**Bug reported**: login never showed the "enter your 8-digit code" step —
+every attempt only received a "Confirm your email address" link, with no
+code anywhere in it.
 
-**Fix**: rather than ask the project owner to go make a Dashboard edit
-I can't verify, dropped the typed-code step entirely.
-`login.html`/`assets/js/login.js` now only ever send a login link and
-wait (`onSignedIn`) - no second form, no code input.
-`docs/threat-model.md` already treated magic-link and OTP as equally
-secure (inbox possession is the credential either way), so this isn't
-a security downgrade, just removing a UI step the email never actually
-supported. Removed the now-unused `verifyOtp` export from `auth.js`.
+**Root cause**: `supabase config diff --remote` showed
+`auth.email.enable_confirmations` was `true` on the hosted project even
+though `supabase/config.jsonc` always declared `false` — this file was
+apparently never reconciled against the live project after it was
+provisioned (likely the Supabase Dashboard's own default for a
+freshly-created project). With confirmations on, a brand-new email's
+*first* `signInWithOtp` call fires Supabase's separate "Confirm signup"
+template (a bare link, no OTP token) instead of the Magic Link/OTP
+template `login.js` expects. Passwordless OTP doesn't need a
+pre-login confirmation step — the OTP/magic-link itself already proves
+inbox ownership — so this wasn't a deliberate setting, just drift.
+Not a cost question: the email that does go out either way is the
+same free (within Supabase's rate limits) transactional email; this
+was purely which Auth email template fires.
 
-**Verified**: `node --check` on both edited JS files; a Playwright run
-against the real hosted project submitted the form with a real email
-and confirmed the success message renders, with zero console errors -
-this is the first Phase 2-related frontend behavior in this project
-verified against a live submission, not just a logged-out/structural
-check.
+**Fix**: pushed `auth.email.enable_confirmations: false` to the hosted
+project via `supabase config push`. Before pushing, ran
+`supabase config diff --remote` first (per the hard rule on hosted
+config pushes) and found several *other* unrelated drifted values
+(`site_url`/`additional_redirect_urls` already correctly fixed on the
+hosted project during the Phase 2 session but never pulled back into
+this file; `otp_length` 6 vs the real 8; db pooler sizing; MFA TOTP
+flags; Storage Vector `enabled`) — aligned `config.jsonc` to match the
+hosted project's actual values for all of those first, specifically
+so the push changed *only* `enable_confirmations` and didn't
+accidentally revert something already correct. Confirmed via a second
+`config diff` showing a single real change before pushing.
 
-## 2026-11-28, continued: Phase 6, partial (customer booking history)
-
-Built the slice of Phase 6 that has no Razorpay dependency, while
-waiting on real Razorpay test keys for Phase 4 (asked the project
-owner for these rather than inventing/stubbing them - a credential,
-not a judgment call).
-
-**New page**: `my-bookings.html` + `assets/js/my-bookings.js` - any
-signed-in customer's own booking list (`bookings` RLS already scopes
-this to `customer_id = auth.uid()`, so the query just asks for that
-customer's rows; RLS is the real guarantee, not the `.eq()` filter).
-Cancelling a still-`held` booking reuses Phase 3's
-`cancel_booking_hold` RPC directly - no new backend code needed.
-`auth.js`'s nav-dropdown injection (from Phase 5) extended to add a
-"My Bookings" link for every signed-in user, not just admins.
-
-**Deliberately NOT built here**: cancelling a `confirmed` booking with
-the cancellation-refund-percentage math from `business_config`
-(`cancel_refund_percent_gt_24h`/`lte_24h`). That needs a real captured
-payment to refund against via Razorpay - which doesn't exist until
-Phase 4 ships. Building it now would mean fabricating a refund for a
-payment this system never actually took, which is exactly what the
-"no fake features" hard rule rules out. This is why Phase 6 is marked
-"partial," not done.
-
-**Verified**: `node --check` on new/edited JS; Playwright confirmed the
-signed-out state renders correctly with zero console errors.
-**Not verified**: the logged-in list + cancel-button flow, same gap as
-Phase 3/5 and for the same reason (no real inbox access in this
-session to complete an OTP login).
-
-## 2026-11-28, continued: Phase 5 (admin dashboard)
-
-Built before Phase 4 (Razorpay), at the project owner's explicit
-direction to sequence all three remaining phases back-to-back; Phase 5
-has no Razorpay dependency so it could go first.
-
-**New page**: `admin.html` + `assets/js/admin.js`, gated behind
-`profiles.role = 'admin'` (checked client-side via a `profiles` select,
-backed by the existing `is_admin()`-driven RLS on every table it
-touches — the real authorization boundary, not the page-level check,
-which only exists so a non-admin sees a clean "access denied" instead
-of an empty/broken dashboard). A logged-out visitor is redirected to
-`login.html?redirect=admin.html`; `login.js` already supported the
-`redirect` param from Phase 2, so this needed no changes there.
-`auth.js` now also injects an "Admin Dashboard" link into the existing
-account dropdown (done in JS, not by editing all 11 pages' nav markup)
-when the signed-in profile's role is `admin`.
-
-**Deliberate scope decision — no new SQL functions**: bikes/
-bike_blocks/bookings already have admin-unrestricted RLS write
-policies (`bikes_write_admin`/`update_admin`, `bike_blocks_write_admin`/
-`update_admin`/`delete_admin`, `bookings_update_admin`) from Phase 1.
-A new SECURITY DEFINER function for e.g. "mark picked up" would only
-re-implement an authorization check RLS already enforces for a role
-that's trusted by definition — so `admin.js` does direct
-`supabase.from(...).update(...)` calls instead, and which action
-buttons even render is the only business-rule gate (e.g. "Mark picked
-up" only shows for a `status='confirmed'` booking).
-
-**Real dependency surfaced, not faked around**: per the booking state
-machine (`docs/data-model.md`), `held → confirmed` only happens via a
-Razorpay webhook (Phase 4, doesn't exist yet) — so no booking can
-reach `confirmed` until Phase 4 ships, which means "Mark picked up"
-and "Mark no-show" have no real row to act on yet. Built anyway (the
-UI correctly gates on status, not faking a transition), but this is
-the reason Phase 4 has to come next, not later.
-
-**Sections**: Bookings (list all, with reference/bike/customer/dates/
-status/amount; inline action panel per row for cancel/pickup/return/
-no-show, each gated to the right starting status); Bikes (inline
-price/active-toggle edit + an add-bike form — deliberately no
-photo-upload UI: `bike_images`/Storage exist in the schema but there's
-still no real photography to upload, same reasoning as Phase 1;
-`image_path` stays a plain text field pointing at the existing static
-assets); Maintenance Blocks (list + add/delete a `bike_blocks` date
-range per bike, directly feeding `get_bike_blocked_ranges` from Phase
-3's booking widget).
-
-**Admin account provisioning**: `role` is a trust boundary a client
-can never set (`profiles_prevent_role_self_update` trigger) — so a
-new migration (`20261128130000_promote_admin.sql`) promotes the
-project owner's own account to `admin`. First attempt failed for a
-real reason, not a typo: it looked up the id via
-`select id from auth.users where email = ...` inside the migration,
-and the hosted migration-runner connection doesn't have grants on the
-`auth` schema even after `set local role service_role` — switched to
-the literal `profiles.id` (already known from an earlier read-only
-query) instead. Confirmed via a follow-up read-only query that
-`role = 'admin'` actually took.
-
-**A role-escalation push was correctly stopped for a fresh
-confirmation**: even though the project owner had pre-approved
-building Phase 4/5/6 without further check-ins, the sandbox's own
-safety classifier blocked the `db push` that grants `admin` on its own
-merits (an irreversible-ish, security-sensitive action) until asked
-and confirmed explicitly, separately from the general go-ahead — asked
-and got an explicit yes before retrying.
-
-**Verified**: `npx sass` compiles clean; `node --check` on
-`admin.js`/`auth.js`; a Playwright pass confirmed the logged-out
-redirect (`admin.html` → `login.html?redirect=admin.html`) works with
-zero console errors. **Not verified**: the actual admin-logged-in
-flow (bookings table rendering, pickup/cancel/return actions, bike
-edit/add, block add/delete) was not driven in a live authenticated
-browser session, for the same reason as Phase 3's equivalent gap (no
-real inbox access to complete an OTP login in this session) — rests on
-code review + the fact that every query/mutation here is a thin,
-direct call against RLS policies already covered by `001_rls_and_constraints.sql`'s
-pgTAP suite, not a fresh authorization mechanism. Please click through
-the three tabs once logged in as the newly-promoted admin and report
-back anything that looks wrong.
+**Not yet done**: actually sending a fresh login attempt to confirm the
+OTP-with-code email now arrives — flagged here rather than claimed,
+since this session didn't have a real inbox to check against.
 
 ## 2026-11-28, continued: Phase 3 (booking-hold + conflict-proof availability)
 
