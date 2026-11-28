@@ -2,6 +2,44 @@
 
 Last updated: 2026-11-28.
 
+## 2026-11-28, continued: login OTP email fix (auth.email.enable_confirmations drift)
+
+**Bug reported**: login never showed the "enter your 8-digit code" step —
+every attempt only received a "Confirm your email address" link, with no
+code anywhere in it.
+
+**Root cause**: `supabase config diff --remote` showed
+`auth.email.enable_confirmations` was `true` on the hosted project even
+though `supabase/config.jsonc` always declared `false` — this file was
+apparently never reconciled against the live project after it was
+provisioned (likely the Supabase Dashboard's own default for a
+freshly-created project). With confirmations on, a brand-new email's
+*first* `signInWithOtp` call fires Supabase's separate "Confirm signup"
+template (a bare link, no OTP token) instead of the Magic Link/OTP
+template `login.js` expects. Passwordless OTP doesn't need a
+pre-login confirmation step — the OTP/magic-link itself already proves
+inbox ownership — so this wasn't a deliberate setting, just drift.
+Not a cost question: the email that does go out either way is the
+same free (within Supabase's rate limits) transactional email; this
+was purely which Auth email template fires.
+
+**Fix**: pushed `auth.email.enable_confirmations: false` to the hosted
+project via `supabase config push`. Before pushing, ran
+`supabase config diff --remote` first (per the hard rule on hosted
+config pushes) and found several *other* unrelated drifted values
+(`site_url`/`additional_redirect_urls` already correctly fixed on the
+hosted project during the Phase 2 session but never pulled back into
+this file; `otp_length` 6 vs the real 8; db pooler sizing; MFA TOTP
+flags; Storage Vector `enabled`) — aligned `config.jsonc` to match the
+hosted project's actual values for all of those first, specifically
+so the push changed *only* `enable_confirmations` and didn't
+accidentally revert something already correct. Confirmed via a second
+`config diff` showing a single real change before pushing.
+
+**Not yet done**: actually sending a fresh login attempt to confirm the
+OTP-with-code email now arrives — flagged here rather than claimed,
+since this session didn't have a real inbox to check against.
+
 ## 2026-11-28, continued: Phase 3 (booking-hold + conflict-proof availability)
 
 Confirmed first: the Phase 2 open item (Supabase Dashboard Site URL /
