@@ -180,7 +180,8 @@ footer {
 .info-banner-section .info-below-content ul p {
   color: #c6c6c6;
 }
-.info-banner-section .info-below-content ul p svg {
+.info-banner-section .info-below-content ul p svg,
+.info-banner-section .info-below-content ul p ion-icon {
   color: #e81938;
   margin-right: 0.4rem;
 }
@@ -438,7 +439,8 @@ footer {
   text-align: center;
   color: #fff;
 }
-.stats-section .stats-grid .stat-item svg {
+.stats-section .stats-grid .stat-item svg,
+.stats-section .stats-grid .stat-item ion-icon {
   font-size: 5rem;
   color: #fff;
   margin-bottom: 2rem;
@@ -826,6 +828,12 @@ footer {
 }
 .contact-section .contact-form-wrapper .form-check-label a:hover {
   color: #e50000;
+}
+.contact-section .contact-form-wrapper .form-disclosure {
+  color: #8e8e8e;
+  font-family: "Noto Sans", sans-serif;
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
 }
 .contact-section .contact-form-wrapper .form-check-input {
   background-color: #444;
@@ -1542,13 +1550,16 @@ body.nav-open::before {
 .product-detail-section .product-info .bike-specs .deposit-note a {
   color: #6ea8fe;
 }
+.product-detail-section .unavailable-note {
+  color: #a0a0a0;
+}
+.product-detail-section .unavailable-note a {
+  color: #6ea8fe;
+}
 .product-detail-section .product-purchase-actions {
   margin-top: 3rem;
   display: flex;
   gap: 1.5rem;
-}
-.product-detail-section .product-purchase-actions .unavailable-note {
-  color: #a0a0a0;
 }
 .product-detail-section .product-purchase-actions .btn {
   text-transform: capitalize;
@@ -1665,6 +1676,17 @@ body.nav-open::before {
   color: #fff;
   font-size: 1.8rem;
   letter-spacing: 0.8px;
+}
+.inventory-page .bikes-status {
+  text-align: center;
+  padding: 2rem 0;
+  color: #a0a0a0;
+  font-size: 1.6rem;
+  min-height: 1.6rem;
+}
+.inventory-page .bikes-status:empty {
+  padding: 0;
+  min-height: 0;
 }
 .inventory-page .motorcycle-card {
   background-color: #1a1a1a;

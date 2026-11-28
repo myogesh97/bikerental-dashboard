@@ -1,6 +1,6 @@
 {
   "url": "http://localhost:8099/aboutus.html",
-  "timestamp": "2026-11-27T05:46:04.890Z",
+  "timestamp": "2026-11-28T04:22:36.894Z",
   "testEngine": {
     "name": "axe-core",
     "version": "4.14.1"
@@ -132,9 +132,9 @@
               },
               "relatedNodes": [
                 {
-                  "html": "<img src=\"https://demo2.wpopal.com/lexrider/wp-content/uploads/2019/04/lexrider_team1.jpg\" alt=\"Profile Picture\">",
+                  "html": "<img src=\"https://demo2.wpopal.com/lexrider/wp-content/uploads/2019/04/lexrider_team1.jpg\" alt=\"Arjun Bordoloi\">",
                   "target": [
-                    ".col-lg-3.col-md-6:nth-child(1) > .profile-card > img[alt=\"Profile Picture\"]"
+                    "img[alt=\"Arjun Bordoloi\"]"
                   ]
                 }
               ],
@@ -145,7 +145,7 @@
           "all": [],
           "none": [],
           "impact": "serious",
-          "html": "<h2>Team Member</h2>",
+          "html": "<h2>Arjun Bordoloi</h2>",
           "target": [
             ".col-lg-3.col-md-6:nth-child(1) > .profile-card > .card-content > .text-info > h2"
           ],
@@ -164,9 +164,9 @@
               },
               "relatedNodes": [
                 {
-                  "html": "<img src=\"https://demo2.wpopal.com/lexrider/wp-content/uploads/2019/04/lexrider_team1.jpg\" alt=\"Profile Picture\">",
+                  "html": "<img src=\"https://demo2.wpopal.com/lexrider/wp-content/uploads/2019/04/lexrider_team1.jpg\" alt=\"Arjun Bordoloi\">",
                   "target": [
-                    ".col-lg-3.col-md-6:nth-child(1) > .profile-card > img[alt=\"Profile Picture\"]"
+                    "img[alt=\"Arjun Bordoloi\"]"
                   ]
                 }
               ],
@@ -177,7 +177,7 @@
           "all": [],
           "none": [],
           "impact": "serious",
-          "html": "<p>FOUNDER</p>",
+          "html": "<p>Founder &amp; Lead Guide</p>",
           "target": [
             ".col-lg-3.col-md-6:nth-child(1) > .profile-card > .card-content > .text-info > p"
           ],
@@ -196,9 +196,9 @@
               },
               "relatedNodes": [
                 {
-                  "html": "<img src=\"https://demo2.wpopal.com/lexrider/wp-content/uploads/2019/04/lexrider_team2.jpg\" alt=\"Profile Picture\">",
+                  "html": "<img src=\"https://demo2.wpopal.com/lexrider/wp-content/uploads/2019/04/lexrider_team2.jpg\" alt=\"Kabir Saikia\">",
                   "target": [
-                    ".col-lg-3.col-md-6:nth-child(2) > .profile-card > img[alt=\"Profile Picture\"]"
+                    "img[alt=\"Kabir Saikia\"]"
                   ]
                 }
               ],
@@ -209,7 +209,7 @@
           "all": [],
           "none": [],
           "impact": "serious",
-          "html": "<h2>Team Member</h2>",
+          "html": "<h2>Kabir Saikia</h2>",
           "target": [
             ".col-lg-3.col-md-6:nth-child(2) > .profile-card > .card-content > .text-info > h2"
           ],
@@ -228,9 +228,9 @@
               },
               "relatedNodes": [
                 {
-                  "html": "<img src=\"https://demo2.wpopal.com/lexrider/wp-content/uploads/2019/04/lexrider_team2.jpg\" alt=\"Profile Picture\">",
+                  "html": "<img src=\"https://demo2.wpopal.com/lexrider/wp-content/uploads/2019/04/lexrider_team2.jpg\" alt=\"Kabir Saikia\">",
                   "target": [
-                    ".col-lg-3.col-md-6:nth-child(2) > .profile-card > img[alt=\"Profile Picture\"]"
+                    "img[alt=\"Kabir Saikia\"]"
                   ]
                 }
               ],
@@ -241,7 +241,7 @@
           "all": [],
           "none": [],
           "impact": "serious",
-          "html": "<p>FOUNDER</p>",
+          "html": "<p>Co-Founder &amp; Operations Head</p>",
           "target": [
             ".col-lg-3.col-md-6:nth-child(2) > .profile-card > .card-content > .text-info > p"
           ],
@@ -260,9 +260,9 @@
               },
               "relatedNodes": [
                 {
-                  "html": "<img src=\"https://demo2.wpopal.com/lexrider/wp-content/uploads/2019/04/lexrider_team4.jpg\" alt=\"Profile Picture\">",
+                  "html": "<img src=\"https://demo2.wpopal.com/lexrider/wp-content/uploads/2019/04/lexrider_team4.jpg\" alt=\"Rohan Das\">",
                   "target": [
-                    ".col-lg-3.col-md-6:nth-child(3) > .profile-card > img[alt=\"Profile Picture\"]"
+                    "img[alt=\"Rohan Das\"]"
                   ]
                 }
               ],
@@ -273,7 +273,7 @@
           "all": [],
           "none": [],
           "impact": "serious",
-          "html": "<h2>Team Member</h2>",
+          "html": "<h2>Rohan Das</h2>",
           "target": [
             ".col-lg-3.col-md-6:nth-child(3) > .profile-card > .card-content > .text-info > h2"
           ],
@@ -292,9 +292,9 @@
               },
               "relatedNodes": [
                 {
-                  "html": "<img src=\"https://demo2.wpopal.com/lexrider/wp-content/uploads/2019/04/lexrider_team4.jpg\" alt=\"Profile Picture\">",
+                  "html": "<img src=\"https://demo2.wpopal.com/lexrider/wp-content/uploads/2019/04/lexrider_team4.jpg\" alt=\"Rohan Das\">",
                   "target": [
-                    ".col-lg-3.col-md-6:nth-child(3) > .profile-card > img[alt=\"Profile Picture\"]"
+                    "img[alt=\"Rohan Das\"]"
                   ]
                 }
               ],
@@ -305,7 +305,7 @@
           "all": [],
           "none": [],
           "impact": "serious",
-          "html": "<p>member</p>",
+          "html": "<p>Chief Mechanic</p>",
           "target": [
             ".col-lg-3.col-md-6:nth-child(3) > .profile-card > .card-content > .text-info > p"
           ],
@@ -324,9 +324,9 @@
               },
               "relatedNodes": [
                 {
-                  "html": "<img src=\"https://demo2.wpopal.com/lexrider/wp-content/uploads/2019/04/lexrider_team3.jpg\" alt=\"Profile Picture\">",
+                  "html": "<img src=\"https://demo2.wpopal.com/lexrider/wp-content/uploads/2019/04/lexrider_team3.jpg\" alt=\"Dipankar Gogoi\">",
                   "target": [
-                    ".col-lg-3.col-md-6:nth-child(4) > .profile-card > img[alt=\"Profile Picture\"]"
+                    "img[alt=\"Dipankar Gogoi\"]"
                   ]
                 }
               ],
@@ -337,7 +337,7 @@
           "all": [],
           "none": [],
           "impact": "serious",
-          "html": "<h2>Team Member</h2>",
+          "html": "<h2>Dipankar Gogoi</h2>",
           "target": [
             ".col-lg-3.col-md-6:nth-child(4) > .profile-card > .card-content > .text-info > h2"
           ],
@@ -356,9 +356,9 @@
               },
               "relatedNodes": [
                 {
-                  "html": "<img src=\"https://demo2.wpopal.com/lexrider/wp-content/uploads/2019/04/lexrider_team3.jpg\" alt=\"Profile Picture\">",
+                  "html": "<img src=\"https://demo2.wpopal.com/lexrider/wp-content/uploads/2019/04/lexrider_team3.jpg\" alt=\"Dipankar Gogoi\">",
                   "target": [
-                    ".col-lg-3.col-md-6:nth-child(4) > .profile-card > img[alt=\"Profile Picture\"]"
+                    "img[alt=\"Dipankar Gogoi\"]"
                   ]
                 }
               ],
@@ -369,7 +369,7 @@
           "all": [],
           "none": [],
           "impact": "serious",
-          "html": "<p>member</p>",
+          "html": "<p>Customer Experience Lead</p>",
           "target": [
             ".col-lg-3.col-md-6:nth-child(4) > .profile-card > .card-content > .text-info > p"
           ],

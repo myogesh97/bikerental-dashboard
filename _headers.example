@@ -1,0 +1,10 @@
+# Reference only — NOT active. Rename to `_headers` (Netlify's convention)
+# to actually deploy this. See SECURITY_AUDIT.md "Content Security Policy"
+# for how this was derived and empirically verified against all 10 pages.
+#
+# Recommended rollout: ship Content-Security-Policy-Report-Only first (add
+# a report-uri/report-to endpoint) for a real deploy before switching to
+# the enforcing header below.
+
+/*
+  Content-Security-Policy: default-src 'none'; script-src 'self' https://cdn.jsdelivr.net https://unpkg.com; style-src 'self' 'sha256-NBfyYgxoWTkJ9SyHWLNVIq8UkKGvsaGPAaGmNMpVMSA=' https://fonts.googleapis.com https://cdn.jsdelivr.net https://unpkg.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' https://demo2.wpopal.com https://images.unsplash.com data:; frame-src https://maps.google.com https://www.google.com; connect-src 'self' https://unpkg.com; base-uri 'none'; form-action 'self'

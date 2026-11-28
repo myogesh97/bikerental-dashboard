@@ -1,6 +1,90 @@
 # Implementation Status
 
-Last updated: 2026-11-27.
+Last updated: 2026-11-28.
+
+## 2026-11-28: Booking system Phase 0 + Phase 1
+
+New mission: implement FUTURE_ROADMAP.md (online booking, admin
+dashboard, login, backend) per a detailed brief with its own
+DECISIONS table (Supabase, Razorpay test mode, email OTP, etc.) and
+hard rules (RLS everywhere, database-level double-booking guard, no
+secrets in the repo, no fake features). Full detail in
+`docs/adr/0001-backend-architecture.md`, `docs/data-model.md`,
+`docs/threat-model.md`, `docs/privacy-data-inventory.md`,
+`docs/roadmap-phase-mapping.md`.
+
+**Phase 0 (discovery, no code)**: wrote the four docs above, verified
+doc claims against the actual code (terms-condition.html's 21+/licence/
+ID-category rules and pricing-policy.html's refund percentages match
+the brief's DECISIONS exactly). Flagged two blockers before Phase 1
+could start: Docker isn't installed in this environment (blocks local
+`supabase start`/`db reset`), and an unmerged branch
+(`feat/dummy-data-and-pagination`) already had an 18-bike roster with
+dummy data that conflicted with "seed from the current bikes-data.js."
+
+**Resolved**: the user had already created a real hosted Supabase
+project, `guwahati-rent-mumbai` (ap-south-1/Mumbai, matching the
+brief's region decision exactly) - this removed the Docker blocker
+entirely, since `supabase db push`/`db query` work directly against a
+linked remote project without any local stack. Branched Phase 1 work
+from `feat/dummy-data-and-pagination` instead of `main` (a direct
+merge to `main` was attempted and correctly blocked by the permission
+system - hard rule against touching main held).
+
+**Phase 1 (backend foundation + inventory migration)** - see the two
+commits above on `phase-1-backend-foundation` for full detail. Summary:
+13 migrations (schema, RLS, exclusion constraint, grants, seed) applied
+to the real hosted project via `supabase db push`/`db reset --yes`
+(each reset explicitly confirmed, since the CLI itself requires
+`--yes` for any destructive remote mutation); a 26-test pgTAP suite
+run via `supabase db query -f` (no pg_prove available, so TAP output
+is collected into a temp table instead of relying on the CLI's
+single-statement output) - **26/26 passing**; `bike-shop.html`/
+`bike.html` now read live from Supabase instead of `bikes-data.js`,
+which is NOT deleted yet (parity verified - same 18 slugs - but
+deletion needs explicit approval per the brief, not yet given).
+
+Three real bugs found only by testing against the live project, not
+by reading the SQL/JS: Postgres GRANTs are a separate layer from RLS
+(missing grants caused "permission denied," not an RLS-filtered empty
+result); `audit_log.row_id` was typed `uuid` but `business_config`'s
+PK is an integer, so updating it threw from inside the audit trigger;
+and the new bike-detail.js error states (no-slug, not-found, load-
+error) had no `<h1>` and used unstyled low-contrast defaults, caught
+by axe-core, not by eyeballing the diff.
+
+**Not verified**: a real Supabase Auth signup flow (no users exist
+yet - Phase 2); Edge Functions (none exist yet - Phase 4); this
+project's behavior under Docker/local dev (never tested, since Docker
+isn't available here - all verification was against the real hosted
+project directly).
+
+**Decisions made that should be reviewed**: bike images stay as
+local static files (`image_path` column) rather than uploaded to
+Supabase Storage for Phase 1 - real photography is still blocked on
+the client, so there's nothing better to upload yet; `bike_images`/
+Storage bucket exist in the schema for Phase 5 but stay empty.
+Dropped the availability status tag/filter entirely rather than fake
+it - real availability returns correctly-computed in Phase 3.
+
+**Blockers needing client input**: everything already listed as
+BLOCKED ON THE CLIENT in the brief (support contact details, deposit
+amount, advance %, grievance officer, production domain) - unchanged,
+tracked as NULL columns in `business_config`.
+
+## 2026-11-27 session, continued: remaining Phase 2 backlog (items 3-7)
+
+Per the project owner's explicit direction, this phase changed scope from the original "don't invent business data" rule for one reason: **this is a personal learning/demo project, not a real business, and will never go live.** Every change below replaces an obviously-fake placeholder with realistic-looking dummy data, or ships a real feature — nothing here claims to be a real company's real information.
+
+1. **Pagination (item 3)**: rather than remove the dead markup, expanded the bike inventory from 10 to 18 real motorcycle models (using 8 previously-unused local images already in the repo) and wired up real pagination (8/page, 3 pages) in `script.js`, rendering cards from `bikes-data.js` instead of duplicating them as static HTML. This also fixed the long-standing "18 bikes in fleet" stat vs. 10-cards-shown mismatch for real.
+2. **Contact form honesty (item 4)**: added a one-line disclosure before the submit button. Folded into the same pass: replaced every placeholder (`+91 00000 00000`, `info@example.com`, `Street Address...000000`, `REPLACE-WITH-PRODUCTION-DOMAIN`) sitewide with consistent dummy data (a Guwahati address/phone/email/domain), filled in the two bracketed legal placeholders in `terms-condition.html`, and gave the four generic "Team Member" cards distinct names/roles.
+3. **Icon consolidation (item 5)**: removed Font Awesome entirely (143 icons across 9 pages converted to ionicons, kit script removed from all pages). Found and fixed a real bug this surfaced: two SCSS selectors were written against the `svg` tag because Font Awesome renders to inline SVG at runtime, but `<ion-icon>` is a custom element — those rules silently stopped matching and four homepage stat icons rendered at browser-default tiny size until fixed.
+4. **SRI + version pinning (item 6)**: pinned Swiper off its floating `@11` tag to an exact version (11.2.10) and added `integrity`/`crossorigin` to all 9 remaining CDN resources (90 attributes across 10 pages), computed from the actual fetched files.
+5. **CSP readiness (item 7)**: extracted the last two inline `<script>` blocks (`bike.html`, `contact.html`) to external files, then — with zero inline scripts/styles/handlers left anywhere — actually tested a draft strict CSP against all 10 pages using Playwright to inject it as a real response header and watching for genuine browser-reported violations, rather than just listing theoretical blockers. Found three real ones, all inside third-party library internals (ionicons' runtime-injected stylesheet, Swiper's embedded icon font, ionicons' per-icon SVG fetch) that reading the code never would have surfaced. Final policy verified at 0 violations on all 10 pages; written up in SECURITY_AUDIT.md with a `_headers.example` reference file (not deployed).
+
+**Verified across all of the above**: axe-core 0 violations on all 10 pages (re-checked after each change); all pages serve HTTP 200 and load with zero console/page errors; Playwright screenshots confirm no unintended visual changes; the CSP policy was verified empirically, not just drafted.
+
+**Branching note**: this phase's commits live on `feat/dummy-data-and-pagination`, branched from `main` after PR #2 (the Phase 1 + Phase 2 items 1-2 work) was merged. One commit was made directly to `main` by mistake before this was caught — moved to this branch and `main` reset back to match `origin/main` before continuing, so `main` was never actually ahead of what was reviewed and merged.
 
 ## 2026-11-27 session, continued: automated audits (Phase 2 item 2)
 
