@@ -131,14 +131,7 @@
                     <div class="col-lg-12">
                         <div class="inventory-search-box">
                             <h2>SEARCH INVENTORY</h2>
-                            <form id="bikeFilterForm" class="search-form" role="search" aria-label="Filter bikes by availability, category, and brand">
-                                <label for="filterAvailability" class="sr-only">Availability</label>
-                                <select id="filterAvailability" name="availability" aria-label="Filter by availability">
-                                    <option value="all">All</option>
-                                    <option value="available">available</option>
-                                    <option value="not-available">not available</option>
-                                </select>
-
+                            <form id="bikeFilterForm" class="search-form" role="search" aria-label="Filter bikes by category and brand">
                                 <label for="filterCategory" class="sr-only">Category</label>
                                 <select id="filterCategory" name="category" aria-label="Filter by category">
                                     <option value="all">All Categories</option>
@@ -172,11 +165,13 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="listing-toolbar">
-                            <div id="resultsCount" class="results-count" role="status" aria-live="polite" aria-atomic="true">Displaying 18 of 18</div>
-                            <div id="viewPage" class="view-options" aria-live="polite">Page 1</div>
+                            <div id="resultsCount" class="results-count" role="status" aria-live="polite" aria-atomic="true"></div>
+                            <div id="viewPage" class="view-options" aria-live="polite"></div>
                         </div>
                     </div>
                 </div>
+
+                <div id="bikesStatus" class="bikes-status" role="status" aria-live="polite"></div>
 
                 <div class="row" id="bikesGrid"></div>
 
@@ -282,8 +277,8 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@11.2.10/swiper-bundle.min.js" integrity="sha384-2UI1PfnXFjVMQ7/ZDEF70CR943oH3v6uZrFQGGqJYlvhh4g6z6uVktxYbOlAczav" crossorigin="anonymous"></script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js" integrity="sha384-xyQ/Vpt1cq1pdPYlRaT/QkcSj2vrYyWI3WOhxGBzqnP1vgvsS2yrhWXe3/wIoCr5" crossorigin="anonymous"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js" integrity="sha384-KAUcUASKfGZ0sxENVFRiH12jtpvd9SsVpgzvYdvv8ZMLqB99G3gX3DAts418wzIC" crossorigin="anonymous"></script>
-    <script src="assets/js/bikes-data.js"></script>
     <script src="assets/js/script.js"></script>
+    <script type="module" src="assets/js/bike-shop.js"></script>
 </body>
 
 </html>
