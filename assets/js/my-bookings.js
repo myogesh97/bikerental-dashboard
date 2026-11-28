@@ -8,30 +8,15 @@
 // the "no fake features" hard rule.
 import { supabase } from "./supabase-client.js";
 import { getSession } from "./auth.js";
+import { escapeHtml, formatDate, rupees, statusPill, STATUS_LABELS as BASE_STATUS_LABELS } from "./format.js";
 
 const STATUS_LABELS = {
-  held: "Held",
-  confirmed: "Confirmed",
-  picked_up: "Picked up",
-  returned: "Returned",
-  expired: "Expired",
+  ...BASE_STATUS_LABELS,
   cancelled_by_customer: "Cancelled",
   cancelled_by_admin: "Cancelled by us",
-  no_show: "No-show",
 };
 
-function formatDate(iso) {
-  return new Date(iso).toLocaleDateString("en-IN", {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-    timeZone: "Asia/Kolkata",
-  });
-}
-
-function rupees(paise) {
-  return `₹${(paise / 100).toFixed(0)}`;
-}
+let currentCustomerId = null;
 
 document.addEventListener("DOMContentLoaded", async () => {
   const loadingEl = document.getElementById("bookingsLoading");
@@ -46,11 +31,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     return;
   }
 
+  currentCustomerId = session.user.id;
   appEl.hidden = false;
-  loadBookings(session.user.id);
+  loadBookings();
 });
 
-async function loadBookings(customerId) {
+async function loadBookings() {
   const tbody = document.getElementById("myBookingsTableBody");
   const statusEl = document.getElementById("myBookingsStatus");
   statusEl.textContent = "Loading…";
@@ -58,7 +44,7 @@ async function loadBookings(customerId) {
   const { data, error } = await supabase
     .from("bookings")
     .select("id,reference,start_at,end_at,status,amount_due_paise,hold_expires_at,bikes(name,slug)")
-    .eq("customer_id", customerId)
+    .eq("customer_id", currentCustomerId)
     .order("created_at", { ascending: false });
 
   if (error) {
@@ -80,14 +66,15 @@ async function loadBookings(customerId) {
 
 function renderRow(b) {
   const canCancel = b.status === "held";
-  const bikeLink = b.bikes?.slug ? `<a href="bike.html?slug=${b.bikes.slug}">${b.bikes.name}</a>` : (b.bikes?.name ?? "—");
+  const bikeName = escapeHtml(b.bikes?.name) || "—";
+  const bikeLink = b.bikes?.slug ? `<a href="bike.html?slug=${encodeURIComponent(b.bikes.slug)}">${bikeName}</a>` : bikeName;
 
   return `
     <tr>
-      <td>${b.reference}</td>
+      <td>${escapeHtml(b.reference)}</td>
       <td>${bikeLink}</td>
       <td>${formatDate(b.start_at)} – ${formatDate(b.end_at)}</td>
-      <td><span class="status-pill status-${b.status}">${STATUS_LABELS[b.status] ?? b.status}</span></td>
+      <td>${statusPill(b.status, STATUS_LABELS)}</td>
       <td>${rupees(b.amount_due_paise)}</td>
       <td>${canCancel ? `<button type="button" class="btn btn-wishlist cancel-booking-btn" data-id="${b.id}">Cancel</button>` : "—"}</td>
     </tr>
@@ -104,7 +91,7 @@ function wireCancelButtons() {
         console.error("Failed to cancel booking:", error);
         return;
       }
-      getSession().then((s) => loadBookings(s.user.id));
+      loadBookings();
     });
   });
 }

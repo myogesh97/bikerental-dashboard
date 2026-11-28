@@ -13,40 +13,10 @@
 // exists, so that specific button has no real row to act on yet.
 import { supabase } from "./supabase-client.js";
 import { getSession } from "./auth.js";
-
-const STATUS_LABELS = {
-  held: "Held",
-  confirmed: "Confirmed",
-  picked_up: "Picked up",
-  returned: "Returned",
-  expired: "Expired",
-  cancelled_by_customer: "Cancelled (customer)",
-  cancelled_by_admin: "Cancelled (admin)",
-  no_show: "No-show",
-};
+import { escapeHtml, formatDate, formatPgRange, rupees, statusPill } from "./format.js";
 
 let currentUserId = null;
 let noShowHours = 4;
-
-function formatDate(iso) {
-  return new Date(iso).toLocaleDateString("en-IN", {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-    timeZone: "Asia/Kolkata",
-  });
-}
-
-function rupees(paise) {
-  return `₹${(paise / 100).toFixed(0)}`;
-}
-
-// PostgREST serializes a tstzrange as e.g. ["2027-05-01 00:00:00+05:30","2027-05-05 00:00:00+05:30")
-function formatPgRange(rangeText) {
-  const match = rangeText.match(/[[(]"?([^",]+)"?,"?([^",)\]]+)"?[)\]]/);
-  if (!match) return rangeText;
-  return `${formatDate(match[1])} – ${formatDate(match[2])}`;
-}
 
 document.addEventListener("DOMContentLoaded", async () => {
   const loadingEl = document.getElementById("adminLoading");
@@ -76,7 +46,10 @@ document.addEventListener("DOMContentLoaded", async () => {
   appEl.hidden = false;
 
   const { data: config } = await supabase.from("business_config").select("no_show_hours").eq("id", 1).single();
-  if (config?.no_show_hours) noShowHours = config.no_show_hours;
+  // no_show_hours=0 is a legitimate configured value (no grace period) -
+  // a truthy check would wrongly treat it as "not set" and keep the
+  // hardcoded default.
+  if (config?.no_show_hours != null) noShowHours = config.no_show_hours;
 
   initTabs();
   loadBookings();
@@ -139,11 +112,11 @@ function renderBookingRow(b) {
 
   return `
     <tr>
-      <td>${b.reference}</td>
-      <td>${b.bikes?.name ?? "—"}</td>
-      <td>${b.customer?.full_name ?? "—"}</td>
+      <td>${escapeHtml(b.reference)}</td>
+      <td>${escapeHtml(b.bikes?.name) || "—"}</td>
+      <td>${escapeHtml(b.customer?.full_name) || "—"}</td>
       <td>${formatDate(b.start_at)} – ${formatDate(b.end_at)}</td>
-      <td><span class="status-pill status-${b.status}">${STATUS_LABELS[b.status] ?? b.status}</span></td>
+      <td>${statusPill(b.status)}</td>
       <td>${rupees(b.amount_due_paise)}</td>
       <td class="admin-actions-cell">${actions.join(" ") || "—"}</td>
     </tr>
@@ -264,9 +237,9 @@ async function loadBikes() {
 function renderBikeRow(bike) {
   return `
     <tr>
-      <td>${bike.name}</td>
-      <td>${bike.brand_label}</td>
-      <td>${bike.category}</td>
+      <td>${escapeHtml(bike.name)}</td>
+      <td>${escapeHtml(bike.brand_label)}</td>
+      <td>${escapeHtml(bike.category)}</td>
       <td><input type="number" class="form-control bike-price-input" data-id="${bike.id}" value="${(bike.price_paise / 100).toFixed(0)}" min="1"></td>
       <td><input type="checkbox" class="bike-active-checkbox" data-id="${bike.id}" ${bike.is_active ? "checked" : ""} aria-label="Active"></td>
       <td><button type="button" class="btn btn-wishlist save-bike-btn" data-id="${bike.id}">Save</button></td>
@@ -344,7 +317,7 @@ document.getElementById("addBikeForm")?.addEventListener("submit", async (e) => 
 function populateBlockBikeSelect(bikes) {
   const select = document.getElementById("blockBikeSelect");
   if (!select) return;
-  select.innerHTML = bikes.map((b) => `<option value="${b.id}">${b.name}</option>`).join("");
+  select.innerHTML = bikes.map((b) => `<option value="${b.id}">${escapeHtml(b.name)}</option>`).join("");
 }
 
 async function loadBlocks() {
@@ -368,9 +341,9 @@ async function loadBlocks() {
     .map(
       (blk) => `
     <tr>
-      <td>${blk.bikes?.name ?? "—"}</td>
+      <td>${escapeHtml(blk.bikes?.name) || "—"}</td>
       <td>${formatPgRange(blk.during)}</td>
-      <td>${blk.reason ?? "—"}</td>
+      <td>${escapeHtml(blk.reason) || "—"}</td>
       <td><button type="button" class="btn btn-wishlist delete-block-btn" data-id="${blk.id}">Delete</button></td>
     </tr>
   `
@@ -407,11 +380,14 @@ document.getElementById("addBlockForm")?.addEventListener("submit", async (e) =>
   const startIso = new Date(`${start}T00:00:00+05:30`).toISOString();
   const endIso = new Date(`${end}T00:00:00+05:30`).toISOString();
 
-  const { error } = await supabase.from("bike_blocks").insert({
-    bike_id: bikeId,
-    during: `[${startIso},${endIso})`,
-    reason: reason || null,
-    created_by: currentUserId,
+  // admin_create_bike_block (not a plain table insert) takes the same
+  // per-bike advisory lock create_booking_hold does, closing the race
+  // where a concurrent booking-hold attempt for this bike could land
+  // between this insert and its own overlap check.
+  const { error } = await supabase.rpc("admin_create_bike_block", {
+    p_bike_id: bikeId,
+    p_during: `[${startIso},${endIso})`,
+    p_reason: reason || null,
   });
 
   if (error) {

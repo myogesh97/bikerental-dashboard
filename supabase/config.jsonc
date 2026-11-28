@@ -319,10 +319,14 @@
       // To block new signups only, set enable_signup = false under [auth] instead.
       "enabled": false,
       // If enabled, users need to confirm their phone number before signing in.
-      // (sms.enabled is false - this project doesn't use phone auth at all;
-      // aligned to the hosted project's actual value just to keep this push
-      // a no-op here, not an attempt to change SMS behavior.)
-      "enable_confirmations": true,
+      // (sms.enabled is false - this project doesn't use phone auth at all.
+      // A code review flagged that an earlier session set this to `true`
+      // purely to match hosted drift and make a config push a no-op,
+      // without checking whether that drift was itself safe to leave in
+      // place - reverted to false and pushed, since there's no reason a
+      // declared-desired-state file should assert an enabled-but-unused
+      // security-relevant toggle just to avoid a diff.)
+      "enable_confirmations": false,
       // Template for sending OTP to users
       "template": "Your code is {{ .Code }}",
       // Controls the minimum amount of time that must pass before sending another sms otp.
@@ -371,12 +375,19 @@
       "max_enrolled_factors": 10,
 
       // Control MFA via App Authenticator (TOTP)
-      // Aligned to the hosted project's actual values (this project doesn't
-      // use MFA at all - ADR 0001 is email-OTP only - kept matching just so
-      // this push is a no-op here).
+      // A code review (2026-11-28) caught a real hard-rule conflict here:
+      // an earlier session flipped this to `true` just to align with
+      // hosted drift and make a config push a no-op, without noticing
+      // that enabling TOTP directly contradicts "Auth is email OTP
+      // only" (ENGINEERING_PERSONA_PROMPT.md). Supabase's JS SDK exposes
+      // `auth.mfa.enroll()` on any session regardless of whether the app
+      // offers an MFA UI - login.js has no MFA challenge code path at
+      // all, so anyone who enrolled a TOTP factor (even just via the
+      // console) would be locked out with no in-app recovery. Reverted
+      // to false and pushed.
       "totp": {
-        "enroll_enabled": true,
-        "verify_enabled": true
+        "enroll_enabled": false,
+        "verify_enabled": false
       },
 
       // Configure MFA via Phone Messaging

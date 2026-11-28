@@ -24,11 +24,11 @@ export async function getSession() {
   return data.session;
 }
 
-// Fires on a session appearing via ANY path - typed-code verify in this
-// tab, or the magic-link in the same email clicked in another tab (synced
-// here via supabase-js's cross-tab storage listener). login.html needs
-// this so it doesn't stay stuck on the code-entry step if the link gets
-// clicked elsewhere first.
+// Fires when a session appears via the magic-link being clicked in a
+// DIFFERENT tab (synced here via supabase-js's cross-tab storage
+// listener). login.html needs this so a still-open login tab updates
+// automatically instead of sitting there with a stale "check your email"
+// message after the link gets clicked elsewhere.
 export function onSignedIn(callback) {
   return supabase.auth.onAuthStateChange((event, session) => {
     if (event === "SIGNED_IN" && session) callback(session);
