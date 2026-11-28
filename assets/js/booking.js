@@ -8,6 +8,7 @@
 // always what actually gets stored).
 import { supabase } from "./supabase-client.js";
 import { getSession } from "./auth.js";
+import { formatDate, formatRange } from "./format.js";
 
 function istToday() {
   const parts = new Intl.DateTimeFormat("en-CA", {
@@ -20,35 +21,21 @@ function istToday() {
   return `${get("year")}-${get("month")}-${get("day")}`;
 }
 
-function formatDate(iso) {
-  return new Date(iso).toLocaleDateString("en-IN", {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-    timeZone: "Asia/Kolkata",
-  });
-}
-
-function formatRange(startIso, endIso) {
-  return `${formatDate(startIso)} – ${formatDate(endIso)}`;
-}
-
 export async function initBookingWidget(container, bike) {
   const session = await getSession();
-
-  if (!session) {
-    container.innerHTML = `
-      <h2>Book this bike</h2>
-      <p class="unavailable-note">Please <a href="login.html">log in</a> to book this bike online, or use the contact button below.</p>
-    `;
-    return;
-  }
-
   const today = istToday();
 
+  // get_bike_blocked_ranges is anon-callable by design (checking
+  // availability shouldn't require an account) - render the ranges list
+  // and the login-gated form/prompt as independent pieces so a logged-out
+  // visitor actually gets to see it, instead of never reaching the code
+  // path that calls it.
   container.innerHTML = `
     <h2>Book this bike</h2>
     <p id="bookingUnavailableRanges" class="booking-unavailable-note" aria-live="polite"></p>
+    ${
+      session
+        ? `
     <form id="bookingForm" class="booking-form">
       <div class="booking-dates">
         <div class="booking-date-field">
@@ -65,7 +52,28 @@ export async function initBookingWidget(container, bike) {
       <button type="submit" id="bookingSubmit" class="btn btn-primary">Check availability &amp; hold</button>
     </form>
     <div id="bookingHoldPanel" class="booking-hold-panel" hidden aria-live="polite"></div>
+    `
+        : `<p class="unavailable-note">Please <a href="login.html">log in</a> to book this bike online, or use the contact button below.</p>`
+    }
   `;
+
+  const rangesEl = container.querySelector("#bookingUnavailableRanges");
+
+  async function loadUnavailableRanges() {
+    const { data, error } = await supabase.rpc("get_bike_blocked_ranges", { p_bike_id: bike.id });
+    if (error) {
+      console.error("Failed to load availability:", error);
+      rangesEl.textContent = "";
+      return;
+    }
+    rangesEl.textContent = data && data.length
+      ? `Currently unavailable: ${data.map((r) => formatRange(r.start_at, r.end_at)).join(", ")}`
+      : "";
+  }
+
+  loadUnavailableRanges();
+
+  if (!session) return;
 
   const form = container.querySelector("#bookingForm");
   const startInput = container.querySelector("#bookingStart");
@@ -74,10 +82,9 @@ export async function initBookingWidget(container, bike) {
   const errorEl = container.querySelector("#bookingError");
   const submitBtn = container.querySelector("#bookingSubmit");
   const holdPanel = container.querySelector("#bookingHoldPanel");
-  const rangesEl = container.querySelector("#bookingUnavailableRanges");
 
   let holdTimer = null;
-  let currentBookingId = null;
+  let currentBooking = null;
 
   function showError(message) {
     errorEl.textContent = message;
@@ -105,18 +112,6 @@ export async function initBookingWidget(container, bike) {
     summaryEl.textContent = `${nights} night${nights === 1 ? "" : "s"} × ₹${(bike.price_paise / 100).toFixed(0)}/day = ₹${amountRupees}`;
   }
 
-  async function loadUnavailableRanges() {
-    const { data, error } = await supabase.rpc("get_bike_blocked_ranges", { p_bike_id: bike.id });
-    if (error) {
-      console.error("Failed to load availability:", error);
-      rangesEl.textContent = "";
-      return;
-    }
-    rangesEl.textContent = data && data.length
-      ? `Currently unavailable: ${data.map((r) => formatRange(r.start_at, r.end_at)).join(", ")}`
-      : "";
-  }
-
   function renderCountdown(booking) {
     const msLeft = new Date(booking.hold_expires_at).getTime() - Date.now();
     if (msLeft <= 0) {
@@ -137,7 +132,7 @@ export async function initBookingWidget(container, bike) {
   }
 
   function showHold(booking) {
-    currentBookingId = booking.id;
+    currentBooking = booking;
     form.hidden = true;
     rangesEl.hidden = true;
     holdPanel.hidden = false;
@@ -146,15 +141,33 @@ export async function initBookingWidget(container, bike) {
   }
 
   async function cancelHold() {
-    if (!currentBookingId) return;
-    clearInterval(holdTimer);
-    const { error } = await supabase.rpc("cancel_booking_hold", { p_booking_id: currentBookingId });
-    currentBookingId = null;
+    if (!currentBooking) return;
+    const bookingId = currentBooking.id;
+    const cancelBtn = holdPanel.querySelector("#bookingCancel");
+    if (cancelBtn) cancelBtn.disabled = true;
+
+    const { error } = await supabase.rpc("cancel_booking_hold", { p_booking_id: bookingId });
+
     if (error) {
       console.error("Failed to cancel hold:", error);
-      showError("Couldn't cancel the hold. Please try again.");
+      // Don't tear down currentBooking/holdTimer on failure - the hold is
+      // still live server-side, so the countdown should keep running and
+      // the Cancel button should keep working on retry, not silently
+      // no-op forever because this cleared its own state too early. The
+      // form (and its #bookingError) is hidden while a hold panel is
+      // shown, so the error has to render inside the hold panel itself.
+      if (cancelBtn) {
+        cancelBtn.disabled = false;
+        cancelBtn.insertAdjacentHTML(
+          "afterend",
+          `<p class="booking-error" role="alert">Couldn't cancel the hold. Please try again.</p>`
+        );
+      }
       return;
     }
+
+    clearInterval(holdTimer);
+    currentBooking = null;
     holdPanel.hidden = true;
     form.hidden = false;
     rangesEl.hidden = false;

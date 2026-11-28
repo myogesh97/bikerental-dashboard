@@ -2,6 +2,274 @@
 
 Last updated: 2026-11-28.
 
+## 2026-11-28, continued: multi-angle code review of all merged work + fixes
+
+Ran an 8-angle parallel code review (line-by-line, removed-behavior,
+cross-file tracing, reuse/duplication, simplification, efficiency,
+altitude/root-cause, hard-rules/conventions) against everything merged
+in the four most recent PRs (Phase 3, the two login fixes, Phase 5,
+Phase 6-partial). Real findings, fixed:
+
+- **Stored XSS (the one critical finding)**: `admin.js`'s bookings
+  table interpolated `customer.full_name` - a value any visitor sets
+  themselves at login - straight into `innerHTML` with no escaping.
+  A malicious full name with an `onerror`-bearing `<img>` tag would
+  execute in the *admin's own authenticated session* the next time
+  they opened the Bookings tab. Fixed by pulling `formatDate`/`rupees`/
+  `STATUS_LABELS` (already triplicated across admin.js/my-bookings.js/
+  booking.js and separately flagged as duplication) into a new shared
+  `assets/js/format.js`, which also exports an `escapeHtml` used
+  everywhere user- or admin-entered text gets rendered.
+- **booking.js's cancel-hold button could brick itself**: on a failed
+  `cancel_booking_hold` call, the code cleared its own `currentBookingId`
+  and countdown timer *before* confirming the cancel actually succeeded
+  - a transient network error left the countdown frozen and the Cancel
+  button permanently no-op'ing (reload required). Fixed to only clear
+  state on confirmed success, and surface the retry error inside the
+  hold panel (not the hidden form's error slot, which is why this
+  wasn't caught by eye - the error text was being set, just on an
+  invisible element).
+- **my-bookings.js null-session crash**: `getSession().then((s) =>
+  loadBookings(s.user.id))` after a cancel click dereferenced `s.user`
+  unguarded; if the session had actually expired, this threw an
+  unhandled `TypeError` with the table left stale and no visible error.
+  Fixed by reusing the customer id already known from page load instead
+  of re-fetching the session at all.
+- **Falsy-zero bug**: `admin.js` used `if (config?.no_show_hours)` to
+  decide whether to override the hardcoded default of 4 - which treats
+  a legitimately-configured `no_show_hours = 0` (no grace period) as
+  "not set." Fixed to `!= null`.
+- **MFA TOTP enabled with zero app support**: an earlier session (the
+  first OTP-email fix) flipped `auth.mfa.totp.enroll_enabled`/
+  `verify_enabled` to `true` in `config.jsonc` purely to align with
+  hosted drift and make a `config push` a no-op, without noticing this
+  directly contradicts the "email OTP only" hard rule - Supabase's SDK
+  exposes `auth.mfa.enroll()` on any session regardless of app UI, so
+  anyone who enrolled would be locked out with no in-app recovery
+  (`login.js` has no MFA challenge code at all). Reverted to `false`,
+  along with the same-reasoning `sms.enable_confirmations` flip.
+  **Not yet pushed to the hosted project** - two prior `config push`/
+  `db push` calls this session were individually blocked by the
+  sandbox's own safety classifier pending the project owner's explicit
+  sign-off, same as the earlier admin-role-grant push.
+- **TOCTOU race, bike_blocks vs. create_booking_hold**: unlike
+  booking-vs-booking conflicts (protected by the `bookings_no_overlap`
+  EXCLUDE constraint), nothing serialized a `bike_blocks` insert
+  against a concurrent `create_booking_hold` call for the same bike -
+  an admin's maintenance-block insert and a customer's hold could
+  interleave so the hold's overlap check runs just before the block
+  commits, letting a hold through that overlaps a maintenance window
+  with nothing left to catch it. Fixed with a per-bike
+  `pg_advisory_xact_lock` taken at the top of `create_booking_hold`'s
+  critical section (auto-released at transaction end), plus a new
+  `admin_create_bike_block()` function taking the same lock so
+  `admin.js`'s block-creation path is covered too (not just a plain
+  RLS-permitted direct insert).
+- **The anon-EXECUTE grant bug (previous session) was a symptom, not a
+  one-off**: Supabase's platform-level default privileges grant
+  EXECUTE on every new public-schema function to anon regardless of
+  what a migration's own `grant` says, so each future SECURITY DEFINER
+  function silently inherits anon access unless someone remembers a
+  second, function-named revoke - exactly what already slipped through
+  once. Fixed at the schema level:
+  `alter default privileges in schema public revoke execute on functions from public, anon;`
+  so new functions default-deny anon without relying on memory.
+  **Also not yet pushed** - same classifier block as the config change
+  above; bundled into the same migration as the advisory-lock fix.
+- **`get_bike_blocked_ranges`'s anon grant was dead code**: the
+  function is explicitly anon-callable so a visitor can check
+  availability without an account, but `booking.js`'s early-return for
+  logged-out visitors meant that code path never actually ran for them
+  - the stated UX intent (check dates before logging in) was never
+  implemented. Fixed by restructuring `initBookingWidget` to always
+  render and fetch the unavailable-ranges list, with only the
+  booking *form* itself gated behind login.
+- **Documentation-accuracy fix, no behavior change**: `promote_admin.sql`'s
+  comment claimed `set local role service_role` satisfies the
+  `profiles_prevent_role_self_update` trigger's `auth.role() =
+  'service_role'` check - it doesn't; `auth.role()` reads a JWT-claim
+  GUC unrelated to `SET ROLE`, and the migration actually succeeds
+  because `auth.role()` is `NULL` in a raw migration session and
+  `NULL <> 'service_role'` evaluates to `NULL` (falsy), not because of
+  the claimed mechanism. Left the already-applied migration file itself
+  untouched (migrations are a historical record, not a living document,
+  same convention as this project's `*_AUDIT.md` files) and corrected
+  the record here instead.
+
+**New pgTAP coverage**: `supabase/tests/database/003_review_fixes.sql`
+- `admin_create_bike_block` access control (anon/customer rejected,
+  admin succeeds), confirms `create_booking_hold` still rejects a hold
+  overlapping a block created through the new locked path, and a
+  schema-level probe confirming a brand-new function has no anon
+  EXECUTE by default anymore. **Not yet run** - needs the migration
+  above pushed first.
+
+**Deliberately not fixed, flagged instead**: dropping the typed-OTP
+fallback (previous session) removes resilience against corporate
+email-link pre-scanners that consume a single-use magic link before
+the real user clicks it, leaving that narrow class of user with no
+login path at all - a real tradeoff, not reversible without Supabase
+Dashboard access to fix the Magic Link template properly, so left as
+an accepted risk rather than re-adding a code-entry UI the email
+template doesn't actually support. Admin booking-status writes still
+have no DB-level state-machine guard beyond `is_admin()` (an admin
+could, via devtools, write an invalid status transition today) - this
+is correctly identified as dormant/non-exploitable until Phase 4 ships
+real `confirmed` bookings, so deferred to be addressed alongside Phase
+4 rather than built speculatively now. Several lower-severity
+efficiency findings (admin.js/my-bookings.js re-fetching whole tables
+after every single-row mutation, the hold countdown's unnecessary
+full-`innerHTML` rebuild every second, `expire_stale_holds()`'s
+unscoped site-wide UPDATE) were judged not worth the complexity
+tradeoff at this project's traffic scale and left as-is.
+
+## 2026-11-28, continued: login OTP fix, round 2 - dropped the typed-code step entirely
+
+The `enable_confirmations` fix (previous entry below) was real and
+correctly applied, but didn't fix the reported symptom: the project
+owner still only received a "Confirm your email" email, no 8-digit
+code, even for an already-confirmed existing account (verified via a
+read-only query - both test accounts show `email_confirmed_at` set,
+and the hosted project's `enable_confirmations` is confirmed still
+`false`). Asked for the literal email subject/button text rather than
+guessing again: it said "Confirm your email," which with an
+already-confirmed account pointed at the actual content of the Magic
+Link email template itself - it has no `{{ .Token }}` placeholder
+anywhere in it, so no code was ever going to appear no matter what the
+`enable_confirmations` toggle was set to. That template's HTML lives
+in the Supabase Dashboard, with no CLI/Management-API surface this
+session has access to - so it couldn't be fixed the same way as the
+first bug.
+
+**Fix**: rather than ask the project owner to go make a Dashboard edit
+I can't verify, dropped the typed-code step entirely.
+`login.html`/`assets/js/login.js` now only ever send a login link and
+wait (`onSignedIn`) - no second form, no code input.
+`docs/threat-model.md` already treated magic-link and OTP as equally
+secure (inbox possession is the credential either way), so this isn't
+a security downgrade, just removing a UI step the email never actually
+supported. Removed the now-unused `verifyOtp` export from `auth.js`.
+
+**Verified**: `node --check` on both edited JS files; a Playwright run
+against the real hosted project submitted the form with a real email
+and confirmed the success message renders, with zero console errors -
+this is the first Phase 2-related frontend behavior in this project
+verified against a live submission, not just a logged-out/structural
+check.
+
+## 2026-11-28, continued: Phase 6, partial (customer booking history)
+
+Built the slice of Phase 6 that has no Razorpay dependency, while
+waiting on real Razorpay test keys for Phase 4 (asked the project
+owner for these rather than inventing/stubbing them - a credential,
+not a judgment call).
+
+**New page**: `my-bookings.html` + `assets/js/my-bookings.js` - any
+signed-in customer's own booking list (`bookings` RLS already scopes
+this to `customer_id = auth.uid()`, so the query just asks for that
+customer's rows; RLS is the real guarantee, not the `.eq()` filter).
+Cancelling a still-`held` booking reuses Phase 3's
+`cancel_booking_hold` RPC directly - no new backend code needed.
+`auth.js`'s nav-dropdown injection (from Phase 5) extended to add a
+"My Bookings" link for every signed-in user, not just admins.
+
+**Deliberately NOT built here**: cancelling a `confirmed` booking with
+the cancellation-refund-percentage math from `business_config`
+(`cancel_refund_percent_gt_24h`/`lte_24h`). That needs a real captured
+payment to refund against via Razorpay - which doesn't exist until
+Phase 4 ships. Building it now would mean fabricating a refund for a
+payment this system never actually took, which is exactly what the
+"no fake features" hard rule rules out. This is why Phase 6 is marked
+"partial," not done.
+
+**Verified**: `node --check` on new/edited JS; Playwright confirmed the
+signed-out state renders correctly with zero console errors.
+**Not verified**: the logged-in list + cancel-button flow, same gap as
+Phase 3/5 and for the same reason (no real inbox access in this
+session to complete an OTP login).
+
+## 2026-11-28, continued: Phase 5 (admin dashboard)
+
+Built before Phase 4 (Razorpay), at the project owner's explicit
+direction to sequence all three remaining phases back-to-back; Phase 5
+has no Razorpay dependency so it could go first.
+
+**New page**: `admin.html` + `assets/js/admin.js`, gated behind
+`profiles.role = 'admin'` (checked client-side via a `profiles` select,
+backed by the existing `is_admin()`-driven RLS on every table it
+touches — the real authorization boundary, not the page-level check,
+which only exists so a non-admin sees a clean "access denied" instead
+of an empty/broken dashboard). A logged-out visitor is redirected to
+`login.html?redirect=admin.html`; `login.js` already supported the
+`redirect` param from Phase 2, so this needed no changes there.
+`auth.js` now also injects an "Admin Dashboard" link into the existing
+account dropdown (done in JS, not by editing all 11 pages' nav markup)
+when the signed-in profile's role is `admin`.
+
+**Deliberate scope decision — no new SQL functions**: bikes/
+bike_blocks/bookings already have admin-unrestricted RLS write
+policies (`bikes_write_admin`/`update_admin`, `bike_blocks_write_admin`/
+`update_admin`/`delete_admin`, `bookings_update_admin`) from Phase 1.
+A new SECURITY DEFINER function for e.g. "mark picked up" would only
+re-implement an authorization check RLS already enforces for a role
+that's trusted by definition — so `admin.js` does direct
+`supabase.from(...).update(...)` calls instead, and which action
+buttons even render is the only business-rule gate (e.g. "Mark picked
+up" only shows for a `status='confirmed'` booking).
+
+**Real dependency surfaced, not faked around**: per the booking state
+machine (`docs/data-model.md`), `held → confirmed` only happens via a
+Razorpay webhook (Phase 4, doesn't exist yet) — so no booking can
+reach `confirmed` until Phase 4 ships, which means "Mark picked up"
+and "Mark no-show" have no real row to act on yet. Built anyway (the
+UI correctly gates on status, not faking a transition), but this is
+the reason Phase 4 has to come next, not later.
+
+**Sections**: Bookings (list all, with reference/bike/customer/dates/
+status/amount; inline action panel per row for cancel/pickup/return/
+no-show, each gated to the right starting status); Bikes (inline
+price/active-toggle edit + an add-bike form — deliberately no
+photo-upload UI: `bike_images`/Storage exist in the schema but there's
+still no real photography to upload, same reasoning as Phase 1;
+`image_path` stays a plain text field pointing at the existing static
+assets); Maintenance Blocks (list + add/delete a `bike_blocks` date
+range per bike, directly feeding `get_bike_blocked_ranges` from Phase
+3's booking widget).
+
+**Admin account provisioning**: `role` is a trust boundary a client
+can never set (`profiles_prevent_role_self_update` trigger) — so a
+new migration (`20261128130000_promote_admin.sql`) promotes the
+project owner's own account to `admin`. First attempt failed for a
+real reason, not a typo: it looked up the id via
+`select id from auth.users where email = ...` inside the migration,
+and the hosted migration-runner connection doesn't have grants on the
+`auth` schema even after `set local role service_role` — switched to
+the literal `profiles.id` (already known from an earlier read-only
+query) instead. Confirmed via a follow-up read-only query that
+`role = 'admin'` actually took.
+
+**A role-escalation push was correctly stopped for a fresh
+confirmation**: even though the project owner had pre-approved
+building Phase 4/5/6 without further check-ins, the sandbox's own
+safety classifier blocked the `db push` that grants `admin` on its own
+merits (an irreversible-ish, security-sensitive action) until asked
+and confirmed explicitly, separately from the general go-ahead — asked
+and got an explicit yes before retrying.
+
+**Verified**: `npx sass` compiles clean; `node --check` on
+`admin.js`/`auth.js`; a Playwright pass confirmed the logged-out
+redirect (`admin.html` → `login.html?redirect=admin.html`) works with
+zero console errors. **Not verified**: the actual admin-logged-in
+flow (bookings table rendering, pickup/cancel/return actions, bike
+edit/add, block add/delete) was not driven in a live authenticated
+browser session, for the same reason as Phase 3's equivalent gap (no
+real inbox access to complete an OTP login in this session) — rests on
+code review + the fact that every query/mutation here is a thin,
+direct call against RLS policies already covered by `001_rls_and_constraints.sql`'s
+pgTAP suite, not a fresh authorization mechanism. Please click through
+the three tabs once logged in as the newly-promoted admin and report
+back anything that looks wrong.
+
 ## 2026-11-28, continued: login OTP email fix (auth.email.enable_confirmations drift)
 
 **Bug reported**: login never showed the "enter your 8-digit code" step —
