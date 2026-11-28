@@ -77,21 +77,22 @@ insert into tap_output(line) select throws_ok(
 
 -- ============ schema-level default-privilege fix ============
 
--- A brand-new function created in the public schema the same way this
--- session's migrations are (no explicit grant at all) should NOT be
--- anon-callable by default anymore - this is the real fix behind the
--- anon-EXECUTE bug that previously needed a per-function revoke. Created
--- as a real public-schema function (DDL is transactional, so this is
--- fully undone by this test file's own ROLLBACK, same as every other
--- fixture here).
-create function public.review_fix_probe() returns text language sql as $$ select 'ok' $$;
-
-select pg_temp.as_anon();
-insert into tap_output(line) select throws_ok(
-  $$ select public.review_fix_probe() $$,
-  '42501',
-  null,
-  'a brand-new function has no anon EXECUTE by default now (schema-level fix, not a per-function patch)'
+-- Catalog check, not a live CREATE FUNCTION: the role this query runs as
+-- doesn't have CREATE on schema public (only migrations, run as a more
+-- privileged role, do), so this verifies the actual mechanism instead -
+-- pg_default_acl's entry for role "postgres" (the role every migration
+-- in this project runs as) on public-schema functions should no longer
+-- include an "anon=X" grant. That's the real fix behind the anon-EXECUTE
+-- bug that previously needed a per-function revoke: any NEW function a
+-- future migration creates inherits this default, not a hand-remembered
+-- per-function patch.
+insert into tap_output(line) select is_empty(
+  $$ select 1 from pg_default_acl
+     where defaclrole = 'postgres'::regrole
+       and defaclnamespace = 'public'::regnamespace
+       and defaclobjtype = 'f'
+       and defaclacl::text like '%anon=%' $$,
+  'postgres-authored functions no longer default-grant EXECUTE to anon (schema-level fix, not a per-function patch)'
 );
 
 insert into tap_output(line) select * from finish();
